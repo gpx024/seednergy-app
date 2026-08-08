@@ -7,6 +7,7 @@ export default function DevelopmentRoutesScreen() {
   }
 
   return <ScreenStub titleKey="screens.devRoutes.title" descriptionKey="screens.devRoutes.description" links={[
+    { href: "/dev/gallery", labelKey: "screens.gallery.title" },
     { href: "/(onboarding)/welcome", labelKey: "routes.welcome" },
     { href: "/home", labelKey: "tabs.home" },
     { href: "/cycles", labelKey: "tabs.cycles" },

@@ -1,4 +1,4 @@
 export const semanticTokens = {
-  tokenStatus: "provisional",
-  note: "Replace visual values with approved screen-design tokens in Stage 2."
+  tokenStatus: "prototype-derived",
+  note: "Derived from the approved Synkhro prototype export during Stage 2."
 } as const;

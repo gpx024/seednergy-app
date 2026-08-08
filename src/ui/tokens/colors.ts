@@ -1,9 +1,18 @@
 export const colors = {
-  background: "#F7F8F5",
+  background: "#FAF9F6",
   surface: "#FFFFFF",
-  textPrimary: "#203126",
-  textSecondary: "#5B675E",
-  actionPrimary: "#3B6B4A",
+  surfaceMuted: "#FDFBF7",
+  textPrimary: "#2D2926",
+  textSecondary: "#655F58",
+  textSubtle: "#928A80",
+  actionPrimary: "#3B5B42",
   actionPrimaryText: "#FFFFFF",
-  border: "#D7DED7"
+  actionSecondary: "#E8F0EA",
+  actionSecondaryText: "#3B5B42",
+  border: "#E6DED0",
+  borderSoft: "#F2E8D5",
+  statusSuccess: "#3B5B42",
+  statusSuccessSurface: "#E8F0EA",
+  statusAttention: "#8A5A16",
+  statusAttentionSurface: "#FFF8E6"
 } as const;
