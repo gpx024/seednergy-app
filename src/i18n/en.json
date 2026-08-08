@@ -43,6 +43,7 @@
     "tryAgain": "Try again"
   },
   "stageTwo": {
+    "backToExplore": "Explore seeds",
     "broccoliDuration": "7 to 10 days",
     "broccoliMicrogreens": "Broccoli microgreens",
     "comingSoon": "Coming soon",
@@ -78,7 +79,14 @@
     "profileItemSpace": "Growing space",
     "profileTitle": "Profile",
     "radishDuration": "6 to 8 days",
-    "radishMicrogreens": "Radish microgreens"
+    "radishMicrogreens": "Radish microgreens",
+    "seedPreviewAction": "Start Cress soon",
+    "seedPreviewDescription": "A quick, rewarding first grow for your windowsill.",
+    "seedPreviewDifficulty": "Difficulty",
+    "seedPreviewDuration": "Growing time",
+    "seedPreviewEyebrow": "Seed preview",
+    "seedPreviewGuideDescription": "Step-by-step growing guidance will be available when cycle setup is introduced.",
+    "seedPreviewGuideTitle": "Your guide is coming soon"
   },
   "routes": {
     "cycleDetail": "Cycle detail",

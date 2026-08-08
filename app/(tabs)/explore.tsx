@@ -1,11 +1,13 @@
 import { StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useRouter } from "expo-router";
 
 import { SeedCard, ScreenContainer } from "@/src/ui/components";
 import { tokens } from "@/src/ui/tokens";
 
 export default function ExploreScreen() {
   const { t } = useTranslation();
+  const router = useRouter();
 
   return (
     <ScreenContainer scroll contentStyle={styles.container}>
@@ -15,7 +17,7 @@ export default function ExploreScreen() {
         <Text style={styles.description}>{t("stageTwo.exploreDescription")}</Text>
       </View>
       <View style={styles.cards}>
-        <SeedCard access="free" accessLabel={t("stageTwo.free")} difficulty={t("stageTwo.easy")} duration={t("stageTwo.cressDuration")} name={t("stageTwo.cress")} />
+        <SeedCard access="free" accessLabel={t("stageTwo.free")} difficulty={t("stageTwo.easy")} duration={t("stageTwo.cressDuration")} name={t("stageTwo.cress")} onPress={() => router.push("/seeds/cress")} />
         <SeedCard access="comingSoon" accessLabel={t("stageTwo.comingSoon")} difficulty={t("stageTwo.easy")} duration={t("stageTwo.peaDuration")} name={t("stageTwo.peaShoots")} />
         <SeedCard access="comingSoon" accessLabel={t("stageTwo.comingSoon")} difficulty={t("stageTwo.easy")} duration={t("stageTwo.radishDuration")} name={t("stageTwo.radishMicrogreens")} />
         <SeedCard access="comingSoon" accessLabel={t("stageTwo.comingSoon")} difficulty={t("stageTwo.easy")} duration={t("stageTwo.broccoliDuration")} name={t("stageTwo.broccoliMicrogreens")} />
