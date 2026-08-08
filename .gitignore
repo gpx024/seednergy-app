@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+
+# Credentials and local environment settings
+.env
+.env.*
+!.env.example
+
+# Platform and editor artefacts
+*.log
+.DS_Store
+Thumbs.db
+coverage/

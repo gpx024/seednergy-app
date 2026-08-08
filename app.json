@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "Seednergy",
+    "slug": "seednergy",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "seednergy",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "plugins": ["expo-router", "expo-localization"],
+    "experiments": {
+      "typedRoutes": false
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    }
+  }
+}

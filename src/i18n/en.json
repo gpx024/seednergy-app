@@ -1,0 +1,49 @@
+{
+  "actions": {
+    "continue": "Continue",
+    "finish": "Finish",
+    "openPhotoCheck": "Open photo check stub",
+    "openHarvest": "Open harvest stub",
+    "openPaywall": "Open paywall stub",
+    "openSettings": "Open settings stub",
+    "restorePurchases": "Open restore purchases stub",
+    "viewCycle": "Open cycle stub",
+    "viewResult": "Open result stub",
+    "viewSeed": "Open seed stub"
+  },
+  "routes": {
+    "cycleDetail": "Cycle detail",
+    "harvest": "Harvest",
+    "paywall": "Paywall",
+    "photoCheck": "Photo check",
+    "seedDetail": "Seed detail",
+    "settings": "Settings",
+    "welcome": "Welcome"
+  },
+  "screens": {
+    "cycleDetail": { "title": "Cycle detail", "description": "Stage 1 route stub. Cycle state will be introduced in Stage 3." },
+    "cycles": { "title": "Cycles", "description": "Stage 1 route stub. Cycle lists arrive in Stage 6." },
+    "devRoutes": { "title": "Development routes", "description": "Stage 1 route index. It is disabled outside development." },
+    "explore": { "title": "Explore", "description": "Stage 1 route stub. Seed content arrives in Stage 5." },
+    "harvest": { "title": "Harvest", "description": "Stage 1 route stub. Harvest behaviour arrives in Stage 9." },
+    "home": { "title": "Home", "description": "Stage 1 route stub. The next action arrives with the grow-cycle engine." },
+    "howItWorks": { "title": "How Seednergy works", "description": "Stage 1 route stub. Onboarding behaviour arrives in Stage 6." },
+    "notFound": { "title": "Route not found", "description": "This route is not part of the Stage 1 navigation shell." },
+    "paywall": { "title": "Premium access", "description": "Stage 1 route stub. Payments are explicitly deferred to Stage 10." },
+    "photoCheck": { "title": "Photo check", "description": "Stage 1 route stub. Camera and AI work are deferred to Stages 7 and 8." },
+    "photoCheckResult": { "title": "Photo result", "description": "Stage 1 route stub. No simulated AI result is shown." },
+    "profile": { "title": "Profile", "description": "Stage 1 route stub. Account features are deferred." },
+    "profileBasics": { "title": "Your growing space", "description": "Stage 1 route stub for onboarding context." },
+    "restorePurchases": { "title": "Restore purchases", "description": "Stage 1 route stub. Purchase restoration arrives in Stage 10." },
+    "seedDetail": { "title": "Seed detail", "description": "Stage 1 route stub. Authored seed content arrives in Stage 5." },
+    "seedSelection": { "title": "Choose a seed", "description": "Stage 1 route stub. Starting a cycle arrives in Stage 6." },
+    "settings": { "title": "Settings", "description": "Stage 1 route stub. Account and privacy controls are deferred." },
+    "welcome": { "title": "Seednergy", "description": "A calm, specific guide for your next grow cycle." }
+  },
+  "tabs": {
+    "cycles": "Cycles",
+    "explore": "Explore",
+    "home": "Home",
+    "profile": "Profile"
+  }
+}
