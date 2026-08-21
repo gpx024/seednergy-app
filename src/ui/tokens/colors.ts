@@ -4,6 +4,8 @@ export const colors = {
   sand: "#D8D1C0",
   photoA: "#D3CDBB",
   photoB: "#E4DDCC",
+  tabActiveA: "#DFD8C7",
+  tabActiveB: "#EAE4D6",
   gaugeTrack: "#DCD5C4",
   input: "#FAF7F1",
   terracotta: "#CC8353",

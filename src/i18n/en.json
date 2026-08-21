@@ -99,6 +99,7 @@
     "exploreSeeds": "Explore seeds",
     "firstCycle": "First cycle",
     "goodMorning": "Good morning,",
+    "greetingName": "Hi, Alba",
     "growerName": "Grower",
     "growingSpace": "Growing space",
     "growth": "Growth",
@@ -131,6 +132,7 @@
     "yourSpace": "Your space"
   },
   "cycle": {
+    "checkGrowth": "Check growth",
     "checkLater": "Cycle actions arrive in Stage 6",
     "guidedAction": "Guided action",
     "observation": "What to notice",

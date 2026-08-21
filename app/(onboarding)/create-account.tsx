@@ -26,7 +26,7 @@ export default function CreateAccountScreen() {
 const styles = StyleSheet.create({
   container: { gap: tokens.spacing.lg, paddingBottom: tokens.spacing.xl },
   heading: { gap: tokens.spacing.sm },
-  title: { ...tokens.typography.display, color: tokens.colors.terracottaText },
+  title: { ...tokens.typography.display, color: tokens.colors.terracotta },
   body: { ...tokens.typography.body, color: tokens.colors.ink82 },
   sso: { gap: tokens.spacing.cardGap },
   or: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textAlign: "center", textTransform: "uppercase" },

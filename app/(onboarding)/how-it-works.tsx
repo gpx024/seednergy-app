@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   container: { gap: tokens.spacing.xl, paddingBottom: tokens.spacing.xl },
   photo: { flex: 1, minHeight: 260 },
   copy: { gap: tokens.spacing.sm },
-  title: { ...tokens.typography.display, color: tokens.colors.terracottaText },
+  title: { ...tokens.typography.display, color: tokens.colors.terracotta },
   body: { ...tokens.typography.body, color: tokens.colors.ink82 },
   actions: { gap: tokens.spacing.xs }
 });

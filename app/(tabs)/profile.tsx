@@ -23,7 +23,7 @@ function SettingsGroup({ label, items }: { label: string; items: { icon: keyof t
 
 const styles = StyleSheet.create({
   container: { gap: tokens.spacing.sectionGap, paddingBottom: tokens.spacing.xl },
-  title: { ...tokens.typography.display, color: tokens.colors.terracottaText },
+  title: { ...tokens.typography.display, color: tokens.colors.terracotta },
   rank: { alignItems: "center", gap: tokens.spacing.sm },
   rankMark: { alignItems: "center", justifyContent: "center", height: 70, width: 70, borderRadius: tokens.radii.pill, backgroundColor: tokens.colors.card, ...tokens.elevation.raisedMd },
   rankLabel: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textTransform: "uppercase" },

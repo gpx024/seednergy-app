@@ -31,7 +31,7 @@ export function FeedbackState({ kind, title, description, actionLabel, onAction 
 const styles = StyleSheet.create({
   container: { alignItems: "center", gap: tokens.spacing.md, paddingHorizontal: tokens.spacing.xl, paddingVertical: tokens.spacing.xxl },
   iconCircle: { alignItems: "center", justifyContent: "center", height: 92, width: 92, borderRadius: tokens.radii.pill, backgroundColor: tokens.colors.card, ...tokens.elevation.raisedLg },
-  title: { ...tokens.typography.displayMedium, color: tokens.colors.terracottaText, textAlign: "center" },
+  title: { ...tokens.typography.displayMedium, color: tokens.colors.terracotta, textAlign: "center" },
   description: { ...tokens.typography.body, color: tokens.colors.ink82, textAlign: "center", maxWidth: 300 },
   action: { alignSelf: "stretch", marginTop: tokens.spacing.md }
 });

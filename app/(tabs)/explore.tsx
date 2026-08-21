@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   container: { gap: tokens.spacing.sectionGap, paddingBottom: tokens.spacing.xl },
   heading: { gap: tokens.spacing.xs },
   label: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textTransform: "uppercase" },
-  title: { ...tokens.typography.display, color: tokens.colors.terracottaText },
+  title: { ...tokens.typography.display, color: tokens.colors.terracotta },
   body: { ...tokens.typography.body, color: tokens.colors.ink82 },
   grid: { flexDirection: "row", flexWrap: "wrap", gap: tokens.spacing.cardGap },
   note: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.xs },

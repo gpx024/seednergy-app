@@ -12,7 +12,7 @@ interface ScreenContainerProps extends PropsWithChildren {
 
 export function ScreenContainer({ children, scroll = false, inverted = false, contentStyle }: ScreenContainerProps) {
   const content = <View style={[styles.content, contentStyle]}>{children}</View>;
-  return <SafeAreaView edges={["top", "left", "right"]} style={[styles.safeArea, inverted && styles.inverted]}>{scroll ? <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">{content}</ScrollView> : content}</SafeAreaView>;
+  return <SafeAreaView edges={["top", "bottom", "left", "right"]} style={[styles.safeArea, inverted && styles.inverted]}>{scroll ? <ScrollView contentContainerStyle={styles.scrollContent} contentInsetAdjustmentBehavior="automatic" keyboardShouldPersistTaps="handled">{content}</ScrollView> : content}</SafeAreaView>;
 }
 
 const styles = StyleSheet.create({

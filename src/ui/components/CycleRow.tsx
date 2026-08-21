@@ -26,10 +26,10 @@ export function CycleRow({ name, meta, status, statusTone = "active", progress, 
 }
 
 const styles = StyleSheet.create({
-  row: { minHeight: 126, alignItems: "stretch", flexDirection: "row", gap: tokens.spacing.cardGap, borderRadius: tokens.radii.card, backgroundColor: tokens.colors.card, overflow: "hidden", ...tokens.elevation.raisedRow },
+  row: { height: 96, alignItems: "stretch", flexDirection: "row", borderRadius: tokens.radii.card, backgroundColor: tokens.colors.card, overflow: "hidden", ...tokens.elevation.raisedRow },
   pressed: { opacity: 0.82 },
-  photo: { width: 98 },
-  body: { flex: 1, gap: tokens.spacing.xs, justifyContent: "center", paddingVertical: 15 },
+  photo: { height: 96, width: 98 },
+  body: { flex: 1, minWidth: 0, gap: tokens.spacing.xxs, justifyContent: "center", paddingHorizontal: tokens.spacing.sm, paddingVertical: tokens.spacing.xs },
   name: { ...tokens.typography.rowName, color: tokens.colors.forest },
   meta: { ...tokens.typography.caption, color: tokens.colors.forest75 },
   gauge: { alignItems: "center", justifyContent: "center", paddingRight: tokens.spacing.md }
