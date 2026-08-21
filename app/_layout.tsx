@@ -1,12 +1,12 @@
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
-import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold } from "@expo-google-fonts/inter";
-import { InstrumentSerif_400Regular } from "@expo-google-fonts/instrument-serif";
+import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold } from "@expo-google-fonts/inter";
+import { CrimsonText_400Regular_Italic, CrimsonText_600SemiBold, CrimsonText_700Bold } from "@expo-google-fonts/crimson-text";
 
 import "@/src/i18n";
 
 export default function RootLayout() {
-  const [fontsLoaded] = useFonts({ Inter_400Regular, Inter_500Medium, Inter_600SemiBold, InstrumentSerif_400Regular });
+  const [fontsLoaded] = useFonts({ CrimsonText_400Regular_Italic, CrimsonText_600SemiBold, CrimsonText_700Bold, Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold });
 
   if (!fontsLoaded) {
     return null;

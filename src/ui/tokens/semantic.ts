@@ -1,4 +1,4 @@
 export const semanticTokens = {
-  tokenStatus: "prototype-derived",
-  note: "Derived from the approved Synkhro prototype export during Stage 2."
+  tokenStatus: "handoff-v5",
+  note: "Translated literally from design-system/handoff/tokens.css for native React Native use."
 } as const;

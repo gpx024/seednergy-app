@@ -3,7 +3,7 @@ import { StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
 
 import { tokens } from "@/src/ui/tokens";
 
-type AppCardVariant = "default" | "muted" | "dashed";
+type AppCardVariant = "default" | "hero" | "nested" | "muted" | "dashed";
 
 interface AppCardProps extends PropsWithChildren {
   variant?: AppCardVariant;
@@ -15,11 +15,13 @@ export function AppCard({ children, variant = "default", style }: AppCardProps) 
 }
 
 const styles = StyleSheet.create({
-  base: { borderRadius: tokens.radii.feature, borderColor: tokens.colors.border, borderWidth: tokens.layout.border.standard, overflow: "hidden" }
+  base: { backgroundColor: tokens.colors.card, borderRadius: tokens.radii.card, padding: tokens.spacing.cardPadding }
 });
 
 const variantStyles = StyleSheet.create({
-  default: { backgroundColor: tokens.colors.surface, ...tokens.elevation.card },
-  muted: { backgroundColor: tokens.colors.background, borderColor: tokens.colors.borderSoft },
-  dashed: { backgroundColor: tokens.colors.surface, borderStyle: "dashed" }
+  default: { ...tokens.elevation.raisedMd },
+  hero: { borderRadius: tokens.radii.media, ...tokens.elevation.raisedLg },
+  nested: { backgroundColor: tokens.colors.terracottaPanel, borderRadius: tokens.radii.button, ...tokens.elevation.nested },
+  muted: { ...tokens.elevation.raisedSm },
+  dashed: { ...tokens.elevation.raisedMd }
 });

@@ -1,78 +1,28 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Link } from "expo-router";
+import { useRouter } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
-import { AppButton, AppCard, ScreenContainer, StageBadge } from "@/src/ui/components";
+import { AppButton, AppCard, PhotoFrame, ScreenContainer, StageBadge } from "@/src/ui/components";
 import { tokens } from "@/src/ui/tokens";
+
+const cress = require("../../assets/images/temporary/cress.png");
 
 export default function SeedDetailScreen() {
   const { t } = useTranslation();
-
+  const router = useRouter();
   return (
     <ScreenContainer scroll contentStyle={styles.container}>
-      <Link asChild href="/explore">
-        <Pressable accessibilityLabel={t("stageTwo.backToExplore")} accessibilityRole="button" style={styles.backButton}>
-          <Ionicons color={tokens.colors.textPrimary} name="arrow-back" size={tokens.layout.icon.lg} />
-          <Text style={styles.backLabel}>{t("stageTwo.backToExplore")}</Text>
-        </Pressable>
-      </Link>
-
-      <View style={styles.hero}>
-        <View style={styles.heroIcon}><Ionicons color={tokens.colors.actionPrimary} name="leaf-outline" size={tokens.layout.icon.xl} /></View>
-        <StageBadge label={t("stageTwo.free")} />
-      </View>
-
-      <View style={styles.intro}>
-        <Text style={styles.eyebrow}>{t("stageTwo.seedPreviewEyebrow")}</Text>
-        <Text accessibilityRole="header" style={styles.title}>{t("stageTwo.cress")}</Text>
-        <Text style={styles.description}>{t("stageTwo.seedPreviewDescription")}</Text>
-      </View>
-
-      <View style={styles.meta}>
-        <MetaItem icon="time-outline" label={t("stageTwo.seedPreviewDuration")} value={t("stageTwo.cressDuration")} />
-        <MetaItem icon="sparkles-outline" label={t("stageTwo.seedPreviewDifficulty")} value={t("stageTwo.easy")} />
-      </View>
-
-      <AppCard variant="muted" style={styles.guideCard}>
-        <Ionicons color={tokens.colors.actionPrimary} name="book-outline" size={tokens.layout.icon.lg} />
-        <View style={styles.guideCopy}>
-          <Text style={styles.guideTitle}>{t("stageTwo.seedPreviewGuideTitle")}</Text>
-          <Text style={styles.guideBody}>{t("stageTwo.seedPreviewGuideDescription")}</Text>
-        </View>
-      </AppCard>
-
-      <AppButton disabled label={t("stageTwo.seedPreviewAction")} />
+      <View style={styles.header}><Pressable accessibilityLabel={t("stageTwo.backToExplore")} accessibilityRole="button" hitSlop={12} onPress={() => router.back()} style={styles.headerButton}><Ionicons color={tokens.colors.ink} name="arrow-back" size={tokens.layout.icon.lg} /></Pressable><View style={styles.headerTitle}><Text style={styles.eyebrow}>{t("stageTwo.seedPreviewEyebrow")}</Text><Text accessibilityRole="header" style={styles.title}>{t("stageTwo.cress")}</Text></View><View style={styles.headerButton} /></View>
+      <View><PhotoFrame accessibilityLabel={t("onboarding.cressPhoto")} source={cress} style={styles.photo} /><View style={styles.badge}><StageBadge label={t("stageTwo.free")} tone="success" /></View></View>
+      <Text style={styles.description}>{t("stageTwo.seedPreviewDescription")}</Text>
+      <View style={styles.meta}><Meta label={t("stageTwo.seedPreviewDuration")} value={t("onboarding.cressDuration")} /><Meta label={t("stageTwo.seedPreviewDifficulty")} value={t("stageTwo.easy")} /><Meta label={t("onboarding.environment")} value={t("onboarding.anySpace")} /></View>
+      <AppCard style={styles.panel}><Text style={styles.panelLabel}>{t("seedDetail.expect")}</Text><Text style={styles.panelTitle}>{t("seedDetail.quickReward")}</Text><Text style={styles.panelBody}>{t("seedDetail.expectBody")}</Text></AppCard>
+      <AppButton disabled label={t("seedDetail.startLater")} />
+      <Text style={styles.preview}>{t("main.previewNote")}</Text>
     </ScreenContainer>
   );
 }
 
-function MetaItem({ icon, label, value }: { icon: "time-outline" | "sparkles-outline"; label: string; value: string }) {
-  return (
-    <AppCard variant="muted" style={styles.metaItem}>
-      <Ionicons color={tokens.colors.actionPrimary} name={icon} size={tokens.layout.icon.lg} />
-      <Text style={styles.metaLabel}>{label}</Text>
-      <Text style={styles.metaValue}>{value}</Text>
-    </AppCard>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: { gap: tokens.spacing.xl, paddingBottom: tokens.spacing.xxxl },
-  backButton: { alignItems: "center", alignSelf: "flex-start", flexDirection: "row", gap: tokens.spacing.xs, minHeight: tokens.layout.size.touchTarget },
-  backLabel: { ...tokens.typography.bodyStrong, color: tokens.colors.textPrimary },
-  hero: { alignItems: "center", gap: tokens.spacing.md },
-  heroIcon: { alignItems: "center", backgroundColor: tokens.colors.actionSecondary, borderRadius: tokens.radii.pill, height: tokens.layout.size.imageLarge, justifyContent: "center", width: tokens.layout.size.imageLarge },
-  intro: { gap: tokens.spacing.sm },
-  eyebrow: { ...tokens.typography.label, color: tokens.colors.textSubtle, textTransform: "uppercase" },
-  title: { ...tokens.typography.display, color: tokens.colors.textPrimary },
-  description: { ...tokens.typography.body, color: tokens.colors.textSecondary },
-  meta: { flexDirection: "row", gap: tokens.spacing.sm },
-  metaItem: { flex: 1, gap: tokens.spacing.xs, padding: tokens.spacing.md },
-  metaLabel: { ...tokens.typography.caption, color: tokens.colors.textSecondary },
-  metaValue: { ...tokens.typography.bodyStrong, color: tokens.colors.textPrimary },
-  guideCard: { alignItems: "flex-start", flexDirection: "row", gap: tokens.spacing.md, padding: tokens.spacing.lg },
-  guideCopy: { flex: 1, gap: tokens.spacing.xxs },
-  guideTitle: { ...tokens.typography.bodyStrong, color: tokens.colors.textPrimary },
-  guideBody: { ...tokens.typography.caption, color: tokens.colors.textSecondary }
-});
+function Meta({ label, value }: { label: string; value: string }) { return <AppCard variant="muted" style={styles.metaItem}><Text style={styles.metaLabel}>{label}</Text><Text style={styles.metaValue}>{value}</Text></AppCard>; }
+const styles = StyleSheet.create({ container: { gap: tokens.spacing.sectionGap, paddingBottom: tokens.spacing.xl }, header: { alignItems: "center", flexDirection: "row", justifyContent: "space-between" }, headerButton: { alignItems: "center", justifyContent: "center", height: tokens.layout.size.touchTarget, width: tokens.layout.size.touchTarget }, headerTitle: { alignItems: "center" }, eyebrow: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textTransform: "uppercase" }, title: { ...tokens.typography.displayMedium, color: tokens.colors.terracottaText }, photo: { height: 330 }, badge: { bottom: tokens.spacing.md, position: "absolute", right: tokens.spacing.md }, description: { ...tokens.typography.body, color: tokens.colors.ink82, textAlign: "center" }, meta: { flexDirection: "row", gap: tokens.spacing.cardGap }, metaItem: { flex: 1, gap: tokens.spacing.xs, padding: tokens.spacing.sm }, metaLabel: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textTransform: "uppercase" }, metaValue: { ...tokens.typography.title, color: tokens.colors.forest }, panel: { gap: tokens.spacing.xs }, panelLabel: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textTransform: "uppercase" }, panelTitle: { ...tokens.typography.panelHeadline, color: tokens.colors.forest }, panelBody: { ...tokens.typography.body, color: tokens.colors.ink82 }, preview: { ...tokens.typography.caption, color: tokens.colors.ink64, textAlign: "center" } });

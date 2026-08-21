@@ -3,7 +3,7 @@ import { ActivityIndicator, Pressable, StyleSheet, Text, type StyleProp, type Vi
 
 import { tokens } from "@/src/ui/tokens";
 
-export type AppButtonVariant = "primary" | "secondary" | "ghost";
+export type AppButtonVariant = "primary" | "secondary" | "text" | "ghost";
 
 interface AppButtonProps {
   label: string;
@@ -26,28 +26,36 @@ export const AppButton = forwardRef<ComponentRef<typeof Pressable>, AppButtonPro
       accessibilityState={{ disabled: isDisabled, busy: loading }}
       disabled={isDisabled}
       onPress={onPress}
-      style={({ pressed }) => [styles.base, variantStyles[variant], isDisabled && styles.disabled, pressed && !isDisabled && styles.pressed, style]}
+      style={({ pressed }) => [styles.base, variantStyles[variant], isDisabled && styles.disabled, pressed && !isDisabled && pressedStyles[variant], style]}
     >
-      {loading ? <ActivityIndicator color={variant === "primary" ? tokens.colors.actionPrimaryText : tokens.colors.actionPrimary} /> : <Text style={[styles.label, labelStyles[variant]]}>{label}</Text>}
+      {loading ? <ActivityIndicator color={variant === "primary" ? tokens.colors.canvas : tokens.colors.olive} /> : <Text maxFontSizeMultiplier={1.8} style={[styles.label, labelStyles[variant]]}>{label}</Text>}
     </Pressable>
   );
 });
 
 const styles = StyleSheet.create({
-  base: { alignItems: "center", justifyContent: "center", minHeight: tokens.layout.size.touchTargetLarge, paddingHorizontal: tokens.spacing.xl, borderRadius: tokens.radii.pill },
-  disabled: { opacity: 0.48 },
-  pressed: { opacity: 0.82 },
+  base: { alignItems: "center", justifyContent: "center", minHeight: tokens.layout.size.touchTargetLarge, paddingHorizontal: tokens.spacing.lg, borderRadius: tokens.radii.button },
+  disabled: { boxShadow: "none", opacity: 0.55 },
   label: { ...tokens.typography.button, textAlign: "center" }
 });
 
 const variantStyles = StyleSheet.create({
-  primary: { backgroundColor: tokens.colors.actionPrimary },
-  secondary: { backgroundColor: tokens.colors.surface, borderColor: tokens.colors.border, borderWidth: tokens.layout.border.standard },
-  ghost: { backgroundColor: "transparent" }
+  primary: { backgroundColor: tokens.colors.olive, ...tokens.elevation.action },
+  secondary: { backgroundColor: tokens.colors.card, ...tokens.elevation.raisedMd },
+  text: { backgroundColor: "transparent", minHeight: tokens.layout.size.touchTarget },
+  ghost: { backgroundColor: "transparent", minHeight: tokens.layout.size.touchTarget }
+});
+
+const pressedStyles = StyleSheet.create({
+  primary: { backgroundColor: tokens.colors.olivePressed, ...tokens.elevation.raisedSm },
+  secondary: { ...tokens.elevation.raisedSm },
+  text: { opacity: 0.7 },
+  ghost: { opacity: 0.7 }
 });
 
 const labelStyles = StyleSheet.create({
-  primary: { color: tokens.colors.actionPrimaryText },
-  secondary: { color: tokens.colors.textPrimary },
-  ghost: { color: tokens.colors.textSecondary }
+  primary: { color: tokens.colors.canvas },
+  secondary: { color: tokens.colors.ink },
+  text: { color: tokens.colors.terracottaText },
+  ghost: { color: tokens.colors.ink82 }
 });

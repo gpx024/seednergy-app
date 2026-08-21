@@ -1,0 +1,232 @@
+/* Seednergy — mobile design tokens · v5 (stone ground, lifted cards, cycle gauge)
+   Source of truth for all app UI. Values are final; do not interpolate new ones. */
+
+:root {
+  /* ---- Colour ---- */
+  --sd-canvas:      #E8E2D4;  /* warm stone. the screen GROUND only */
+  --sd-card:        #EFEADF;  /* every raised surface — one step lighter than the ground */
+  --sd-sand:        #d8d1c0;  /* photo mats, tab-bar ground */
+  --sd-photo-a:     #D3CDBB;  /* photo placeholder gradient, dark stop */
+  --sd-photo-b:     #E4DDCC;  /* photo placeholder gradient, light stop */
+  --sd-gauge-track: #DCD5C4;  /* cycle-gauge unfilled ring */
+  --sd-input:       #FAF7F1;  /* text-entry fill. the only non-canvas surface colour */
+  --sd-terracotta:  #cc8353;  /* light fill + inverted kicker. NEVER carries text (cream on it is 2.3:1) */
+  --sd-terracotta-text:  #b25f35; /* terracotta AS TYPE at UI scale (5.46:1). #cc8353 as type is for Crimson display ≥20px only */
+  --sd-terracotta-panel: #b25f35; /* nested second-layer panel — darker so stone type passes AA (5.46:1) */
+  --sd-olive:       #71763b;  /* primary action, brand mark, completion badge, "new" status */
+  --sd-sage:        #5C7F3F;  /* growth ONLY: cycle-gauge fill, stage labels. never a button */
+  --sd-forest:      #2F3D28;  /* dark anchor: inverted ground, "on track", active filter tab, named type in lists */
+  --sd-alert:       #9E3521;  /* "needs check" and nothing else */
+  --sd-ink:         #2e2a24;  /* all body type, inactive tab icons */
+  --sd-stone:       #F7F5EE;  /* type on olive / alert / terracotta fills */
+
+  /* Greys are ink at reduced alpha — never a cold grey */
+  --sd-ink-90: rgba(46,42,36,.90);
+  --sd-ink-82: rgba(46,42,36,.82);  /* secondary copy */
+  --sd-ink-64: rgba(46,42,36,.64);  /* captions, meta, inactive nav */
+  --sd-olive-label: #5a5f2d;        /* uppercase section labels, sub-nav, segment idle */
+
+  --sd-olive-pressed: #616533;
+
+  /* ---- Relief · everything is RAISED except text inputs (--sd-inset) ---- */
+  /* Light source: top-left. Offset ≈ blur (tight, crisp — never a soft fade). */
+  --sd-raise-xs: 2px 2px 3px rgba(150,140,118,.55), -1px -1px 2px rgba(252,249,243,.85);
+  --sd-raise-sm: 3px 3px 5px rgba(150,140,118,.55), -2px -2px 4px rgba(252,249,243,.88);
+  --sd-raise-md: 4px 4px 7px rgba(150,140,118,.58), -3px -3px 6px rgba(252,249,243,.90);
+  --sd-raise-row:6px 6px 9px rgba(150,140,118,.62), -4px -4px 7px rgba(252,249,243,.90);
+  --sd-raise-lg: 7px 7px 11px rgba(150,140,118,.62), -6px -6px 9px rgba(252,249,243,.90);
+  --sd-raise-xl: 8px 8px 12px rgba(150,140,118,.62), -7px -7px 10px rgba(252,249,243,.90);
+
+  /* The bevel. Near-zero blur = a machined lip, not a rounded glow.
+     ALWAYS composed with a --sd-raise-* value, never used alone. */
+  --sd-bevel: inset 1.5px 1.5px 1px rgba(255,255,255,.80),
+              inset -1.5px -1.5px 1px rgba(150,140,118,.50);
+
+  /* Olive (action) relief + bevel */
+  --sd-raise-action: 4px 4px 7px rgba(126,116,88,.60), -3px -3px 6px rgba(252,249,243,.85);
+  --sd-bevel-action: inset 1.5px 1.5px 1px rgba(255,255,255,.42),
+                     inset -1.5px -1.5px 1px rgba(58,62,26,.45);
+
+  /* Nested terracotta panel — relief cast against the stone card it sits on */
+  --sd-raise-nested: 5px 5px 8px rgba(120,64,32,.46), -3px -3px 5px rgba(252,249,243,.60),
+                     inset 1.5px 1.5px 1px rgba(255,255,255,.40),
+                     inset -1.5px -1.5px 1px rgba(108,48,20,.45);
+
+  /* Text inputs — the single inset surface in the system */
+  --sd-inset: inset 3px 3px 5px rgba(150,140,118,.50), inset -1.5px -1.5px 2px rgba(255,255,255,.90);
+
+  /* Photo mat: the image itself sits slightly proud of its frame */
+  --sd-raise-photo: 2px 2px 4px rgba(112,102,80,.32), inset 1.5px 1.5px 1px rgba(255,255,255,.60);
+
+  /* Status pills — the fill IS the state; type is always stone/canvas */
+  --sd-pill-forest: 2px 2px 4px rgba(30,40,25,.40), -2px -2px 4px rgba(252,249,243,.90),
+                    inset 1.5px 1.5px 1px rgba(255,255,255,.20), inset -1.5px -1.5px 1px rgba(12,18,10,.40);
+  --sd-pill-alert:  2px 2px 4px rgba(110,32,16,.44), -2px -2px 4px rgba(252,249,243,.90),
+                    inset 1.5px 1.5px 1px rgba(255,255,255,.34), inset -1.5px -1.5px 1px rgba(88,24,12,.50);
+  --sd-pill-olive:  2px 2px 4px rgba(94,98,52,.44), -2px -2px 4px rgba(252,249,243,.90),
+                    inset 1.5px 1.5px 1px rgba(255,255,255,.36), inset -1.5px -1.5px 1px rgba(52,56,24,.45);
+
+  /* Tab bar — its own warm-stone ground; the active CELL is the raised element */
+  --sd-tabbar-ground: linear-gradient(150deg, #D3CDBB, #E4DDCC);
+  --sd-tabbar-on-bg:  linear-gradient(150deg, #DFD8C7, #EAE4D6);
+  --sd-tabbar-on-sh:  4px 4px 8px rgba(126,116,92,.42), -4px -4px 8px rgba(246,242,232,.85),
+                      inset 1.5px 1.5px 1px rgba(255,255,255,.75), inset -1.5px -1.5px 1px rgba(126,116,92,.32);
+
+  /* ---- Inverted ground · moment screens only (see DESIGN-SYSTEM.md §6) ---- */
+  --sd-inv-ground:  #2F3D28;              /* forest. inverted screens carry NO tab bar */
+  --sd-inv-surface: #EFEADF;
+  --sd-inv-text:    #E8E2D4;
+  --sd-inv-text-82: rgba(232,226,212,.82);
+  --sd-inv-kicker:  #cc8353;              /* uppercase label above an inverted headline */
+  --sd-inv-raise-md: 6px 6px 10px rgba(12,18,10,.50), -4px -4px 7px rgba(130,160,110,.24);
+  --sd-inv-raise-lg: 8px 8px 13px rgba(12,18,10,.52), -6px -6px 10px rgba(130,160,110,.26);
+  --sd-inv-bevel: inset 1.5px 1.5px 1px rgba(255,255,255,.75),
+                  inset -1.5px -1.5px 1px rgba(150,140,118,.40);
+
+  /* ---- Type ---- */
+  --sd-font-display: 'Crimson Text', Georgia, serif;   /* named + actionable text */
+  --sd-font-ui: Inter, system-ui, sans-serif;          /* body, labels, captions, sub-nav */
+
+  /* ---- Space · 4pt base ---- */
+  --sd-1: 4px;  --sd-2: 8px;  --sd-3: 12px; --sd-4: 16px;
+  --sd-5: 20px; --sd-6: 24px; --sd-8: 32px;
+  --sd-gutter: 20px;        /* screen edge */
+  --sd-card-pad: 16px;
+  --sd-card-gap: 14px;      /* MINIMUM between raised elements — shadows collide below this */
+  --sd-section-gap: 24px;
+
+  /* ---- Radius ---- */
+  --sd-r-chip: 12px;
+  --sd-r-field: 16px;
+  --sd-r-card: 20px;
+  --sd-r-media: 26px;
+  --sd-r-screen: 40px;
+  --sd-r-pill: 999px;
+
+  /* ---- Icons ---- */
+  --sd-icon: 21px;          /* stroke 2.15, round caps/joins, no fill, currentColor */
+  --sd-icon-action: 24px;   /* standalone: back, close, more */
+  --sd-icon-inline: 16px;
+}
+
+/* ---- Composed recipes: copy these verbatim ---- */
+
+.sd-surface        { background: var(--sd-canvas); }
+
+.sd-card           { background: var(--sd-card); border-radius: var(--sd-r-card);
+                     padding: var(--sd-card-pad);
+                     box-shadow: var(--sd-raise-md), var(--sd-bevel); }
+
+.sd-card--hero     { border-radius: var(--sd-r-media);
+                     box-shadow: var(--sd-raise-lg), var(--sd-bevel); }
+
+.sd-btn            { height: 54px; border-radius: 18px; background: var(--sd-olive);
+                     color: var(--sd-canvas);
+                     font: 700 18px/1 var(--sd-font-display);
+                     box-shadow: var(--sd-raise-action), var(--sd-bevel-action); }
+.sd-btn:active     { box-shadow: var(--sd-raise-sm), var(--sd-bevel-action); } /* soften, never invert or move */
+
+.sd-btn--secondary { background: var(--sd-card); color: var(--sd-ink);
+                     box-shadow: var(--sd-raise-md), var(--sd-bevel); }
+.sd-btn--disabled  { color: rgba(46,42,36,.34); box-shadow: none; }
+.sd-btn--text      { height: 44px; background: none; box-shadow: none;
+                     color: var(--sd-terracotta-text); font: 600 16px/1 var(--sd-font-display); }
+
+/* Text input is the ONE inset element — a field must look like it receives */
+.sd-field          { height: 50px; border-radius: var(--sd-r-field); padding: 0 16px;
+                     background: var(--sd-input);
+                     box-shadow: var(--sd-inset);
+                     font: 400 14px/1 var(--sd-font-ui); color: var(--sd-ink); }
+
+/* SECOND LAYER — a panel nested inside a card takes the terracotta fill + stone type.
+   The strongest signal in the app: coach voice and next action only. */
+.sd-panel--nested  { background: var(--sd-terracotta-panel); border-radius: 18px; padding: 16px;
+                     box-shadow: var(--sd-raise-nested); color: var(--sd-canvas); }
+/* full-alpha stone type only — reduced alpha on this fill drops below AA */
+.sd-panel--nested .sd-label,
+.sd-panel--nested .sd-body  { color: var(--sd-canvas); }
+
+/* STATUS PILL — the FILL is the state, the type is always stone. Never a coloured word on stone. */
+.sd-pill           { padding: 7px 13px; border-radius: var(--sd-r-pill);
+                     font: 600 11.5px/1 var(--sd-font-ui); color: var(--sd-stone); }
+.sd-pill--on       { background: var(--sd-forest); color: var(--sd-canvas);
+                     box-shadow: var(--sd-pill-forest); }   /* on track */
+.sd-pill--alert    { background: var(--sd-alert);  box-shadow: var(--sd-pill-alert); }  /* needs check ONLY */
+.sd-pill--done     { background: var(--sd-olive);  box-shadow: var(--sd-pill-olive); }  /* new, harvested */
+.sd-pill--neutral  { background: var(--sd-card); color: var(--sd-ink-82);
+                     box-shadow: var(--sd-raise-sm), var(--sd-bevel); }                 /* archived */
+/* In a list row the pill is 6px 11px / 700 10px caps with .06em tracking. */
+
+.sd-chip           { padding: 8px 12px; border-radius: var(--sd-r-chip);
+                     background: var(--sd-card); color: var(--sd-ink-82);
+                     font: 500 11.5px/1 var(--sd-font-ui);
+                     box-shadow: var(--sd-raise-sm), var(--sd-bevel); }
+
+/* CYCLE GAUGE — cycle progress is NEVER a bar. It is the logo's oval, sage filling
+   clockwise from the top, with the day count inside. 52x82 hero, 38x60 in a list.
+   SVG: <rect x=3.5 y=3.5 width=55 height=93 rx=27.5> twice — track then fill.
+   fill: stroke var(--sd-sage), stroke-dasharray 250, stroke-dashoffset 250*(1-pct). */
+.sd-gauge          { position: relative; }
+.sd-gauge__track   { stroke: var(--sd-gauge-track); stroke-width: 6px; fill: none; }
+.sd-gauge__fill    { stroke: var(--sd-sage); stroke-width: 6px; fill: none;
+                     stroke-linecap: round; stroke-dasharray: 250; }
+.sd-gauge__day     { position: absolute; inset: 0; display: flex; align-items: center;
+                     justify-content: center;
+                     font: 600 17px/1 var(--sd-font-display); color: var(--sd-forest); }
+
+/* .sd-track is for RANK progress only — a rank is not a cycle. */
+.sd-track          { height: 8px; border-radius: 4px; background: var(--sd-card);
+                     box-shadow: var(--sd-raise-xs), var(--sd-bevel); }
+.sd-track__fill    { height: 8px; border-radius: 4px; background: var(--sd-olive); }
+
+.sd-segment        { display: flex; padding: 5px; border-radius: 14px;
+                     background: var(--sd-card);
+                     box-shadow: var(--sd-raise-sm), var(--sd-bevel); }
+.sd-segment__item  { flex: 1; padding: 10px 0; text-align: center; border-radius: 11px;
+                     font: 700 10.5px/1 var(--sd-font-ui); letter-spacing: .08em;
+                     text-transform: uppercase; color: var(--sd-olive-label); }
+.sd-segment__item--on { background: var(--sd-olive); color: var(--sd-canvas);
+                        box-shadow: 3px 3px 5px rgba(126,116,88,.55), var(--sd-bevel-action); }
+
+.sd-photo-frame    { padding: 6px; border-radius: var(--sd-r-media);
+                     background: var(--sd-card);
+                     box-shadow: var(--sd-raise-lg), var(--sd-bevel); }
+.sd-photo-frame > img { border-radius: 20px; box-shadow: var(--sd-raise-photo); }
+
+/* CYCLE ROW — the photo runs FLUSH to the card edge (no padding, no radius of its own).
+   Row is padding:0; overflow:hidden; align-items:stretch. Photo 98px wide, full height. */
+.sd-row            { display: flex; gap: 14px; align-items: stretch; padding: 0;
+                     overflow: hidden; background: var(--sd-card);
+                     border-radius: var(--sd-r-card);
+                     box-shadow: var(--sd-raise-row), var(--sd-bevel); }
+.sd-row__photo     { width: 98px; flex: none;
+                     background: linear-gradient(150deg, var(--sd-photo-a), var(--sd-photo-b));
+                     box-shadow: inset -2px 0 4px rgba(112,102,80,.22); }
+.sd-row__body      { flex: 1; min-width: 0; padding: 15px 0; }
+.sd-row__name      { font: 600 18px/1.15 var(--sd-font-display); color: var(--sd-forest); }
+.sd-row__meta      { font: 400 11.5px/1.5 var(--sd-font-ui); color: rgba(47,61,40,.75); }
+
+/* TAB BAR — no divider line. The bar has its own warm-stone ground; the active CELL is
+   the raised element, filling its whole cell and running flush to the screen's bottom edge
+   (no radius, no bar padding). Inverted screens carry NO tab bar at all. */
+.sd-tabbar         { display: flex; padding: 0; background: var(--sd-tabbar-ground); }
+.sd-tabbar__item      { flex: 1; display: flex; flex-direction: column; align-items: center;
+                        gap: 7px; padding: 15px 0 18px; color: var(--sd-ink);
+                        font: 500 10.5px/1 var(--sd-font-ui); }
+.sd-tabbar__item--on  { color: var(--sd-terracotta-text); font-weight: 600;
+                        background: var(--sd-tabbar-on-bg);
+                        box-shadow: var(--sd-tabbar-on-sh); }
+
+/* ---- Type scale ---- */
+.sd-display-lg { font: 600 30px/34px var(--sd-font-display); color: var(--sd-terracotta); }
+.sd-display-md { font: 600 25px/29px var(--sd-font-display); color: var(--sd-terracotta); }
+.sd-name       { font: 600 22px/1.15 var(--sd-font-display); color: var(--sd-forest); }
+.sd-inv-title  { font: 600 38px/1.15 var(--sd-font-display); color: var(--sd-inv-text); }
+.sd-inv-kicker { font: 700 10.5px/1 var(--sd-font-ui); letter-spacing: .14em;
+                 text-transform: uppercase; color: var(--sd-inv-kicker); }
+.sd-title      { font: 600 19.5px/24px var(--sd-font-display); color: var(--sd-ink); }
+.sd-panel-head { font: 600 16.5px/1.3 var(--sd-font-display); color: var(--sd-ink); }
+.sd-body       { font: 400 14px/20px var(--sd-font-ui); color: var(--sd-ink-82); text-wrap: pretty; }
+.sd-caption    { font: 400 12px/16px var(--sd-font-ui); color: var(--sd-ink-64); }
+.sd-label      { font: 700 11px/1 var(--sd-font-ui); letter-spacing: .12em;
+                 text-transform: uppercase; color: var(--sd-olive-label); }

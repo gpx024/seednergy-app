@@ -1,7 +1,14 @@
 export { AppButton } from "@/src/ui/components/AppButton";
 export { AppCard } from "@/src/ui/components/AppCard";
+export { AppField } from "@/src/ui/components/AppField";
+export { BrandMark } from "@/src/ui/components/BrandMark";
+export { CycleGauge } from "@/src/ui/components/CycleGauge";
 export { CycleProgress } from "@/src/ui/components/CycleProgress";
+export { CycleRow } from "@/src/ui/components/CycleRow";
 export { FeedbackState } from "@/src/ui/components/FeedbackState";
+export { OptionRow } from "@/src/ui/components/OptionRow";
+export { PhotoFrame } from "@/src/ui/components/PhotoFrame";
 export { ScreenContainer } from "@/src/ui/components/ScreenContainer";
 export { SeedCard } from "@/src/ui/components/SeedCard";
 export { StageBadge } from "@/src/ui/components/StageBadge";
+export type { StageBadgeTone } from "@/src/ui/components/StageBadge";

@@ -1,61 +1,45 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { StyleSheet, Text, View } from "react-native";
+import { Link } from "expo-router";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
-import { AppButton, AppCard, ScreenContainer, StageBadge } from "@/src/ui/components";
+import { AppButton, AppCard, BrandMark, CycleGauge, CycleProgress, ScreenContainer, StageBadge } from "@/src/ui/components";
 import { tokens } from "@/src/ui/tokens";
+
+const cress = require("../../assets/images/temporary/cress.png");
 
 export default function HomeScreen() {
   const { t } = useTranslation();
-
   return (
     <ScreenContainer scroll contentStyle={styles.container}>
-      <View style={styles.intro}>
-        <Text style={styles.eyebrow}>{t("stageTwo.homeEyebrow")}</Text>
-        <Text accessibilityRole="header" style={styles.title}>{t("stageTwo.homeTitle")}</Text>
-        <Text style={styles.description}>{t("stageTwo.homeDescription")}</Text>
-      </View>
-
-      <AppCard style={styles.heroCard}>
-        <View style={styles.heroIcon}><Ionicons color={tokens.colors.actionPrimary} name="leaf-outline" size={tokens.layout.icon.xl} /></View>
-        <View style={styles.heroCopy}>
-          <StageBadge label={t("stageTwo.comingSoon")} tone="neutral" />
-          <Text style={styles.cardTitle}>{t("stageTwo.homeCardTitle")}</Text>
-          <Text style={styles.cardBody}>{t("stageTwo.homeCardDescription")}</Text>
-        </View>
+      <View style={styles.header}><View><Text style={styles.greeting}>{t("main.goodMorning")}</Text><Text accessibilityRole="header" style={styles.title}>{t("main.growerName")}</Text></View><View style={styles.brand}><BrandMark width={24} /></View></View>
+      <AppCard variant="hero" style={styles.hero}>
+        <View style={styles.heroTop}><View><Text style={styles.seedName}>{t("stageTwo.cress")}</Text><Text style={styles.meta}>{t("main.growthDay")}</Text></View><StageBadge label={t("main.onTrack")} /></View>
+        <View style={styles.photoWrap}><Image accessibilityLabel={t("onboarding.cressPhoto")} resizeMode="cover" source={cress} style={styles.photo} /><View style={styles.gauge}><CycleGauge accessibilityLabel={t("main.progressLabel")} day={3} progress={0.42} /></View></View>
+        <CycleProgress accessibilityLabel={t("main.progressLabel")} activeStep={1} labels={[t("main.setup"), t("main.growth"), t("main.harvest")]} />
+        <AppCard variant="nested" style={styles.coach}><Text style={styles.coachLabel}>{t("main.guideLabel")}</Text><Text style={styles.coachTitle}>{t("main.nextAction")}</Text><Text style={styles.coachBody}>{t("main.coachBody")}</Text></AppCard>
+        <Link asChild href="/cycle/preview"><AppButton label={t("main.openCycle")} /></Link>
       </AppCard>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>{t("stageTwo.homeSectionTitle")}</Text>
-        <AppCard variant="muted" style={styles.tipCard}>
-          <Ionicons color={tokens.colors.actionPrimary} name="sunny-outline" size={tokens.layout.icon.lg} />
-          <View style={styles.tipCopy}>
-            <Text style={styles.tipTitle}>{t("stageTwo.homeTipTitle")}</Text>
-            <Text style={styles.tipBody}>{t("stageTwo.homeTipDescription")}</Text>
-          </View>
-        </AppCard>
-      </View>
-
-      <AppButton disabled label={t("stageTwo.homeAction")} />
+      <Text style={styles.previewNote}>{t("main.previewNote")}</Text>
     </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { gap: tokens.spacing.xl, paddingBottom: tokens.spacing.xxxl },
-  intro: { gap: tokens.spacing.sm },
-  eyebrow: { ...tokens.typography.label, color: tokens.colors.textSubtle, textTransform: "uppercase" },
-  title: { ...tokens.typography.display, color: tokens.colors.textPrimary },
-  description: { ...tokens.typography.body, color: tokens.colors.textSecondary },
-  heroCard: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.lg, padding: tokens.spacing.lg },
-  heroIcon: { alignItems: "center", backgroundColor: tokens.colors.actionSecondary, borderRadius: tokens.radii.pill, height: tokens.layout.size.imageSmall, justifyContent: "center", width: tokens.layout.size.imageSmall },
-  heroCopy: { flex: 1, gap: tokens.spacing.xs },
-  cardTitle: { ...tokens.typography.cardTitle, color: tokens.colors.textPrimary },
-  cardBody: { ...tokens.typography.body, color: tokens.colors.textSecondary },
-  section: { gap: tokens.spacing.md },
-  sectionTitle: { ...tokens.typography.cardTitle, color: tokens.colors.textPrimary },
-  tipCard: { alignItems: "flex-start", flexDirection: "row", gap: tokens.spacing.md, padding: tokens.spacing.lg },
-  tipCopy: { flex: 1, gap: tokens.spacing.xxs },
-  tipTitle: { ...tokens.typography.bodyStrong, color: tokens.colors.textPrimary },
-  tipBody: { ...tokens.typography.caption, color: tokens.colors.textSecondary }
+  container: { gap: tokens.spacing.sectionGap, paddingBottom: tokens.spacing.xl },
+  header: { alignItems: "center", flexDirection: "row", justifyContent: "space-between" },
+  greeting: { ...tokens.typography.caption, color: tokens.colors.ink64 },
+  title: { ...tokens.typography.display, color: tokens.colors.terracottaText },
+  brand: { alignItems: "center", justifyContent: "center", height: 58, width: 58, borderRadius: tokens.radii.pill, backgroundColor: tokens.colors.card, ...tokens.elevation.raisedMd },
+  hero: { gap: tokens.spacing.md },
+  heroTop: { alignItems: "center", flexDirection: "row", justifyContent: "space-between" },
+  seedName: { ...tokens.typography.name, color: tokens.colors.forest },
+  meta: { ...tokens.typography.caption, color: tokens.colors.ink64 },
+  photoWrap: { height: 230, position: "relative" },
+  photo: { height: "100%", width: "100%", borderRadius: 20 },
+  gauge: { position: "absolute", right: tokens.spacing.md, top: tokens.spacing.md, backgroundColor: tokens.colors.card, borderRadius: tokens.radii.pill, padding: tokens.spacing.xs, ...tokens.elevation.raisedMd },
+  coach: { gap: tokens.spacing.xs },
+  coachLabel: { ...tokens.typography.label, color: tokens.colors.canvas, textTransform: "uppercase" },
+  coachTitle: { ...tokens.typography.panelHeadline, color: tokens.colors.canvas },
+  coachBody: { ...tokens.typography.body, color: tokens.colors.canvas },
+  previewNote: { ...tokens.typography.caption, color: tokens.colors.ink64, textAlign: "center" }
 });

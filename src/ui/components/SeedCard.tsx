@@ -18,19 +18,14 @@ interface SeedCardProps {
 }
 
 export function SeedCard({ name, duration, difficulty, access, accessLabel, imageSource, onPress }: SeedCardProps) {
+  const disabled = access !== "free" || !onPress;
   return (
-    <Pressable accessibilityLabel={name} accessibilityRole="button" onPress={onPress} style={({ pressed }) => [styles.pressable, pressed && styles.pressed]}>
+    <Pressable accessibilityLabel={name} accessibilityRole="button" accessibilityState={{ disabled }} disabled={disabled} onPress={onPress} style={({ pressed }) => [styles.pressable, pressed && styles.pressed]}>
       <AppCard style={[styles.card, access === "comingSoon" && styles.comingSoon]}>
-        <View style={styles.imageArea}>
-          {imageSource ? <Image accessibilityLabel="" source={imageSource} style={styles.image} /> : <Ionicons color={tokens.colors.actionPrimary} name="leaf-outline" size={tokens.layout.icon.xl} />}
-          {access === "locked" ? <View style={styles.lock}><Ionicons color={tokens.colors.textSecondary} name="lock-closed-outline" size={tokens.layout.icon.sm} /></View> : null}
-        </View>
+        <View style={styles.imageArea}>{imageSource ? <Image accessibilityLabel="" resizeMode="cover" source={imageSource} style={styles.image} /> : null}{access === "locked" ? <View style={styles.lock}><Ionicons color={tokens.colors.ink82} name="lock-closed-outline" size={tokens.layout.icon.sm} /></View> : null}</View>
         <View style={styles.content}>
-          <View style={styles.heading}>
-            <Text style={styles.name}>{name}</Text>
-            {access === "free" ? <StageBadge label={accessLabel} /> : null}
-          </View>
-          {access === "comingSoon" ? null : <View style={styles.meta}><Text style={styles.metaText}>{duration}</Text><Text style={styles.metaText}>{difficulty}</Text></View>}
+          <View style={styles.heading}><Text maxFontSizeMultiplier={1.8} style={styles.name}>{name}</Text>{access === "free" ? <StageBadge label={accessLabel} tone="success" /> : <Text style={styles.access}>{accessLabel}</Text>}</View>
+          <View style={styles.meta}><Text style={styles.metaText}>{duration}</Text><Text style={styles.metaText}>{difficulty}</Text></View>
         </View>
       </AppCard>
     </Pressable>
@@ -38,16 +33,17 @@ export function SeedCard({ name, duration, difficulty, access, accessLabel, imag
 }
 
 const styles = StyleSheet.create({
-  pressable: { flex: 1 },
+  pressable: { flexBasis: "45%", flexGrow: 1, minWidth: 150 },
   pressed: { opacity: 0.82 },
-  card: { flex: 1, borderRadius: tokens.radii.card },
+  card: { flex: 1, padding: 0, overflow: "hidden", ...tokens.elevation.raisedRow },
   comingSoon: { opacity: 0.62 },
-  imageArea: { alignItems: "center", justifyContent: "center", height: tokens.layout.size.imageLarge, backgroundColor: tokens.colors.actionSecondary, position: "relative" },
+  imageArea: { height: 158, backgroundColor: tokens.colors.sand, position: "relative" },
   image: { height: "100%", width: "100%" },
-  lock: { alignItems: "center", justifyContent: "center", position: "absolute", right: tokens.spacing.sm, top: tokens.spacing.sm, height: tokens.layout.icon.lg, width: tokens.layout.icon.lg, borderRadius: tokens.radii.pill, backgroundColor: tokens.colors.surface, ...tokens.elevation.card },
+  lock: { alignItems: "center", justifyContent: "center", position: "absolute", right: tokens.spacing.sm, top: tokens.spacing.sm, height: 38, width: 38, borderRadius: tokens.radii.pill, backgroundColor: tokens.colors.card, ...tokens.elevation.raisedSm },
   content: { gap: tokens.spacing.xs, padding: tokens.spacing.md },
-  heading: { alignItems: "flex-start", flexDirection: "row", gap: tokens.spacing.xs, justifyContent: "space-between" },
-  name: { ...tokens.typography.cardTitle, color: tokens.colors.textPrimary, flexShrink: 1 },
+  heading: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.xs, justifyContent: "space-between" },
+  name: { ...tokens.typography.name, color: tokens.colors.forest, flexShrink: 1 },
+  access: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textTransform: "uppercase" },
   meta: { flexDirection: "row", gap: tokens.spacing.sm },
-  metaText: { ...tokens.typography.caption, color: tokens.colors.textSecondary }
+  metaText: { ...tokens.typography.caption, color: tokens.colors.ink64 }
 });
