@@ -3,7 +3,7 @@ import { useRouter } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
-import { AppField, ScreenContainer, SeedCard } from "@/src/ui/components";
+import { AppField, BrandHeader, ScreenContainer, SeedCard } from "@/src/ui/components";
 import { tokens } from "@/src/ui/tokens";
 
 const cress = require("../../assets/images/temporary/cress.png");
@@ -16,6 +16,7 @@ export default function ExploreScreen() {
   const router = useRouter();
   return (
     <ScreenContainer scroll contentStyle={styles.container}>
+      <BrandHeader />
       <View style={styles.heading}><Text style={styles.label}>{t("main.seedLibrary")}</Text><Text accessibilityRole="header" style={styles.title}>{t("main.exploreSeeds")}</Text><Text style={styles.body}>{t("main.exploreBody")}</Text></View>
       <AppField accessibilityLabel={t("main.searchSeeds")} label={t("main.searchSeeds")} placeholder={t("main.searchPlaceholder")} />
       <View style={styles.grid}>
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
   container: { gap: tokens.spacing.sectionGap, paddingBottom: tokens.spacing.xl },
   heading: { gap: tokens.spacing.xs },
   label: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textTransform: "uppercase" },
-  title: { ...tokens.typography.display, color: tokens.colors.terracotta },
+  title: { ...tokens.typography.displayLarge, color: tokens.colors.terracottaText },
   body: { ...tokens.typography.body, color: tokens.colors.ink82 },
   grid: { flexDirection: "row", flexWrap: "wrap", gap: tokens.spacing.cardGap },
   note: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.xs },

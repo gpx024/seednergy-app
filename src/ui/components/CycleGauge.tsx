@@ -6,11 +6,12 @@ import { tokens } from "@/src/ui/tokens";
 interface CycleGaugeProps {
   progress: number;
   day: number;
+  totalDays?: number;
   compact?: boolean;
   accessibilityLabel: string;
 }
 
-export function CycleGauge({ progress, day, compact = false, accessibilityLabel }: CycleGaugeProps) {
+export function CycleGauge({ progress, day, totalDays, compact = false, accessibilityLabel }: CycleGaugeProps) {
   const width = compact ? tokens.layout.size.gaugeRowWidth : tokens.layout.size.gaugeHeroWidth;
   const height = compact ? tokens.layout.size.gaugeRowHeight : tokens.layout.size.gaugeHeroHeight;
   const dash = 250;
@@ -22,13 +23,14 @@ export function CycleGauge({ progress, day, compact = false, accessibilityLabel 
         <Rect fill="none" height="93" rx="27.5" stroke={tokens.colors.gaugeTrack} strokeWidth="6" width="55" x="3.5" y="3.5" />
         <Rect fill="none" height="93" rx="27.5" stroke={tokens.colors.sage} strokeDasharray={dash} strokeDashoffset={dash * (1 - safeProgress)} strokeLinecap="round" strokeWidth="6" width="55" x="3.5" y="3.5" />
       </Svg>
-      <View style={styles.day}><Text maxFontSizeMultiplier={1.4} style={[styles.dayText, compact && styles.dayTextCompact]}>{day}</Text></View>
+      <View style={styles.day}><Text maxFontSizeMultiplier={1.4} style={[styles.dayText, compact && styles.dayTextCompact]}>{day}</Text>{totalDays && !compact ? <Text style={styles.total}>of {totalDays}</Text> : null}</View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  day: { ...StyleSheet.absoluteFillObject, alignItems: "center", justifyContent: "center" },
+  day: { ...StyleSheet.absoluteFillObject, alignItems: "center", gap: 1, justifyContent: "center" },
   dayText: { fontFamily: "CrimsonText_600SemiBold", fontSize: 17, color: tokens.colors.forest },
-  dayTextCompact: { fontSize: 14 }
+  dayTextCompact: { fontSize: 14 },
+  total: { fontFamily: "Inter_600SemiBold", fontSize: 8, lineHeight: 10, color: tokens.colors.oliveLabel }
 });

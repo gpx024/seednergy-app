@@ -28,7 +28,7 @@ export default function TabsLayout() {
       tabBarStyle: [styles.bar, { height: 58 + bottomInset }],
       tabBarBackground: () => <LinearGradient colors={[tokens.colors.photoA, tokens.colors.photoB]} style={StyleSheet.absoluteFill} />,
       tabBarButton: (props) => <TabButton {...props} bottomInset={bottomInset} />,
-      tabBarIcon: ({ color }) => <Ionicons color={color} name={tabConfig.find((tab) => tab.name === route.name)?.icon ?? "ellipse-outline"} size={tokens.layout.icon.md} />
+      tabBarIcon: ({ color }) => <Ionicons color={color} name={tabConfig.find((tab) => tab.name === route.name)?.icon ?? "ellipse-outline"} size={19} />
     })}>
       {tabConfig.map((tab) => <Tabs.Screen key={tab.name} name={tab.name} options={{ title: t(tab.label) }} />)}
     </Tabs>
@@ -43,7 +43,7 @@ function TabButton({ accessibilityState, bottomInset, children, onLongPress, onP
 const styles = StyleSheet.create({
   bar: { backgroundColor: tokens.colors.sand, borderTopWidth: 0, elevation: 0, paddingBottom: 0, paddingTop: 0, shadowOpacity: 0 },
   item: { alignItems: "center", flex: 1, gap: tokens.spacing.xxs, justifyContent: "center", minHeight: 58, overflow: "visible", paddingTop: tokens.spacing.xs },
-  itemActive: { ...tokens.elevation.tabActive },
+  itemActive: { zIndex: 2, ...tokens.elevation.tabActive },
   itemPressed: { opacity: 0.8 },
   label: { ...tokens.typography.tab, marginTop: 0 }
 });

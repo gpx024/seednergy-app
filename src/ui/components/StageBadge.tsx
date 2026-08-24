@@ -15,7 +15,7 @@ export function StageBadge({ label, tone = "active" }: StageBadgeProps) {
 
 const styles = StyleSheet.create({
   base: { alignSelf: "flex-start", paddingHorizontal: 13, paddingVertical: 7, borderRadius: tokens.radii.pill },
-  label: { fontFamily: "Inter_600SemiBold", fontSize: 11, lineHeight: 12, fontWeight: "600", letterSpacing: 0.45, textTransform: "uppercase" }
+  label: { fontFamily: "Inter_600SemiBold", fontSize: 11, lineHeight: 12, letterSpacing: 0.45, textTransform: "uppercase" }
 });
 
 const toneStyles = StyleSheet.create({

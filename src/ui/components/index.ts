@@ -2,6 +2,7 @@ export { AppButton } from "@/src/ui/components/AppButton";
 export { AppCard } from "@/src/ui/components/AppCard";
 export { AppField } from "@/src/ui/components/AppField";
 export { BrandMark } from "@/src/ui/components/BrandMark";
+export { BrandHeader } from "@/src/ui/components/BrandHeader";
 export { BrandWordmark } from "@/src/ui/components/BrandWordmark";
 export { CycleGauge } from "@/src/ui/components/CycleGauge";
 export { CycleProgress } from "@/src/ui/components/CycleProgress";

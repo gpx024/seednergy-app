@@ -22,10 +22,11 @@ export function SeedCard({ name, duration, difficulty, access, accessLabel, imag
   return (
     <Pressable accessibilityLabel={name} accessibilityRole="button" accessibilityState={{ disabled }} disabled={disabled} onPress={onPress} style={({ pressed }) => [styles.pressable, pressed && styles.pressed]}>
       <AppCard style={[styles.card, access === "comingSoon" && styles.comingSoon]}>
-        <View style={styles.imageArea}>{imageSource ? <Image accessibilityLabel="" resizeMode="cover" source={imageSource} style={styles.image} /> : null}{access === "locked" ? <View style={styles.lock}><Ionicons color={tokens.colors.ink82} name="lock-closed-outline" size={tokens.layout.icon.sm} /></View> : null}</View>
+        <View style={styles.imageArea}>{imageSource ? <Image accessibilityLabel="" resizeMode="cover" source={imageSource} style={styles.image} /> : null}{access === "locked" ? <View style={styles.lock}><Ionicons color={tokens.colors.ink} name="lock-closed-outline" size={22} /></View> : null}</View>
         <View style={styles.content}>
-          <View style={styles.heading}><Text maxFontSizeMultiplier={1.8} style={styles.name}>{name}</Text>{access === "free" ? <StageBadge label={accessLabel} tone="success" /> : <Text style={styles.access}>{accessLabel}</Text>}</View>
+          <Text maxFontSizeMultiplier={1.8} style={styles.name}>{name}</Text>
           <View style={styles.meta}><Text style={styles.metaText}>{duration}</Text><Text style={styles.metaText}>{difficulty}</Text></View>
+          <View style={styles.accessRow}>{access === "comingSoon" ? <Text style={styles.access}>{accessLabel}</Text> : <StageBadge label={accessLabel} tone="success" />}</View>
         </View>
       </AppCard>
     </Pressable>
@@ -40,10 +41,10 @@ const styles = StyleSheet.create({
   imageArea: { height: 158, backgroundColor: tokens.colors.sand, position: "relative" },
   image: { height: "100%", width: "100%" },
   lock: { alignItems: "center", justifyContent: "center", position: "absolute", right: tokens.spacing.sm, top: tokens.spacing.sm, height: 38, width: 38, borderRadius: tokens.radii.pill, backgroundColor: tokens.colors.card, ...tokens.elevation.raisedSm },
-  content: { gap: tokens.spacing.xs, padding: tokens.spacing.md },
-  heading: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.xs, justifyContent: "space-between" },
-  name: { ...tokens.typography.name, color: tokens.colors.forest, flexShrink: 1 },
+  content: { gap: tokens.spacing.sm, padding: tokens.spacing.md },
+  name: { ...tokens.typography.name, color: tokens.colors.forest },
   access: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textTransform: "uppercase" },
-  meta: { flexDirection: "row", gap: tokens.spacing.sm },
-  metaText: { ...tokens.typography.caption, color: tokens.colors.ink64 }
+  meta: { flexDirection: "row", gap: tokens.spacing.md },
+  metaText: { fontFamily: "Inter_600SemiBold", fontSize: 12, lineHeight: 16, color: tokens.colors.ink82 },
+  accessRow: { alignItems: "flex-start", minHeight: 28 }
 });

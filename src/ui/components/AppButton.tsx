@@ -28,7 +28,7 @@ export const AppButton = forwardRef<ComponentRef<typeof Pressable>, AppButtonPro
       onPress={onPress}
       style={({ pressed }) => [styles.base, variantStyles[variant], isDisabled && styles.disabled, pressed && !isDisabled && pressedStyles[variant], style]}
     >
-      {loading ? <ActivityIndicator color={variant === "primary" ? tokens.colors.canvas : tokens.colors.olive} /> : <Text maxFontSizeMultiplier={1.8} style={[styles.label, labelStyles[variant]]}>{label}</Text>}
+      {loading ? <ActivityIndicator color={variant === "primary" ? tokens.colors.stone : tokens.colors.olive} /> : <Text maxFontSizeMultiplier={1.8} style={[styles.label, labelStyles[variant]]}>{label}</Text>}
     </Pressable>
   );
 });
@@ -54,7 +54,7 @@ const pressedStyles = StyleSheet.create({
 });
 
 const labelStyles = StyleSheet.create({
-  primary: { color: tokens.colors.canvas },
+  primary: { color: tokens.colors.stone },
   secondary: { color: tokens.colors.ink },
   text: { color: tokens.colors.terracottaText },
   ghost: { color: tokens.colors.ink82 }
