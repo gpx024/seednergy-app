@@ -41,7 +41,7 @@ function TabButton({ accessibilityState, bottomInset, children, onLongPress, onP
 }
 
 const styles = StyleSheet.create({
-  bar: { backgroundColor: tokens.colors.sand, borderTopWidth: 0, elevation: 0, paddingBottom: 0, paddingTop: 0, shadowOpacity: 0 },
+  bar: { backgroundColor: tokens.colors.sand, borderTopWidth: 0, elevation: 0, overflow: "visible", paddingBottom: 0, paddingTop: 0, shadowOpacity: 0 },
   item: { alignItems: "center", flex: 1, gap: tokens.spacing.xxs, justifyContent: "center", minHeight: 58, overflow: "visible", paddingTop: tokens.spacing.xs },
   itemActive: { zIndex: 2, ...tokens.elevation.tabActive },
   itemPressed: { opacity: 0.8 },

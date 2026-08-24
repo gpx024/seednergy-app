@@ -40,14 +40,14 @@ const styles = StyleSheet.create({
 });
 
 const variantStyles = StyleSheet.create({
-  primary: { backgroundColor: tokens.colors.olive, ...tokens.elevation.action },
+  primary: { backgroundColor: tokens.colors.forest, ...tokens.elevation.action },
   secondary: { backgroundColor: tokens.colors.card, ...tokens.elevation.raisedMd },
   text: { backgroundColor: "transparent", minHeight: tokens.layout.size.touchTarget },
   ghost: { backgroundColor: "transparent", minHeight: tokens.layout.size.touchTarget }
 });
 
 const pressedStyles = StyleSheet.create({
-  primary: { backgroundColor: tokens.colors.olivePressed, ...tokens.elevation.raisedSm },
+  primary: { backgroundColor: tokens.colors.forestPressed, ...tokens.elevation.raisedSm },
   secondary: { ...tokens.elevation.raisedSm },
   text: { opacity: 0.7 },
   ghost: { opacity: 0.7 }

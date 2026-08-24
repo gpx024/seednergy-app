@@ -10,9 +10,8 @@ const cress = require("../../assets/images/temporary/cress.png");
 export default function HomeScreen() {
   const { t } = useTranslation();
   return (
-    <ScreenContainer scroll contentStyle={styles.container}>
-      <BrandHeader />
-      <Text accessibilityRole="header" maxFontSizeMultiplier={1.6} style={styles.greeting}>{t("main.greetingName")}</Text>
+    <ScreenContainer includeBottomSafeArea={false} scroll contentStyle={styles.container}>
+      <View style={styles.intro}><BrandHeader /><Text accessibilityRole="header" maxFontSizeMultiplier={1.6} style={styles.greeting}>{t("main.greetingName")}</Text></View>
       <AppCard variant="hero" style={styles.hero}>
         <View style={styles.cycleSummary}><CycleGauge accessibilityLabel={t("main.progressLabel")} day={3} progress={0.42} totalDays={7} /><View style={styles.cycleIdentity}><Text maxFontSizeMultiplier={1.6} style={styles.seedName}>{t("stageTwo.cress")}</Text><Text style={styles.stageLabel}>{t("main.growthStage")}</Text></View><StageBadge label={t("main.onTrack")} /></View>
         <PhotoFrame accessibilityLabel={t("onboarding.cressPhoto")} source={cress} style={styles.photo} />
@@ -25,7 +24,8 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { gap: tokens.spacing.md, paddingBottom: tokens.spacing.xxl },
+  container: { gap: tokens.spacing.md, paddingBottom: tokens.spacing.xs },
+  intro: { gap: 0 },
   greeting: { ...tokens.typography.display, color: tokens.colors.terracotta },
   hero: { gap: tokens.spacing.md },
   cycleSummary: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.sm },

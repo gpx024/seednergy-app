@@ -26,7 +26,7 @@ export function SeedCard({ name, duration, difficulty, access, accessLabel, imag
         <View style={styles.content}>
           <Text maxFontSizeMultiplier={1.8} style={styles.name}>{name}</Text>
           <View style={styles.meta}><Text style={styles.metaText}>{duration}</Text><Text style={styles.metaText}>{difficulty}</Text></View>
-          <View style={styles.accessRow}>{access === "comingSoon" ? <Text style={styles.access}>{accessLabel}</Text> : <StageBadge label={accessLabel} tone="success" />}</View>
+          <View style={styles.accessRow}>{access === "comingSoon" ? <Text style={styles.access}>{accessLabel}</Text> : <StageBadge label={accessLabel} tone={access === "locked" ? "premium" : "success"} />}</View>
         </View>
       </AppCard>
     </Pressable>

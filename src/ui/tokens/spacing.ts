@@ -8,7 +8,7 @@ export const spacing = {
   xl: 24,
   xxl: 32,
   xxxl: 48,
-  gutter: 20,
+  gutter: 16,
   cardPadding: 16,
   sectionGap: 24
 } as const;

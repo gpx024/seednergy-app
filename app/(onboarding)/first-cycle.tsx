@@ -12,9 +12,10 @@ export default function FirstCycleScreen() {
   return (
     <ScreenContainer scroll contentStyle={styles.container}>
       <BrandHeader />
-      <View style={styles.copy}><Text accessibilityRole="header" style={styles.title}>{t("onboarding.firstCycleTitle")}</Text><Text style={styles.body}>{t("onboarding.firstCycleBody")}</Text></View>
+      <Text accessibilityRole="header" style={styles.title}>{t("onboarding.firstCycleTitle")}</Text>
       <PhotoFrame accessibilityLabel={t("onboarding.cressPhoto")} source={cress} style={styles.photo} />
       <View style={styles.seedHeading}><View><Text style={styles.seedName}>{t("stageTwo.cress")}</Text><Text style={styles.scientificName}>Lepidium sativum</Text></View><StageBadge label={t("stageTwo.free")} tone="success" /></View>
+      <Text style={styles.body}>{t("onboarding.firstCycleBody")}</Text>
       <View style={styles.details}><Detail label={t("onboarding.estimatedTime")} value={t("onboarding.cressDuration")} /><Detail label={t("onboarding.difficulty")} value={t("stageTwo.easy")} /><Detail label={t("onboarding.environment")} value={t("onboarding.anySpace")} /></View>
       <AppCard style={styles.next}><Text style={styles.nextLabel}>{t("onboarding.whatNext")}</Text><Text style={styles.nextTitle}>{t("onboarding.firstAction")}</Text><Text style={styles.body}>{t("onboarding.nextSteps")}</Text></AppCard>
       <Link asChild href="/(onboarding)/notifications"><AppButton label={t("onboarding.startCycle")} /></Link>
@@ -27,18 +28,17 @@ function Detail({ label, value }: { label: string; value: string }) {
 }
 
 const styles = StyleSheet.create({
-  container: { gap: tokens.spacing.lg, paddingBottom: tokens.spacing.xxl },
-  copy: { gap: tokens.spacing.xs },
-  title: { ...tokens.typography.displayLarge, color: tokens.colors.terracottaText },
+  container: { gap: tokens.spacing.md, paddingBottom: tokens.spacing.md },
+  title: { ...tokens.typography.displayLarge, color: tokens.colors.terracottaText, marginTop: tokens.spacing.lg },
   body: { ...tokens.typography.body, color: tokens.colors.ink82 },
   photo: { aspectRatio: 16 / 10, height: undefined },
   seedHeading: { alignItems: "center", flexDirection: "row", justifyContent: "space-between" },
   seedName: { ...tokens.typography.cardTitle, color: tokens.colors.forest },
   scientificName: { ...tokens.typography.caption, color: tokens.colors.ink64 },
-  details: { flexDirection: "row", gap: tokens.spacing.cardGap },
+  details: { alignItems: "flex-start", flexDirection: "row", gap: tokens.spacing.cardGap },
   detail: { flex: 1, gap: tokens.spacing.xxs },
-  detailLabel: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textTransform: "uppercase" },
-  detailValue: { ...tokens.typography.panelHeadline, color: tokens.colors.forest },
+  detailLabel: { ...tokens.typography.label, color: tokens.colors.sage, minHeight: 28, textTransform: "uppercase" },
+  detailValue: { fontFamily: "CrimsonText_600SemiBold", fontSize: 17, lineHeight: 23.8, letterSpacing: -0.2, color: tokens.colors.forest },
   next: { gap: tokens.spacing.xs },
   nextLabel: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textTransform: "uppercase" },
   nextTitle: { ...tokens.typography.title, color: tokens.colors.forest }

@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 
 import { tokens } from "@/src/ui/tokens";
 
-export type StageBadgeTone = "active" | "success" | "attention" | "neutral";
+export type StageBadgeTone = "active" | "success" | "attention" | "premium" | "neutral";
 
 interface StageBadgeProps {
   label: string;
@@ -19,9 +19,10 @@ const styles = StyleSheet.create({
 });
 
 const toneStyles = StyleSheet.create({
-  active: { backgroundColor: tokens.colors.forest, ...tokens.elevation.pillForest },
+  active: { backgroundColor: tokens.colors.sage, ...tokens.elevation.pillForest },
   success: { backgroundColor: tokens.colors.olive, ...tokens.elevation.pillOlive },
   attention: { backgroundColor: tokens.colors.alert, ...tokens.elevation.pillAlert },
+  premium: { backgroundColor: tokens.colors.terracottaText, ...tokens.elevation.pillTerracotta },
   neutral: { backgroundColor: tokens.colors.card, ...tokens.elevation.raisedSm }
 });
 
@@ -29,5 +30,6 @@ const labelStyles = StyleSheet.create({
   active: { color: tokens.colors.canvas },
   success: { color: tokens.colors.stone },
   attention: { color: tokens.colors.stone },
+  premium: { color: tokens.colors.stone },
   neutral: { color: tokens.colors.ink82 }
 });

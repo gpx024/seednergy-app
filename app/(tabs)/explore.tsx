@@ -15,7 +15,7 @@ export default function ExploreScreen() {
   const { t } = useTranslation();
   const router = useRouter();
   return (
-    <ScreenContainer scroll contentStyle={styles.container}>
+    <ScreenContainer includeBottomSafeArea={false} scroll contentStyle={styles.container}>
       <BrandHeader />
       <View style={styles.heading}><Text style={styles.label}>{t("main.seedLibrary")}</Text><Text accessibilityRole="header" style={styles.title}>{t("main.exploreSeeds")}</Text><Text style={styles.body}>{t("main.exploreBody")}</Text></View>
       <AppField accessibilityLabel={t("main.searchSeeds")} label={t("main.searchSeeds")} placeholder={t("main.searchPlaceholder")} />
@@ -31,7 +31,7 @@ export default function ExploreScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { gap: tokens.spacing.sectionGap, paddingBottom: tokens.spacing.xl },
+  container: { gap: tokens.spacing.sectionGap, paddingBottom: tokens.spacing.xs },
   heading: { gap: tokens.spacing.xs },
   label: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textTransform: "uppercase" },
   title: { ...tokens.typography.displayLarge, color: tokens.colors.terracottaText },

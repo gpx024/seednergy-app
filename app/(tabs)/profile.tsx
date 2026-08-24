@@ -10,7 +10,7 @@ const alba = require("../../assets/images/profiles/alba-temporary.png");
 export default function ProfileScreen() {
   const { t } = useTranslation();
   return (
-    <ScreenContainer scroll contentStyle={styles.container}>
+    <ScreenContainer includeBottomSafeArea={false} scroll contentStyle={styles.container}>
       <BrandHeader />
       <Text accessibilityRole="header" style={styles.title}>{t("main.profile")}</Text>
       <AppCard variant="hero" style={styles.identity}><Image accessibilityLabel={t("main.albaPortrait")} source={alba} style={styles.avatar} /><View style={styles.identityCopy}><Text style={styles.name}>{t("main.albaName")}</Text><Text style={styles.identityMeta}>{t("main.albaMeta")}</Text></View></AppCard>
@@ -25,7 +25,7 @@ function SettingsGroup({ label, items }: { label: string; items: { icon: keyof t
 }
 
 const styles = StyleSheet.create({
-  container: { gap: tokens.spacing.sectionGap, paddingBottom: tokens.spacing.xl },
+  container: { gap: tokens.spacing.sectionGap, paddingBottom: tokens.spacing.xs },
   title: { ...tokens.typography.displayLarge, color: tokens.colors.terracottaText },
   identity: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.md },
   avatar: { height: 92, width: 92, borderRadius: tokens.radii.pill, ...tokens.elevation.photo },

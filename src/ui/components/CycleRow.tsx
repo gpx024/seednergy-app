@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
   row: { height: 116, alignItems: "stretch", flexDirection: "row", borderRadius: tokens.radii.card, backgroundColor: tokens.colors.card, overflow: "hidden", ...tokens.elevation.raisedRow },
   pressed: { opacity: 0.82 },
   photo: { height: 116, width: 98 },
-  body: { flex: 1, minWidth: 0, gap: 7, justifyContent: "center", paddingHorizontal: tokens.spacing.sm, paddingVertical: tokens.spacing.xs },
-  name: { ...tokens.typography.cardTitle, color: tokens.colors.forest },
-  meta: { fontFamily: "Inter_500Medium", fontSize: 13, lineHeight: 17, color: tokens.colors.ink82 },
+  body: { flex: 1, minWidth: 0, justifyContent: "center", paddingHorizontal: tokens.spacing.sm, paddingVertical: tokens.spacing.xs },
+  name: { ...tokens.typography.cardTitle, color: tokens.colors.forest, marginBottom: 5 },
+  meta: { fontFamily: "Inter_500Medium", fontSize: 13, lineHeight: 17, color: tokens.colors.ink82, marginBottom: 14 },
   gauge: { alignItems: "center", justifyContent: "center", paddingRight: tokens.spacing.md }
 });

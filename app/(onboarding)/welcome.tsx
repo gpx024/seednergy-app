@@ -17,6 +17,6 @@ export default function WelcomeScreen() {
 
 const styles = StyleSheet.create({
   container: { justifyContent: "space-between", paddingBottom: tokens.spacing.xl },
-  brand: { alignItems: "center", flex: 1, gap: tokens.spacing.sm, justifyContent: "center" },
-  kicker: { ...tokens.typography.label, color: tokens.colors.terracottaText, textTransform: "uppercase" }
+  brand: { alignItems: "center", flex: 1, justifyContent: "center" },
+  kicker: { fontFamily: "CrimsonText_600SemiBold", fontSize: 33, lineHeight: 46.2, letterSpacing: -0.2, color: tokens.colors.terracottaText, marginTop: tokens.spacing.xxl }
 });
