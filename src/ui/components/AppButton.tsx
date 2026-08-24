@@ -3,7 +3,7 @@ import { ActivityIndicator, Pressable, StyleSheet, Text, type StyleProp, type Vi
 
 import { tokens } from "@/src/ui/tokens";
 
-export type AppButtonVariant = "primary" | "secondary" | "text" | "ghost";
+export type AppButtonVariant = "primary" | "olive" | "secondary" | "text" | "oliveText" | "ghost";
 
 interface AppButtonProps {
   label: string;
@@ -28,7 +28,7 @@ export const AppButton = forwardRef<ComponentRef<typeof Pressable>, AppButtonPro
       onPress={onPress}
       style={({ pressed }) => [styles.base, variantStyles[variant], isDisabled && styles.disabled, pressed && !isDisabled && pressedStyles[variant], style]}
     >
-      {loading ? <ActivityIndicator color={variant === "primary" ? tokens.colors.stone : tokens.colors.olive} /> : <Text maxFontSizeMultiplier={1.8} style={[styles.label, labelStyles[variant]]}>{label}</Text>}
+      {loading ? <ActivityIndicator color={variant === "primary" || variant === "olive" ? tokens.colors.stone : tokens.colors.olive} /> : <Text maxFontSizeMultiplier={1.8} style={[styles.label, labelStyles[variant]]}>{label}</Text>}
     </Pressable>
   );
 });
@@ -41,21 +41,27 @@ const styles = StyleSheet.create({
 
 const variantStyles = StyleSheet.create({
   primary: { backgroundColor: tokens.colors.forest, ...tokens.elevation.action },
+  olive: { backgroundColor: tokens.colors.olive, ...tokens.elevation.action },
   secondary: { backgroundColor: tokens.colors.card, ...tokens.elevation.raisedMd },
   text: { backgroundColor: "transparent", minHeight: tokens.layout.size.touchTarget },
+  oliveText: { backgroundColor: "transparent", minHeight: tokens.layout.size.touchTarget },
   ghost: { backgroundColor: "transparent", minHeight: tokens.layout.size.touchTarget }
 });
 
 const pressedStyles = StyleSheet.create({
   primary: { backgroundColor: tokens.colors.forestPressed, ...tokens.elevation.raisedSm },
+  olive: { backgroundColor: tokens.colors.olivePressed, ...tokens.elevation.raisedSm },
   secondary: { ...tokens.elevation.raisedSm },
   text: { opacity: 0.7 },
+  oliveText: { opacity: 0.7 },
   ghost: { opacity: 0.7 }
 });
 
 const labelStyles = StyleSheet.create({
   primary: { color: tokens.colors.stone },
+  olive: { color: tokens.colors.stone },
   secondary: { color: tokens.colors.ink },
   text: { color: tokens.colors.terracottaText },
+  oliveText: { color: tokens.colors.olive },
   ghost: { color: tokens.colors.ink82 }
 });

@@ -26,7 +26,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: { gap: tokens.spacing.md, paddingBottom: tokens.spacing.xs },
   intro: { gap: 0 },
-  greeting: { ...tokens.typography.display, color: tokens.colors.terracotta },
+  greeting: { ...tokens.typography.display, color: tokens.colors.terracottaText, marginHorizontal: tokens.spacing.md },
   hero: { gap: tokens.spacing.md },
   cycleSummary: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.sm },
   cycleIdentity: { flex: 1, gap: tokens.spacing.xxs },

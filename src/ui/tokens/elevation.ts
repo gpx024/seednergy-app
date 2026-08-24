@@ -13,7 +13,7 @@ export const elevation = {
   pillOlive: { boxShadow: "2px 2px 4px rgba(94,98,52,0.44), -2px -2px 4px rgba(252,249,243,0.90), inset 1.5px 1.5px 1px rgba(255,255,255,0.36), inset -1.5px -1.5px 1px rgba(52,56,24,0.45)" },
   pillAlert: { boxShadow: "2px 2px 4px rgba(110,32,16,0.44), -2px -2px 4px rgba(252,249,243,0.90), inset 1.5px 1.5px 1px rgba(255,255,255,0.34), inset -1.5px -1.5px 1px rgba(88,24,12,0.50)" },
   pillTerracotta: { boxShadow: "2px 2px 4px rgba(120,58,28,0.44), -2px -2px 4px rgba(252,249,243,0.90), inset 1.5px 1.5px 1px rgba(255,255,255,0.30), inset -1.5px -1.5px 1px rgba(104,44,20,0.48)" },
-  tabActive: { boxShadow: "4px 4px 8px rgba(126,116,92,0.52), -4px -4px 8px rgba(246,242,232,0.92), inset 1.5px 1.5px 1px rgba(255,255,255,0.86), inset -1.5px -1.5px 1px rgba(126,116,92,0.42)", elevation: 8 },
+  tabActive: { boxShadow: "8px 0 12px rgba(126,116,92,0.52), -8px 0 12px rgba(255,255,255,0.92), inset 2px 2px 2px rgba(255,255,255,0.98), inset -2px -2px 2px rgba(126,116,92,0.46)", elevation: 14 },
   card: { boxShadow: "4px 4px 7px rgba(150,140,118,0.58), -3px -3px 6px rgba(252,249,243,0.90), inset 1.5px 1.5px 1px rgba(255,255,255,0.80), inset -1.5px -1.5px 1px rgba(150,140,118,0.50)" },
   floating: { boxShadow: "7px 7px 11px rgba(150,140,118,0.62), -6px -6px 9px rgba(252,249,243,0.90), inset 1.5px 1.5px 1px rgba(255,255,255,0.80), inset -1.5px -1.5px 1px rgba(150,140,118,0.50)" }
 } as const;

@@ -8,7 +8,7 @@ interface BrandHeaderProps {
 }
 
 export function BrandHeader({ wordmarkWidth = 96 }: BrandHeaderProps) {
-  return <View accessibilityRole="header" style={styles.header}><BrandWordmark width={wordmarkWidth} /><BrandMark width={19} /></View>;
+  return <View accessibilityRole="header" style={styles.header}><BrandWordmark width={wordmarkWidth} /><BrandMark width={32} /></View>;
 }
 
 const styles = StyleSheet.create({

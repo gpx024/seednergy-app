@@ -17,7 +17,7 @@ export default function ExploreScreen() {
   return (
     <ScreenContainer includeBottomSafeArea={false} scroll contentStyle={styles.container}>
       <BrandHeader />
-      <View style={styles.heading}><Text style={styles.label}>{t("main.seedLibrary")}</Text><Text accessibilityRole="header" style={styles.title}>{t("main.exploreSeeds")}</Text><Text style={styles.body}>{t("main.exploreBody")}</Text></View>
+      <View style={styles.heading}><Text accessibilityRole="header" style={styles.title}>{t("main.exploreSeeds")}</Text><Text style={styles.body}>{t("main.exploreBody")}</Text></View>
       <AppField accessibilityLabel={t("main.searchSeeds")} label={t("main.searchSeeds")} placeholder={t("main.searchPlaceholder")} />
       <View style={styles.grid}>
         <SeedCard access="free" accessLabel={t("stageTwo.free")} difficulty={t("stageTwo.easy")} duration={t("onboarding.cressDuration")} imageSource={cress} name={t("stageTwo.cress")} onPress={() => router.push("/seeds/cress")} />
@@ -32,7 +32,7 @@ export default function ExploreScreen() {
 
 const styles = StyleSheet.create({
   container: { gap: tokens.spacing.sectionGap, paddingBottom: tokens.spacing.xs },
-  heading: { gap: tokens.spacing.xs },
+  heading: { gap: tokens.spacing.xs, marginHorizontal: tokens.spacing.md },
   label: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textTransform: "uppercase" },
   title: { ...tokens.typography.displayLarge, color: tokens.colors.terracottaText },
   body: { ...tokens.typography.body, color: tokens.colors.ink82 },

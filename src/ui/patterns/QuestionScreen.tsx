@@ -38,7 +38,7 @@ export function QuestionScreen({ step, title, description, options, nextHref, bu
 
 const styles = StyleSheet.create({
   container: { gap: tokens.spacing.sectionGap, paddingBottom: tokens.spacing.xl },
-  heading: { gap: tokens.spacing.sm },
+  heading: { gap: tokens.spacing.sm, marginHorizontal: tokens.spacing.md },
   title: { ...tokens.typography.displayLarge, color: tokens.colors.terracottaText },
   description: { ...tokens.typography.body, color: tokens.colors.ink82 },
   options: { gap: tokens.spacing.cardGap },

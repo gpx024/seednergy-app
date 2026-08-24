@@ -23,12 +23,12 @@ export default function CyclesScreen() {
 const styles = StyleSheet.create({
   container: { gap: tokens.spacing.sectionGap, paddingBottom: tokens.spacing.xs },
   intro: { gap: 0 },
-  title: { ...tokens.typography.displayLarge, color: tokens.colors.terracottaText },
+  title: { ...tokens.typography.displayLarge, color: tokens.colors.terracottaText, marginHorizontal: tokens.spacing.md },
   filters: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.md },
   filterSurface: { alignItems: "center", flex: 1, justifyContent: "center", minHeight: tokens.layout.size.touchTarget },
-  filterActiveSurface: { alignItems: "center", justifyContent: "center", minHeight: 34, paddingHorizontal: tokens.spacing.md, borderRadius: tokens.radii.pill, backgroundColor: tokens.colors.olive, ...tokens.elevation.pillOlive },
+  filterActiveSurface: { alignItems: "center", justifyContent: "center", minHeight: 34, paddingHorizontal: tokens.spacing.md, borderRadius: tokens.radii.pill, backgroundColor: tokens.colors.terracottaText, ...tokens.elevation.pillTerracotta },
   filter: { fontFamily: "Inter_600SemiBold", fontSize: 13, lineHeight: 17, color: tokens.colors.oliveLabel, textAlign: "center" },
   filterActive: { fontFamily: "Inter_600SemiBold", fontSize: 13, lineHeight: 17, color: tokens.colors.stone, textAlign: "center" },
   section: { gap: 18 },
-  label: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textTransform: "uppercase" }
+  label: { ...tokens.typography.label, color: tokens.colors.oliveLabel, marginHorizontal: tokens.spacing.md, textTransform: "uppercase" }
 });

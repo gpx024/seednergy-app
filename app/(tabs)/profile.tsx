@@ -26,14 +26,14 @@ function SettingsGroup({ label, items }: { label: string; items: { icon: keyof t
 
 const styles = StyleSheet.create({
   container: { gap: tokens.spacing.sectionGap, paddingBottom: tokens.spacing.xs },
-  title: { ...tokens.typography.displayLarge, color: tokens.colors.terracottaText },
+  title: { ...tokens.typography.displayLarge, color: tokens.colors.terracottaText, marginHorizontal: tokens.spacing.md },
   identity: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.md },
   avatar: { height: 92, width: 92, borderRadius: tokens.radii.pill, ...tokens.elevation.photo },
   identityCopy: { flex: 1, gap: tokens.spacing.xxs },
   name: { ...tokens.typography.cardTitle, color: tokens.colors.forest },
   identityMeta: { ...tokens.typography.body, color: tokens.colors.ink82 },
   group: { gap: tokens.spacing.sm },
-  groupLabel: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textTransform: "uppercase" },
+  groupLabel: { ...tokens.typography.label, color: tokens.colors.oliveLabel, marginHorizontal: tokens.spacing.md, textTransform: "uppercase" },
   list: { padding: 0, overflow: "hidden" },
   row: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.sm, minHeight: 66, paddingHorizontal: tokens.spacing.md },
   rowBorder: { borderTopColor: tokens.colors.border, borderTopWidth: 1 },

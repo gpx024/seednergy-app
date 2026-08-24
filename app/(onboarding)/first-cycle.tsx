@@ -14,9 +14,9 @@ export default function FirstCycleScreen() {
       <BrandHeader />
       <Text accessibilityRole="header" style={styles.title}>{t("onboarding.firstCycleTitle")}</Text>
       <PhotoFrame accessibilityLabel={t("onboarding.cressPhoto")} source={cress} style={styles.photo} />
-      <View style={styles.seedHeading}><View><Text style={styles.seedName}>{t("stageTwo.cress")}</Text><Text style={styles.scientificName}>Lepidium sativum</Text></View><StageBadge label={t("stageTwo.free")} tone="success" /></View>
-      <Text style={styles.body}>{t("onboarding.firstCycleBody")}</Text>
-      <View style={styles.details}><Detail label={t("onboarding.estimatedTime")} value={t("onboarding.cressDuration")} /><Detail label={t("onboarding.difficulty")} value={t("stageTwo.easy")} /><Detail label={t("onboarding.environment")} value={t("onboarding.anySpace")} /></View>
+      <View style={styles.seedHeading}><View><Text style={styles.seedName}>{t("stageTwo.cress")}</Text><Text style={styles.scientificName}>Lepidium sativum</Text></View><StageBadge label={t("stageTwo.free")} tone="premium" /></View>
+      <Text style={[styles.body, styles.textInset]}>{t("onboarding.firstCycleBody")}</Text>
+      <View style={[styles.details, styles.textInset]}><Detail label={t("onboarding.estimatedTime")} value={t("onboarding.cressDuration")} /><Detail label={t("onboarding.difficulty")} value={t("stageTwo.easy")} /><Detail label={t("onboarding.environment")} value={t("onboarding.anySpace")} /></View>
       <AppCard style={styles.next}><Text style={styles.nextLabel}>{t("onboarding.whatNext")}</Text><Text style={styles.nextTitle}>{t("onboarding.firstAction")}</Text><Text style={styles.body}>{t("onboarding.nextSteps")}</Text></AppCard>
       <Link asChild href="/(onboarding)/notifications"><AppButton label={t("onboarding.startCycle")} /></Link>
     </ScreenContainer>
@@ -29,16 +29,17 @@ function Detail({ label, value }: { label: string; value: string }) {
 
 const styles = StyleSheet.create({
   container: { gap: tokens.spacing.md, paddingBottom: tokens.spacing.md },
-  title: { ...tokens.typography.displayLarge, color: tokens.colors.terracottaText, marginTop: tokens.spacing.lg },
+  title: { ...tokens.typography.displayLarge, color: tokens.colors.terracottaText, marginHorizontal: tokens.spacing.md, marginTop: tokens.spacing.lg },
   body: { ...tokens.typography.body, color: tokens.colors.ink82 },
   photo: { aspectRatio: 16 / 10, height: undefined },
-  seedHeading: { alignItems: "center", flexDirection: "row", justifyContent: "space-between" },
+  seedHeading: { alignItems: "center", flexDirection: "row", justifyContent: "space-between", marginHorizontal: tokens.spacing.md },
   seedName: { ...tokens.typography.cardTitle, color: tokens.colors.forest },
   scientificName: { ...tokens.typography.caption, color: tokens.colors.ink64 },
   details: { alignItems: "flex-start", flexDirection: "row", gap: tokens.spacing.cardGap },
   detail: { flex: 1, gap: tokens.spacing.xxs },
   detailLabel: { ...tokens.typography.label, color: tokens.colors.sage, minHeight: 28, textTransform: "uppercase" },
-  detailValue: { fontFamily: "CrimsonText_600SemiBold", fontSize: 17, lineHeight: 23.8, letterSpacing: -0.2, color: tokens.colors.forest },
+  detailValue: { ...tokens.typography.panelHeadline, color: tokens.colors.forest },
+  textInset: { marginHorizontal: tokens.spacing.md },
   next: { gap: tokens.spacing.xs },
   nextLabel: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textTransform: "uppercase" },
   nextTitle: { ...tokens.typography.title, color: tokens.colors.forest }
