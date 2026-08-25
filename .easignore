@@ -1,0 +1,23 @@
+# Dependencies and local tooling
+node_modules/
+.git/
+.expo/
+dist/
+web-build/
+coverage/
+*.log
+
+# Local environment files are supplied through EAS environments
+.env
+.env.*
+!.env.example
+
+# Non-runtime source material and backend tooling
+design-system/
+tests/
+supabase/
+
+# Platform and editor artefacts
+.DS_Store
+Thumbs.db
+desktop.ini

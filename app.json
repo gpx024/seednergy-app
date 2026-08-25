@@ -26,6 +26,13 @@
     "web": {
       "bundler": "metro",
       "output": "static"
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "7501ef91-43bd-4791-a6c4-a189f89824bc"
+      }
+    },
+    "owner": "gpx024"
   }
 }
