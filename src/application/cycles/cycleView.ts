@@ -14,6 +14,8 @@ export interface CycleView {
   readonly stageLabel: string;
   readonly status: CycleState["status"];
   readonly priority: CyclePriority;
+  readonly actionCompletedToday: boolean;
+  readonly actionDue: boolean;
   readonly nextAction: string;
   readonly guidance: string;
   readonly observationPrompt: string;
@@ -44,6 +46,7 @@ export function buildCycleView(cycle: CycleState, seed: PublishedSeed, clock?: C
   const totalDays = seed.durationDaysMax;
   const harvestSoon = evaluation.phase === "growth" && evaluation.cycleDay >= Math.max(1, seed.durationDaysMin - 2);
   const daysSinceAction = cycle.lastActionAt ? calculateCycleDay(cycle.lastActionAt, effectiveClock.now(), cycle.timezone) - 1 : 0;
+  const actionCompletedToday = cycle.lastActionAt !== null && daysSinceAction === 0;
   const overdue = cycle.lastActionAt !== null && daysSinceAction > evaluation.stage.actionIntervalDays;
   const priority: CyclePriority = evaluation.harvestReady
     ? "harvest_ready"
@@ -66,6 +69,8 @@ export function buildCycleView(cycle: CycleState, seed: PublishedSeed, clock?: C
     stageLabel: authoredStage.stage,
     status: evaluation.status,
     priority,
+    actionCompletedToday,
+    actionDue: evaluation.actionState === "due",
     nextAction: authoredStage.nextAction,
     guidance: authoredStage.guidance,
     observationPrompt: authoredStage.observationPrompt

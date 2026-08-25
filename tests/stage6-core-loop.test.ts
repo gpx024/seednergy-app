@@ -31,6 +31,16 @@ describe("Stage 6 core loop", () => {
     expect(prioritizeCycleViews(views)).toHaveLength(3);
   });
 
+  it("makes an action completion visibly available to presentation", () => {
+    const clock = new TestClock("2026-08-25T10:00:00Z");
+    const pending = buildCycleView(cycle("pending", { lastActionAt: null }), seed, clock);
+    const completed = buildCycleView(cycle("completed", { lastActionAt: "2026-08-25T09:00:00Z" }), seed, clock);
+    expect(pending.actionDue).toBe(true);
+    expect(pending.actionCompletedToday).toBe(false);
+    expect(completed.actionDue).toBe(false);
+    expect(completed.actionCompletedToday).toBe(true);
+  });
+
   it("orders Home by harvest ready, needs check, action due, harvest soon, then normal", () => {
     const harvest = buildCycleView(cycle("harvest", { startedAt: "2026-08-13T09:00:00Z" }), seed, new TestClock("2026-08-25T10:00:00Z"));
     const overdue = buildCycleView(cycle("overdue", { lastActionAt: "2026-08-22T09:00:00Z" }), seed, new TestClock("2026-08-25T10:00:00Z"));
