@@ -1,40 +1,37 @@
-import { Link } from "expo-router";
+import { useCallback } from "react";
+import { useFocusEffect, useRouter } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
-import { AppButton, AppCard, BrandHeader, CycleGauge, CycleProgress, PhotoFrame, ScreenContainer, StageBadge } from "@/src/ui/components";
+import { AppButton, AppCard, BrandHeader, CycleGauge, CycleProgress, FeedbackState, PhotoFrame, ScreenContainer, StageBadge } from "@/src/ui/components";
+import { resolveSeedImage } from "@/src/presentation/content/seedImages";
+import { useCycleList } from "@/src/presentation/cycles/useCycleData";
+import { useProfile } from "@/src/presentation/profile/useProfile";
 import { tokens } from "@/src/ui/tokens";
-
-const cress = require("../../assets/images/temporary/cress.png");
 
 export default function HomeScreen() {
   const { t } = useTranslation();
-  return (
-    <ScreenContainer includeBottomSafeArea={false} scroll contentStyle={styles.container}>
-      <View style={styles.intro}><BrandHeader /><Text accessibilityRole="header" maxFontSizeMultiplier={1.6} style={styles.greeting}>{t("main.greetingName")}</Text></View>
-      <AppCard variant="hero" style={styles.hero}>
-        <View style={styles.cycleSummary}><CycleGauge accessibilityLabel={t("main.progressLabel")} day={3} progress={0.42} totalDays={7} /><View style={styles.cycleIdentity}><Text maxFontSizeMultiplier={1.6} style={styles.seedName}>{t("stageTwo.cress")}</Text><Text style={styles.stageLabel}>{t("main.growthStage")}</Text></View><StageBadge label={t("main.onTrack")} /></View>
-        <PhotoFrame accessibilityLabel={t("onboarding.cressPhoto")} source={cress} style={styles.photo} />
-        <CycleProgress accessibilityLabel={t("main.progressLabel")} activeStep={1} labels={[t("main.setup"), t("main.growth"), t("main.harvest")]} />
-        <AppCard variant="nested" style={styles.coach}><Text style={styles.coachLabel}>{t("main.guideLabel")}</Text><Text style={styles.coachTitle}>{t("main.nextAction")}</Text><Text style={styles.coachBody}>{t("main.coachBody")}</Text></AppCard>
-        <Link asChild href="/cycle/preview"><AppButton label={t("main.openCycle")} /></Link>
-      </AppCard>
-    </ScreenContainer>
-  );
+  const router = useRouter();
+  const cycles = useCycleList(true);
+  const profile = useProfile();
+  const reloadCycles = cycles.reload;
+  const reloadProfile = profile.reload;
+  useFocusEffect(useCallback(() => { void reloadCycles(); void reloadProfile(); }, [reloadCycles, reloadProfile]));
+  const cycle = cycles.data[0];
+  const cycleImage = cycle ? resolveSeedImage(cycle.seed.images) : undefined;
+  const name = profile.data?.displayName?.split(" ")[0] ?? t("main.growerName");
+  return <ScreenContainer includeBottomSafeArea={false} scroll contentStyle={styles.container}>
+    <View style={styles.intro}><BrandHeader /><Text accessibilityRole="header" style={styles.greeting}>{t("main.greeting", { name })}</Text></View>
+    {cycles.loading ? <FeedbackState kind="loading" title={t("cycle.loadingTitle")} description={t("cycle.loadingBody")} /> : null}
+    {cycles.error ? <FeedbackState actionLabel={t("content.tryAgain")} description={cycles.error.message} kind="error" onAction={() => void cycles.reload()} title={t("cycle.errorTitle")} /> : null}
+    {!cycles.loading && !cycles.error && !cycle ? <FeedbackState actionLabel={t("cycle.chooseSeed")} description={t("stageTwo.cyclesEmptyDescription")} kind="empty" onAction={() => router.push("/(tabs)/explore")} title={t("stageTwo.cyclesEmptyTitle")} /> : null}
+    {cycle ? <AppCard variant="hero" style={styles.hero}><View style={styles.cycleSummary}><CycleGauge accessibilityLabel={`${cycle.seed.commonName}, day ${cycle.day} of ${cycle.totalDays}`} day={cycle.day} progress={cycle.progress} totalDays={cycle.totalDays} /><View style={styles.cycleIdentity}><Text style={styles.seedName}>{cycle.seed.commonName}</Text><Text style={styles.stageLabel}>{cycle.phase} stage</Text></View><StageBadge label={statusLabel(cycle.priority)} tone={cycle.priority === "needs_check" ? "attention" : "active"} /></View>
+      {cycleImage ? <PhotoFrame accessibilityLabel={cycle.seed.commonName} source={cycleImage} style={styles.photo} /> : null}<CycleProgress accessibilityLabel={`${cycle.phase} stage`} activeStep={phaseIndex(cycle.phase)} labels={[t("main.setup"), t("main.growth"), t("main.harvest")]} />
+      <AppCard variant="nested" style={styles.coach}><Text style={styles.coachLabel}>{t("main.guideLabel")}</Text><Text style={styles.coachTitle}>{cycle.nextAction}</Text><Text style={styles.coachBody}>{cycle.guidance}</Text></AppCard><AppButton label={t("main.openCycle")} onPress={() => router.push(`/cycle/${cycle.cycle.id}`)} /></AppCard> : null}
+    {cycles.data.length > 1 ? <Text style={styles.more}>{t("cycle.moreActive", { count: cycles.data.length - 1 })}</Text> : null}
+  </ScreenContainer>;
 }
 
-const styles = StyleSheet.create({
-  container: { gap: tokens.spacing.md, paddingBottom: tokens.spacing.xs },
-  intro: { gap: 0 },
-  greeting: { ...tokens.typography.display, color: tokens.colors.terracottaText, marginHorizontal: tokens.spacing.md },
-  hero: { gap: tokens.spacing.md },
-  cycleSummary: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.sm },
-  cycleIdentity: { flex: 1, gap: tokens.spacing.xxs },
-  seedName: { ...tokens.typography.name, color: tokens.colors.forest },
-  stageLabel: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textTransform: "uppercase" },
-  photo: { height: 190, width: "100%" },
-  coach: { gap: tokens.spacing.xs },
-  coachLabel: { ...tokens.typography.label, color: tokens.colors.stone, textTransform: "uppercase" },
-  coachTitle: { ...tokens.typography.cardTitle, color: tokens.colors.stone },
-  coachBody: { ...tokens.typography.body, color: tokens.colors.stone }
-});
+function phaseIndex(phase: "setup" | "growth" | "harvest") { return phase === "setup" ? 0 : phase === "growth" ? 1 : 2; }
+function statusLabel(priority: string) { return priority === "harvest_ready" ? "Harvest ready" : priority === "needs_check" || priority === "action_due" ? "Needs check" : priority === "harvest_soon" ? "Harvest soon" : "On track"; }
+const styles = StyleSheet.create({ container: { gap: tokens.spacing.md, paddingBottom: tokens.spacing.xs }, intro: { gap: 0 }, greeting: { ...tokens.typography.display, color: tokens.colors.terracottaText, marginHorizontal: tokens.spacing.md }, hero: { gap: tokens.spacing.md }, cycleSummary: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.sm }, cycleIdentity: { flex: 1, gap: tokens.spacing.xxs }, seedName: { ...tokens.typography.name, color: tokens.colors.forest }, stageLabel: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textTransform: "uppercase" }, photo: { height: 190, width: "100%" }, coach: { gap: tokens.spacing.xs }, coachLabel: { ...tokens.typography.label, color: tokens.colors.stone, textTransform: "uppercase" }, coachTitle: { ...tokens.typography.cardTitle, color: tokens.colors.stone }, coachBody: { ...tokens.typography.body, color: tokens.colors.stone }, more: { ...tokens.typography.caption, color: tokens.colors.ink64, textAlign: "center" } });

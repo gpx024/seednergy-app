@@ -4,6 +4,12 @@ import { supabase } from "@/src/infrastructure/supabase/client";
 import type { CycleRow } from "@/src/infrastructure/supabase/database.types";
 
 export class SupabaseCycleRepository implements CycleRepository {
+  async getAll(): Promise<readonly CycleState[]> {
+    const { data, error } = await supabase.from("cycles").select("*").order("started_at", { ascending: false });
+    if (error) throw error;
+    return data.map(mapCycle);
+  }
+
   async getActive(): Promise<readonly CycleState[]> {
     const { data, error } = await supabase.from("cycles").select("*").in("status", ["active", "harvest_ready"]).order("started_at", { ascending: false });
     if (error) throw error;
@@ -42,6 +48,38 @@ export class SupabaseCycleRepository implements CycleRepository {
       schema_version: input.schemaVersion ?? 1
     });
     if (error) throw error;
+  }
+
+  async markActionDone(input: { cycleId: string; stageId: string; occurredAt: string; clientEventId: string }): Promise<CycleState> {
+    const { data, error } = await supabase.rpc("mark_cycle_action_done", {
+      p_cycle_id: input.cycleId,
+      p_stage_id: input.stageId,
+      p_occurred_at: input.occurredAt,
+      p_client_event_id: input.clientEventId
+    });
+    if (error) throw error;
+    return mapCycle(data);
+  }
+
+  async archive(input: { cycleId: string; occurredAt: string; clientEventId: string }): Promise<CycleState> {
+    const { data, error } = await supabase.rpc("archive_cycle", {
+      p_cycle_id: input.cycleId,
+      p_occurred_at: input.occurredAt,
+      p_client_event_id: input.clientEventId
+    });
+    if (error) throw error;
+    return mapCycle(data);
+  }
+
+  async restart(input: { cycleId: string; startedAt: string; timezone: string; clientEventId: string }): Promise<CycleState> {
+    const { data, error } = await supabase.rpc("restart_cycle", {
+      p_cycle_id: input.cycleId,
+      p_started_at: input.startedAt,
+      p_timezone: input.timezone,
+      p_client_event_id: input.clientEventId
+    });
+    if (error) throw error;
+    return mapCycle(data);
   }
 }
 

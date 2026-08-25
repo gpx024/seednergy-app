@@ -2,27 +2,35 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
-import { AppButton, AppCard, BrandHeader, ScreenContainer } from "@/src/ui/components";
+import { AppButton, AppCard, BrandHeader, FeedbackState, ScreenContainer } from "@/src/ui/components";
 import { tokens } from "@/src/ui/tokens";
 import { useAuth } from "@/src/presentation/auth/AuthProvider";
+import { useProfile } from "@/src/presentation/profile/useProfile";
 
 const alba = require("../../assets/images/profiles/alba-temporary.png");
 
 export default function ProfileScreen() {
   const { t } = useTranslation();
   const { user, signOut } = useAuth();
-  const displayName = typeof user?.user_metadata.display_name === "string" ? user.user_metadata.display_name : t("main.albaName");
+  const profile = useProfile();
+  const displayName = profile.data?.displayName ?? (typeof user?.user_metadata.display_name === "string" ? user.user_metadata.display_name : t("main.albaName"));
+  const environment = profile.data?.environment ? labelValue(profile.data.environment) : t("main.notConnected");
+  const light = profile.data?.lightCondition ? labelValue(profile.data.lightCondition) : t("main.notConnected");
   return (
     <ScreenContainer includeBottomSafeArea={false} scroll contentStyle={styles.container}>
       <BrandHeader />
       <Text accessibilityRole="header" style={styles.title}>{t("main.profile")}</Text>
+      {profile.loading ? <FeedbackState kind="loading" title={t("profile.loading")} description={t("profile.loadingBody")} /> : null}
+      {profile.error ? <FeedbackState actionLabel={t("content.tryAgain")} description={profile.error.message} kind="error" onAction={() => void profile.reload()} title={t("profile.error")} /> : null}
       <AppCard variant="hero" style={styles.identity}><Image accessibilityLabel={t("main.albaPortrait")} source={alba} style={styles.avatar} /><View style={styles.identityCopy}><Text style={styles.name}>{displayName}</Text><Text style={styles.identityMeta}>{user?.email ?? t("main.albaMeta")}</Text></View></AppCard>
-      <SettingsGroup label={t("main.yourSpace")} items={[{ icon: "location-outline", title: t("main.growingSpace"), value: t("main.indoor") }, { icon: "notifications-outline", title: t("main.reminders"), value: t("main.daily") }]} />
+      <SettingsGroup label={t("main.yourSpace")} items={[{ icon: "location-outline", title: t("main.growingSpace"), value: environment }, { icon: "sunny-outline", title: t("profile.light"), value: light }]} />
       <SettingsGroup label={t("main.account")} items={[{ icon: "person-outline", title: t("main.accountDetails"), value: t("main.albaEmail") }, { icon: "settings-outline", title: t("main.settings"), value: t("main.previewOnly") }]} />
       <AppButton label={t("onboarding.signOut")} onPress={() => void signOut()} variant="secondary" />
     </ScreenContainer>
   );
 }
+
+function labelValue(value: string): string { return value.replaceAll("_", " ").replace(/^./, (letter) => letter.toUpperCase()); }
 
 function SettingsGroup({ label, items }: { label: string; items: { icon: keyof typeof Ionicons.glyphMap; title: string; value: string }[] }) {
   return <View style={styles.group}><Text style={styles.groupLabel}>{label}</Text><AppCard style={styles.list}>{items.map((item, index) => <View key={item.title} style={[styles.row, index > 0 && styles.rowBorder]}><Ionicons color={tokens.colors.oliveLabel} name={item.icon} size={tokens.layout.icon.md} /><View style={styles.rowCopy}><Text style={styles.rowTitle}>{item.title}</Text><Text style={styles.rowValue}>{item.value}</Text></View><Ionicons color={tokens.colors.ink64} name="chevron-forward" size={tokens.layout.icon.sm} /></View>)}</AppCard></View>;

@@ -20,8 +20,12 @@ export interface SaveCycleEventInput {
 }
 
 export interface CycleRepository {
+  getAll(): Promise<readonly CycleState[]>;
   getActive(): Promise<readonly CycleState[]>;
   get(id: string): Promise<CycleState | null>;
   start(input: StartCycleInput): Promise<CycleState>;
   saveEvent(input: SaveCycleEventInput): Promise<void>;
+  markActionDone(input: { cycleId: string; stageId: string; occurredAt: string; clientEventId: string }): Promise<CycleState>;
+  archive(input: { cycleId: string; occurredAt: string; clientEventId: string }): Promise<CycleState>;
+  restart(input: { cycleId: string; startedAt: string; timezone: string; clientEventId: string }): Promise<CycleState>;
 }

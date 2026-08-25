@@ -7,6 +7,7 @@ import { AppButton, AppCard, BrandHeader, PhotoFrame, ScreenContainer, StageBadg
 import { resolveSeedAccess } from "@/src/application/content/access";
 import { resolveSeedImage } from "@/src/presentation/content/seedImages";
 import { usePublishedSeed } from "@/src/presentation/content/useSeedContent";
+import { useStartCycle } from "@/src/presentation/cycles/useCycleData";
 import { tokens } from "@/src/ui/tokens";
 
 export default function SeedDetailScreen() {
@@ -14,6 +15,7 @@ export default function SeedDetailScreen() {
   const router = useRouter();
   const { slug } = useLocalSearchParams<{ slug?: string }>();
   const query = usePublishedSeed(slug ?? "");
+  const starter = useStartCycle();
   if (query.loading) return <ScreenContainer contentStyle={styles.feedback}><Text accessibilityLiveRegion="polite" style={styles.description}>{t("content.loadingDetail")}</Text></ScreenContainer>;
   if (query.error) return <ScreenContainer contentStyle={styles.feedback}><Text accessibilityLiveRegion="polite" style={styles.error}>{t("content.error")}</Text><AppButton label={t("content.tryAgain")} onPress={query.retry} /></ScreenContainer>;
   if (!query.data) return <ScreenContainer contentStyle={styles.feedback}><Text accessibilityLiveRegion="polite" style={styles.description}>{t("content.notFound")}</Text><AppButton label={t("stageTwo.backToExplore")} onPress={() => router.back()} /></ScreenContainer>;
@@ -30,7 +32,8 @@ export default function SeedDetailScreen() {
       <View style={styles.meta}><Meta label={t("stageTwo.seedPreviewDuration")} value={formatDuration(seed.durationDaysMin, seed.durationDaysMax)} /><Meta label={t("stageTwo.seedPreviewDifficulty")} value={seed.difficulty} /><Meta label={t("onboarding.environment")} value={seed.environmentSummary} /></View>
       <AppCard style={styles.panel}><Text style={styles.panelLabel}>{t("seedDetail.expect")}</Text><Text style={styles.panelTitle}>{seed.expectedResult}</Text><Text style={styles.panelBody}>{seed.harvestReadiness}</Text></AppCard>
       {seed.accessType !== "coming_soon" ? <AppCard style={styles.panel}><Text style={styles.panelLabel}>{t("content.materials")}</Text><Text style={styles.panelBody}>{seed.materials.join(" · ")}</Text></AppCard> : null}
-      <AppButton disabled label={access.state === "available" ? t("seedDetail.startLater") : access.state === "locked" ? t("content.premiumLocked") : t("stageTwo.comingSoon")} />
+      {starter.error ? <Text accessibilityLiveRegion="polite" style={styles.error}>{starter.error.message}</Text> : null}
+      <AppButton disabled={access.state !== "available"} loading={starter.loading} label={access.state === "available" ? t("onboarding.startCycle") : access.state === "locked" ? t("content.premiumLocked") : t("stageTwo.comingSoon")} onPress={() => void starter.start(seed.slug).then((cycleId) => router.replace(`/cycle/${cycleId}`)).catch(() => undefined)} />
     </ScreenContainer>
   );
 }

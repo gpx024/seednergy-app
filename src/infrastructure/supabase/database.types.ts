@@ -15,6 +15,9 @@ export interface ProfileRow {
   quiet_hours: Json | null;
   created_at: string;
   deleted_at: string | null;
+  environment_slug: string | null;
+  light_condition_slug: string | null;
+  onboarding_completed_at: string | null;
 }
 
 export interface CycleRow {
@@ -109,6 +112,22 @@ export interface Database {
       start_cycle: {
         Args: { p_seed_id: string; p_seed_content_version: number; p_started_at: string; p_timezone: string; p_client_event_id: string };
         Returns: CycleRow;
+      };
+      mark_cycle_action_done: {
+        Args: { p_cycle_id: string; p_stage_id: string; p_occurred_at: string; p_client_event_id: string };
+        Returns: CycleRow;
+      };
+      archive_cycle: {
+        Args: { p_cycle_id: string; p_occurred_at: string; p_client_event_id: string };
+        Returns: CycleRow;
+      };
+      restart_cycle: {
+        Args: { p_cycle_id: string; p_started_at: string; p_timezone: string; p_client_event_id: string };
+        Returns: CycleRow;
+      };
+      complete_onboarding: {
+        Args: { p_display_name: string | null; p_environment_slug: string; p_light_slug: string; p_time_availability: string; p_motivation: string; p_timezone: string; p_notifications_enabled: boolean };
+        Returns: ProfileRow;
       };
     };
     Enums: Record<never, never>;

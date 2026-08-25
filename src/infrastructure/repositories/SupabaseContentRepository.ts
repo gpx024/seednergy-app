@@ -23,7 +23,15 @@ export class SupabaseContentRepository implements ContentRepository {
   }
 
   async getPublishedSeed(slug: string): Promise<PublishedSeed | null> {
-    const seedResult = await supabase.from("seeds").select(seedColumns).eq("slug", slug).eq("active", true).maybeSingle();
+    return this.getPublishedSeedWhere("slug", slug);
+  }
+
+  async getPublishedSeedById(id: string): Promise<PublishedSeed | null> {
+    return this.getPublishedSeedWhere("id", id);
+  }
+
+  private async getPublishedSeedWhere(column: "id" | "slug", value: string): Promise<PublishedSeed | null> {
+    const seedResult = await supabase.from("seeds").select(seedColumns).eq(column, value).eq("active", true).maybeSingle();
     if (seedResult.error) throw seedResult.error;
     if (!seedResult.data) return null;
     const seed = seedResult.data as unknown as SeedRow;

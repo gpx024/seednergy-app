@@ -96,7 +96,8 @@
     "timeTitle": "How much time do you want to spend checking your growth?",
     "valueBody": "Seednergy guides you step by step, even if you’ve never grown before.",
     "valueTitle": "Grow your own food from seed to harvest.",
-    "whatNext": "What happens next"
+    "whatNext": "What happens next",
+    "whyCress": "Why this fits you"
   },
   "main": {
     "albaEmail": "alba@seednergy.app",
@@ -119,6 +120,7 @@
     "firstCycle": "First cycle",
     "goodMorning": "Good morning,",
     "greetingName": "Hi, Alba",
+    "greeting": "Hi, {{name}}",
     "growerName": "Grower",
     "growingSpace": "Growing space",
     "growth": "Growth",
@@ -151,13 +153,32 @@
     "yourSpace": "Your space"
   },
   "cycle": {
+    "backToCycles": "Back to cycles",
+    "chooseSeed": "Choose a seed",
     "checkGrowth": "Check growth",
     "checkLater": "Cycle actions arrive in Stage 6",
+    "errorTitle": "Your cycle could not be loaded",
     "guidedAction": "Guided action",
+    "harvestReady": "Harvest ready",
+    "loadingBody": "We are finding the right action for today.",
+    "loadingTitle": "Preparing your cycle",
+    "markDone": "Mark action done",
+    "moreActive": "+{{count}} more active cycle",
+    "noCycles": "No {{filter}} cycles",
+    "noCyclesBody": "Cycles will appear here as your growing history develops.",
+    "notFound": "Cycle not found",
+    "notFoundBody": "This cycle may have been removed or is no longer available.",
     "observation": "What to notice",
     "observationBody": "Look for the first tiny sprouts beginning to shed their seed coats.",
     "waterBody": "The soil surface should feel like a damp sponge. Avoid pooling water at the base.",
+    "restart": "Restart cycle",
     "waterLightly": "Water lightly today"
+  },
+  "profile": {
+    "error": "Your profile could not be loaded",
+    "light": "Available light",
+    "loading": "Loading your profile",
+    "loadingBody": "Your growing preferences will appear shortly."
   },
   "seedDetail": {
     "expect": "What to expect",
