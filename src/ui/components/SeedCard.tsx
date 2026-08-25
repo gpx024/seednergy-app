@@ -18,7 +18,7 @@ interface SeedCardProps {
 }
 
 export function SeedCard({ name, duration, difficulty, access, accessLabel, imageSource, onPress }: SeedCardProps) {
-  const disabled = access !== "free" || !onPress;
+  const disabled = !onPress;
   return (
     <Pressable accessibilityLabel={name} accessibilityRole="button" accessibilityState={{ disabled }} disabled={disabled} onPress={onPress} style={({ pressed }) => [styles.pressable, pressed && styles.pressed]}>
       <AppCard style={[styles.card, access === "comingSoon" && styles.comingSoon]}>

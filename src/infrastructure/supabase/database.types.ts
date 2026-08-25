@@ -56,6 +56,12 @@ export interface SeedStageRow {
   action_interval_days: number;
   guidance: string;
   observation_prompt: string;
+  what_is_happening: string;
+  milestone: string;
+  what_good_looks_like: string;
+  common_problems: Json;
+  photo_check_prompt: string | null;
+  harvest_ready: boolean;
   image: string | null;
   harvest_criteria: Json | null;
 }
@@ -64,14 +70,27 @@ export interface SeedRow {
   id: string;
   slug: string;
   name: string;
+  botanical_name: string;
   description: string;
   expected_result: string;
   content_version: number;
   active: boolean;
   harvest_mode: "single" | "repeating";
   duration_days: number;
+  duration_days_min: number;
+  duration_days_max: number;
+  difficulty_label: string;
+  environment_summary: string;
+  light_summary: string;
   access_type: "free" | "paid" | "coming_soon";
   images: Json;
+  materials: Json;
+  harvest_instructions: string;
+  harvest_readiness: string;
+  storage_guidance: string;
+  taste_profile: string;
+  content_review_status: "draft" | "grower_reviewed";
+  content_sources: Json;
 }
 
 type TableShape<Row, Insert = Partial<Row>, Update = Partial<Insert>> = { Row: Row; Insert: Insert; Update: Update; Relationships: [] };

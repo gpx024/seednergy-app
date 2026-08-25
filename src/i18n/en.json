@@ -165,6 +165,16 @@
     "quickReward": "A clear, rewarding first cycle",
     "startLater": "Starting a cycle arrives in Stage 6"
   },
+  "content": {
+    "empty": "No seeds match that search.",
+    "error": "Seed content could not be loaded. Tap to try again.",
+    "loading": "Loading the seed library…",
+    "loadingDetail": "Loading seed details…",
+    "materials": "What you need",
+    "notFound": "This seed is not available.",
+    "premiumLocked": "Premium seed · Available with access",
+    "tryAgain": "Try again"
+  },
   "gallery": {
     "attention": "Needs check",
     "cardBody": "A quiet surface for the next useful piece of information.",
