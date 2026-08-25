@@ -7,8 +7,11 @@ export class SupabaseCyclePhotoStorage implements CyclePhotoStorage {
   async upload(userId: string, cycleId: string, fileName: string, body: ArrayBuffer, contentType: string): Promise<string> {
     const safeName = fileName.replace(/[^a-zA-Z0-9._-]/g, "-");
     const path = `${userId}/${cycleId}/${randomUUID()}-${safeName}`;
-    const { error } = await supabase.storage.from("cycle-photos").upload(path, body, { contentType, upsert: false });
-    if (error) throw error;
+    const bucket = supabase.storage.from("cycle-photos");
+    const signed = await bucket.createSignedUploadUrl(path);
+    if (signed.error) throw signed.error;
+    const uploaded = await bucket.uploadToSignedUrl(path, signed.data.token, body, { contentType });
+    if (uploaded.error) throw uploaded.error;
     return path;
   }
 

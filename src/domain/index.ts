@@ -3,3 +3,4 @@ export { calculateCycleDay, createCycle, evaluateCycle, type ActionState, type C
 export { CycleDomainError, type CycleDomainErrorCode } from "./errors";
 export { applyCycleCommand, type CycleCommand } from "./harvest";
 export { resolveStage, validateSeedCycleDefinition, type CycleStageDefinition, type SeedCycleDefinition, type UserFacingPhase } from "./stages";
+export * from "./photoCheck";

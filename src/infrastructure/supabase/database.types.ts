@@ -47,6 +47,22 @@ export interface CycleEventRow {
   schema_version: number;
 }
 
+export interface PhotoCheckRow {
+  id: string;
+  cycle_id: string;
+  user_id: string;
+  check_type: string | null;
+  storage_path: string;
+  submitted_at: string;
+  status: string;
+  confidence: string | null;
+  result: Json | null;
+  quota_consumed: boolean;
+  retention_expires_at: string | null;
+  error_code: string | null;
+  client_event_id: string | null;
+}
+
 export interface SeedStageRow {
   id: string;
   seed_id: string;
@@ -104,6 +120,7 @@ export interface Database {
       profiles: TableShape<ProfileRow>;
       cycles: TableShape<CycleRow>;
       cycle_events: TableShape<CycleEventRow, Omit<CycleEventRow, "id"> & { id?: string }>;
+      photo_checks: TableShape<PhotoCheckRow>;
       seeds: TableShape<SeedRow>;
       seed_stages: TableShape<SeedStageRow>;
     };
@@ -128,6 +145,10 @@ export interface Database {
       complete_onboarding: {
         Args: { p_display_name: string | null; p_environment_slug: string; p_light_slug: string; p_time_availability: string; p_motivation: string; p_timezone: string; p_notifications_enabled: boolean };
         Returns: ProfileRow;
+      };
+      save_photo_check: {
+        Args: { p_cycle_id: string; p_check_type: string; p_storage_path: string; p_result: Json; p_occurred_at: string; p_client_event_id: string };
+        Returns: PhotoCheckRow;
       };
     };
     Enums: Record<never, never>;

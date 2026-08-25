@@ -1,0 +1,15 @@
+import { photoCheckResultSchema, type PhotoCheckResult } from "@/src/domain/photoCheck";
+
+export const photoCheckFixtureIds = ["AI-001", "AI-002", "AI-003", "AI-004", "AI-005", "AI-006"] as const;
+export type PhotoCheckFixtureId = (typeof photoCheckFixtureIds)[number];
+
+const internal = { promptVersion: "fixture-prompt-v1", modelVersion: "fixture-provider-v1", costEstimate: 0 } as const;
+
+export const photoCheckFixtures: Record<PhotoCheckFixtureId, PhotoCheckResult> = {
+  "AI-001": photoCheckResultSchema.parse({ ...internal, status: "on_track", confidence: "high", headline: "Looks on track", explanation: "Your cress is showing progress that matches this growth stage. The stems and first leaves look consistent with healthy early growth.", actions: ["Keep the growing medium lightly moist and check again in 48 hours."] }),
+  "AI-002": photoCheckResultSchema.parse({ ...internal, status: "unclear", confidence: "unknown", headline: "The photo is unclear", explanation: "There is not enough visible detail to assess your cress safely. A sharper, brighter image will make the next check more useful.", actions: ["Take another photo in natural light, close to the plant, and in focus."], retakeGuidance: "Use natural light, frame the whole tray, move close enough to see the leaves, and hold the phone steady." }),
+  "AI-003": photoCheckResultSchema.parse({ ...internal, status: "issue_likely", confidence: "medium", headline: "More light may help", explanation: "This looks consistent with leggy growth, and low light is the most likely explanation at this stage. The stems appear to be stretching toward the available light.", causes: ["Low light"], actions: ["Move the tray closer to bright indirect light and rotate it once each day."] }),
+  "AI-004": photoCheckResultSchema.parse({ ...internal, status: "issue_likely", confidence: "medium", headline: "The medium may be too wet", explanation: "The most likely explanation is excess moisture around the roots, although a photo cannot confirm this with certainty. Let the surface begin to dry before adding more water.", causes: ["Possible overwatering"], actions: ["Pause watering today, improve airflow, and check the surface again tomorrow."] }),
+  "AI-005": photoCheckResultSchema.parse({ ...internal, status: "harvest_likely", confidence: "medium", headline: "Your cress may be ready", explanation: "This looks consistent with the pre-harvest stage: the stems are tall and the seed leaves are open. You make the final harvest decision based on the size and flavour you prefer.", actions: ["Taste a small sample, then harvest if the leaves and height suit you."] }),
+  "AI-006": photoCheckResultSchema.parse({ ...internal, status: "rejected", confidence: "unknown", headline: "We could not find a plant", explanation: "This image does not appear to show the active cress cycle. No diagnosis has been made and this check will not use an allowance.", actions: ["Take another photo with the full growing tray clearly visible."], retakeGuidance: "Photograph the active plant tray only, without people, pets, or unrelated objects in the frame." })
+};

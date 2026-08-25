@@ -18,7 +18,15 @@
       "expo-localization",
       "expo-asset",
       "expo-secure-store",
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Seednergy uses your selected plant photos for cycle-specific growth checks.",
+          "cameraPermission": "Seednergy uses the camera so you can photograph your active grow cycle.",
+          "microphonePermission": false
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": false
