@@ -7,7 +7,7 @@ import { supabase } from "@/src/infrastructure/supabase/client";
 
 WebBrowser.maybeCompleteAuthSession();
 
-const redirectTo = makeRedirectUri({ scheme: "seednergy", path: "auth/callback" });
+export const authRedirectTo = makeRedirectUri({ path: "auth/callback" });
 
 export class SupabaseAuthService implements AuthService {
   async getSession() {
@@ -17,7 +17,7 @@ export class SupabaseAuthService implements AuthService {
   }
 
   async signUp(email: string, password: string): Promise<AuthResult> {
-    const { data, error } = await supabase.auth.signUp({ email: email.trim(), password, options: { emailRedirectTo: redirectTo } });
+    const { data, error } = await supabase.auth.signUp({ email: email.trim(), password, options: { emailRedirectTo: authRedirectTo } });
     if (error) throw error;
     return { session: data.session, user: data.user, needsEmailConfirmation: data.session === null };
   }
@@ -29,9 +29,9 @@ export class SupabaseAuthService implements AuthService {
   }
 
   async signInWithGoogle(): Promise<AuthResult> {
-    const { data, error } = await supabase.auth.signInWithOAuth({ provider: "google", options: { redirectTo, skipBrowserRedirect: true } });
+    const { data, error } = await supabase.auth.signInWithOAuth({ provider: "google", options: { redirectTo: authRedirectTo, skipBrowserRedirect: true } });
     if (error) throw error;
-    const result = await WebBrowser.openAuthSessionAsync(data.url, redirectTo);
+    const result = await WebBrowser.openAuthSessionAsync(data.url, authRedirectTo);
     if (result.type !== "success") throw new Error("Google sign-in was cancelled.");
     const { params, errorCode } = QueryParams.getQueryParams(result.url);
     if (errorCode) throw new Error(String(params.error_description ?? errorCode));
@@ -42,8 +42,14 @@ export class SupabaseAuthService implements AuthService {
     return { session: exchanged.data.session, user: exchanged.data.user, needsEmailConfirmation: false };
   }
 
+  async completeSignIn(code: string): Promise<AuthResult> {
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+    if (error) throw error;
+    return { session: data.session, user: data.user, needsEmailConfirmation: false };
+  }
+
   async sendPasswordReset(email: string): Promise<void> {
-    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo });
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo: authRedirectTo });
     if (error) throw error;
   }
 

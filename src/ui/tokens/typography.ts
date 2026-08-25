@@ -10,7 +10,7 @@ export const typography = {
   title: { fontFamily: "CrimsonText_600SemiBold", fontSize: 20, lineHeight: 24, letterSpacing: headingTracking },
   cardTitle: { fontFamily: "CrimsonText_600SemiBold", fontSize: 22, lineHeight: 26.4, letterSpacing: headingTracking },
   panelHeadline: { fontFamily: "CrimsonText_600SemiBold", fontSize: 20, lineHeight: 24, letterSpacing: headingTracking },
-  button: { fontFamily: "CrimsonText_700Bold", fontWeight: "700", fontSize: 20, lineHeight: 24, letterSpacing: headingTracking },
+  button: { fontFamily: "CrimsonText_700Bold", fontSize: 20, lineHeight: 24, letterSpacing: headingTracking },
   body: { fontFamily: "Inter_400Regular", fontSize: 14, lineHeight: 20 },
   bodyStrong: { fontFamily: "Inter_600SemiBold", fontSize: 14, lineHeight: 20 },
   caption: { fontFamily: "Inter_400Regular", fontSize: 12, lineHeight: 16 },

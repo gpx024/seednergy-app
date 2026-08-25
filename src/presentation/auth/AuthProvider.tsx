@@ -14,6 +14,7 @@ interface AuthContextValue {
   signUp(email: string, password: string): Promise<AuthResult>;
   signIn(email: string, password: string): Promise<AuthResult>;
   signInWithGoogle(): Promise<AuthResult>;
+  completeSignIn(code: string): Promise<AuthResult>;
   sendPasswordReset(email: string): Promise<void>;
   signOut(): Promise<void>;
 }
@@ -61,6 +62,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     signUp: (email, password) => authService.signUp(email, password),
     signIn: (email, password) => authService.signIn(email, password),
     signInWithGoogle: () => authService.signInWithGoogle(),
+    completeSignIn: (code) => authService.completeSignIn(code),
     sendPasswordReset: (email) => authService.sendPasswordReset(email),
     async signOut() {
       await authService.signOut();

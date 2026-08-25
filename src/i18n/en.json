@@ -15,6 +15,8 @@
     "accountBody": "Join Seednergy to start your first grow cycle.",
     "accountTitle": "Create your account",
     "authError": "We could not complete that request. Please try again.",
+    "authCallbackBody": "Finishing your sign-in…",
+    "authCallbackMissing": "The confirmation link is incomplete. Please request a new one.",
     "anySpace": "Any space",
     "apple": "Continue with Apple",
     "backToLogin": "Back to login",

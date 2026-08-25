@@ -11,6 +11,7 @@ export interface AuthService {
   signUp(email: string, password: string): Promise<AuthResult>;
   signIn(email: string, password: string): Promise<AuthResult>;
   signInWithGoogle(): Promise<AuthResult>;
+  completeSignIn(code: string): Promise<AuthResult>;
   sendPasswordReset(email: string): Promise<void>;
   signOut(): Promise<void>;
 }

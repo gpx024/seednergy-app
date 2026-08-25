@@ -17,7 +17,7 @@ describe("Seednergy design system contract", () => {
     expect(typography.display.fontFamily).toBe("CrimsonText_600SemiBold");
     expect(typography.body.fontFamily).toBe("Inter_400Regular");
     expect(typography.button.fontFamily).toBe("CrimsonText_700Bold");
-    expect(typography.button.fontWeight).toBe("700");
+    expect(typography.button).not.toHaveProperty("fontWeight");
     expect(typography.button.fontSize).toBe(20);
     expect(typography.displayLarge.lineHeight).toBeCloseTo(typography.displayLarge.fontSize * 1.2, 5);
     expect(typography.label.letterSpacing).toBe(0.66);
