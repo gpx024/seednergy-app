@@ -14,7 +14,7 @@ export default function HowItWorksScreen() {
       <View style={styles.wordmark}><BrandWordmark width={132} /></View>
       <PhotoFrame accessibilityLabel={t("onboarding.cressPhoto")} shape="capsule" source={cress} style={styles.photo} />
       <View style={styles.copy}><Text accessibilityRole="header" maxFontSizeMultiplier={1.7} style={styles.title}>{t("onboarding.valueTitle")}</Text><Text maxFontSizeMultiplier={2} style={styles.body}>{t("onboarding.valueBody")}</Text></View>
-      <View style={styles.actions}><Link asChild href="/(onboarding)/create-account"><AppButton label={t("onboarding.startGrowing")} /></Link><Link asChild href="/(onboarding)/create-account"><AppButton label={t("onboarding.logIn")} variant="oliveText" /></Link></View>
+      <View style={styles.actions}><Link asChild href="/(onboarding)/create-account"><AppButton label={t("onboarding.startGrowing")} /></Link><Link asChild href="/(onboarding)/sign-in"><AppButton label={t("onboarding.logIn")} variant="oliveText" /></Link></View>
     </ScreenContainer>
   );
 }

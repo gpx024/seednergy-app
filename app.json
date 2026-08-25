@@ -5,12 +5,20 @@
     "version": "0.1.0",
     "orientation": "portrait",
     "scheme": "seednergy",
+    "ios": {
+      "bundleIdentifier": "com.seednergy.app"
+    },
+    "android": {
+      "package": "com.seednergy.app"
+    },
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "plugins": [
       "expo-router",
       "expo-localization",
-      "expo-asset"
+      "expo-asset",
+      "expo-secure-store",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": false

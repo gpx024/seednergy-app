@@ -2,20 +2,24 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
-import { AppCard, BrandHeader, ScreenContainer } from "@/src/ui/components";
+import { AppButton, AppCard, BrandHeader, ScreenContainer } from "@/src/ui/components";
 import { tokens } from "@/src/ui/tokens";
+import { useAuth } from "@/src/presentation/auth/AuthProvider";
 
 const alba = require("../../assets/images/profiles/alba-temporary.png");
 
 export default function ProfileScreen() {
   const { t } = useTranslation();
+  const { user, signOut } = useAuth();
+  const displayName = typeof user?.user_metadata.display_name === "string" ? user.user_metadata.display_name : t("main.albaName");
   return (
     <ScreenContainer includeBottomSafeArea={false} scroll contentStyle={styles.container}>
       <BrandHeader />
       <Text accessibilityRole="header" style={styles.title}>{t("main.profile")}</Text>
-      <AppCard variant="hero" style={styles.identity}><Image accessibilityLabel={t("main.albaPortrait")} source={alba} style={styles.avatar} /><View style={styles.identityCopy}><Text style={styles.name}>{t("main.albaName")}</Text><Text style={styles.identityMeta}>{t("main.albaMeta")}</Text></View></AppCard>
+      <AppCard variant="hero" style={styles.identity}><Image accessibilityLabel={t("main.albaPortrait")} source={alba} style={styles.avatar} /><View style={styles.identityCopy}><Text style={styles.name}>{displayName}</Text><Text style={styles.identityMeta}>{user?.email ?? t("main.albaMeta")}</Text></View></AppCard>
       <SettingsGroup label={t("main.yourSpace")} items={[{ icon: "location-outline", title: t("main.growingSpace"), value: t("main.indoor") }, { icon: "notifications-outline", title: t("main.reminders"), value: t("main.daily") }]} />
       <SettingsGroup label={t("main.account")} items={[{ icon: "person-outline", title: t("main.accountDetails"), value: t("main.albaEmail") }, { icon: "settings-outline", title: t("main.settings"), value: t("main.previewOnly") }]} />
+      <AppButton label={t("onboarding.signOut")} onPress={() => void signOut()} variant="secondary" />
     </ScreenContainer>
   );
 }

@@ -1,12 +1,13 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import type { BottomTabBarButtonProps } from "@react-navigation/bottom-tabs";
 import { LinearGradient } from "expo-linear-gradient";
-import { Tabs } from "expo-router";
+import { Redirect, Tabs } from "expo-router";
 import { Pressable, StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { tokens } from "@/src/ui/tokens";
+import { useAuth } from "@/src/presentation/auth/AuthProvider";
 
 const tabConfig = [
   { name: "home", label: "tabs.home", icon: "home-outline" },
@@ -17,8 +18,11 @@ const tabConfig = [
 
 export default function TabsLayout() {
   const { t } = useTranslation();
+  const { loading, session } = useAuth();
   const insets = useSafeAreaInsets();
   const bottomInset = Math.max(insets.bottom, tokens.spacing.xs);
+  if (loading) return null;
+  if (!session) return <Redirect href="/(onboarding)/sign-in" />;
   return (
     <Tabs screenOptions={({ route }) => ({
       headerShown: false,

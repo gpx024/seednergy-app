@@ -4,6 +4,7 @@ import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold } f
 import { CrimsonText_400Regular_Italic, CrimsonText_600SemiBold, CrimsonText_700Bold } from "@expo-google-fonts/crimson-text";
 
 import "@/src/i18n";
+import { AuthProvider } from "@/src/presentation/auth/AuthProvider";
 
 export const unstable_settings = {
   initialRouteName: "index"
@@ -16,10 +17,5 @@ export default function RootLayout() {
     return null;
   }
 
-  return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="(onboarding)" />
-      <Stack.Screen name="(tabs)" />
-    </Stack>
-  );
+  return <AuthProvider><Stack screenOptions={{ headerShown: false }}><Stack.Screen name="(onboarding)" /><Stack.Screen name="(tabs)" /></Stack></AuthProvider>;
 }
