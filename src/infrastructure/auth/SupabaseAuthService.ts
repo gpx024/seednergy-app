@@ -1,13 +1,14 @@
-import { makeRedirectUri } from "expo-auth-session";
 import * as QueryParams from "expo-auth-session/build/QueryParams";
+import * as Linking from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 
+import { createAuthRedirectUrl } from "@/src/infrastructure/auth/authRedirect";
 import type { AuthResult, AuthService } from "@/src/ports/AuthService";
 import { supabase } from "@/src/infrastructure/supabase/client";
 
 WebBrowser.maybeCompleteAuthSession();
 
-export const authRedirectTo = makeRedirectUri({ path: "auth/callback" });
+export const authRedirectTo = createAuthRedirectUrl(Linking.createURL);
 
 export class SupabaseAuthService implements AuthService {
   async getSession() {
