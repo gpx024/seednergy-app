@@ -27,6 +27,7 @@ describe("Stage 5 seed content", () => {
     expect(seedSummarySchema.safeParse({ ...summary, durationDaysMin: 15 }).success).toBe(false);
     expect(seedSummarySchema.safeParse({ ...summary, images: [] }).success).toBe(false);
     expect(seedSummarySchema.safeParse({ ...summary, accessType: "coming_soon", images: [] }).success).toBe(true);
+    expect(seedSummarySchema.safeParse({ ...summary, slug: "basil", accessType: "coming_soon", images: [{ kind: "bundled", key: "basil" }] }).success).toBe(true);
   });
 
   it("rejects launch content with missing stages or gaps", () => {
@@ -42,4 +43,3 @@ describe("Stage 5 seed content", () => {
     expect(resolveSeedAccess("coming_soon", true)).toEqual({ state: "comingSoon", canStart: false });
   });
 });
-

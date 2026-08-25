@@ -3,7 +3,7 @@ import { z } from "zod";
 export const seedAccessTypeSchema = z.enum(["free", "paid", "coming_soon"]);
 export const contentReviewStatusSchema = z.enum(["draft", "grower_reviewed"]);
 export const seedAssetSchema = z.discriminatedUnion("kind", [
-  z.object({ kind: z.literal("bundled"), key: z.enum(["cress", "pea-shoots", "radish-microgreens", "broccoli-microgreens"]) }),
+  z.object({ kind: z.literal("bundled"), key: z.enum(["cress", "pea-shoots", "radish-microgreens", "broccoli-microgreens", "basil"]) }),
   z.object({ kind: z.literal("remote"), url: z.url() })
 ]);
 
