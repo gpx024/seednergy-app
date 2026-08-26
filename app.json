@@ -3,13 +3,25 @@
     "name": "Seednergy",
     "slug": "seednergy",
     "version": "0.1.0",
+    "icon": "./assets/app/icon.png",
     "orientation": "portrait",
     "scheme": "seednergy",
     "ios": {
-      "bundleIdentifier": "com.seednergy.app"
+      "bundleIdentifier": "com.seednergy.app",
+      "buildNumber": "1",
+      "supportsTablet": false,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
-      "package": "com.seednergy.app"
+      "package": "com.seednergy.app",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/app/adaptive-icon.png",
+        "monochromeImage": "./assets/app/adaptive-icon.png",
+        "backgroundColor": "#efe9dc"
+      }
     },
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
@@ -20,6 +32,15 @@
       "expo-secure-store",
       "expo-web-browser",
       "expo-notifications",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/app/splash-icon.png",
+          "imageWidth": 190,
+          "resizeMode": "contain",
+          "backgroundColor": "#efe9dc"
+        }
+      ],
       [
         "expo-image-picker",
         {

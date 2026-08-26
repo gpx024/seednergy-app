@@ -3,8 +3,11 @@ node_modules/
 .git/
 .expo/
 dist/
+dist-stage7*/
+dist-stage8/
 web-build/
 coverage/
+tmp/
 *.log
 
 # Local environment files are supplied through EAS environments
@@ -14,8 +17,10 @@ coverage/
 
 # Non-runtime source material and backend tooling
 design-system/
+docs/
 tests/
 supabase/
+ARCHITECTURE.md
 
 # Platform and editor artefacts
 .DS_Store

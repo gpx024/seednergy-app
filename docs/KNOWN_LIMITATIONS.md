@@ -31,6 +31,15 @@
 - The current Android development APK does not contain the newly added Sentry native module. A new development APK is required for complete Stage 11 device testing.
 - Account deletion has unit and boundary coverage and the deployed function rejects unauthenticated requests. A destructive authenticated deletion must be tested with a disposable account before production acceptance.
 
+## Stage 12 release blockers
+
+- Apple Developer organisation enrolment and signing credentials are not available, so no signed iOS build or TestFlight upload can be completed yet.
+- The client-owned Google Play Console application, business verification, store listing and internal-testing track are not confirmed, so the production AAB cannot yet satisfy the Play internal-testing exit criterion.
+- Approved public Privacy Policy, Terms of Service and support URLs are required by the stores and remain unavailable.
+- Store privacy and Data Safety mappings are drafted from the implementation, but require owner/legal approval and a final SDK audit before submission.
+- Firebase/FCM and Apple push credentials remain deferred. Store disclosures must be reviewed again when push delivery is enabled.
+- Temporary seed/profile photography and horticultural guidance still require final production approval.
+
 ## Deferred stages
 
 Payments, CMS authoring UI, public community features, public Garden sharing, gamification, commerce, and production Apple authentication remain outside Stage 9.
