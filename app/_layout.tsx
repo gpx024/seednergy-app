@@ -6,6 +6,7 @@ import { CrimsonText_400Regular_Italic, CrimsonText_600SemiBold, CrimsonText_700
 import "@/src/i18n";
 import { AuthProvider } from "@/src/presentation/auth/AuthProvider";
 import { OnboardingProvider } from "@/src/presentation/onboarding/OnboardingProvider";
+import { NotificationProvider } from "@/src/presentation/notifications/NotificationProvider";
 
 export const unstable_settings = {
   initialRouteName: "index"
@@ -18,5 +19,5 @@ export default function RootLayout() {
     return null;
   }
 
-  return <AuthProvider><OnboardingProvider><Stack screenOptions={{ headerShown: false }}><Stack.Screen name="(onboarding)" /><Stack.Screen name="(tabs)" /></Stack></OnboardingProvider></AuthProvider>;
+  return <AuthProvider><OnboardingProvider><NotificationProvider><Stack screenOptions={{ headerShown: false }}><Stack.Screen name="(onboarding)" /><Stack.Screen name="(tabs)" /></Stack></NotificationProvider></OnboardingProvider></AuthProvider>;
 }

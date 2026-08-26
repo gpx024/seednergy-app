@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { buildCycleView, prioritizeCycleViews, type CycleView } from "@/src/application/cycles/cycleView";
 import { contentRepository } from "@/src/infrastructure/repositories/SupabaseContentRepository";
 import { cycleRepository } from "@/src/infrastructure/repositories/SupabaseCycleRepository";
+import { notificationService } from "@/src/infrastructure/notifications/ExpoNotificationService";
 
 interface Resource<T> {
   data: T;
@@ -46,6 +47,7 @@ export function useStartCycle() {
       const seed = await contentRepository.getPublishedSeed(slug);
       if (!seed || seed.accessType !== "free") throw new Error("This seed is not available to start.");
       const cycle = await cycleRepository.start({ seedId: seed.id, seedContentVersion: seed.contentVersion, startedAt: new Date().toISOString(), timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, clientEventId: Crypto.randomUUID() });
+      await notificationService.refreshCycle(cycle.id).catch(() => undefined);
       return cycle.id;
     } catch (reason) {
       const nextError = toError(reason); setError(nextError); throw nextError;
@@ -101,6 +103,7 @@ export function useCycle(id: string | undefined): Resource<CycleView | null> & {
       await mutate(async () => {
         const cycle = await cycleRepository.restart({ cycleId: data.cycle.id, startedAt: new Date().toISOString(), timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, clientEventId: Crypto.randomUUID() });
         nextId = cycle.id;
+        await notificationService.refreshCycle(cycle.id).catch(() => undefined);
       });
       return nextId;
     }

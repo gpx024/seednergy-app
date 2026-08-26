@@ -1,4 +1,5 @@
 import type { OnboardingAnswers } from "@/src/application/onboarding/recommendation";
+import type { NotificationPreferences } from "@/src/ports/NotificationService";
 
 export interface GrowerProfile {
   id: string;
@@ -9,6 +10,7 @@ export interface GrowerProfile {
   timeAvailability: string | null;
   motivation: string | null;
   onboardingCompletedAt: string | null;
+  notificationPreferences: NotificationPreferences;
 }
 
 export interface CompleteOnboardingInput extends OnboardingAnswers {

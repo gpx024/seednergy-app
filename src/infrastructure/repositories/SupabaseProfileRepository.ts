@@ -33,7 +33,20 @@ function mapProfile(row: ProfileRow): GrowerProfile {
     lightCondition: row.light_condition_slug,
     timeAvailability: row.time_availability,
     motivation: row.motivation,
-    onboardingCompletedAt: row.onboarding_completed_at
+    onboardingCompletedAt: row.onboarding_completed_at,
+    notificationPreferences: parseNotificationPreferences(row.notification_prefs, row.quiet_hours)
+  };
+}
+
+function parseNotificationPreferences(preferences: ProfileRow["notification_prefs"], quietHours: ProfileRow["quiet_hours"]): GrowerProfile["notificationPreferences"] {
+  const prefs = typeof preferences === "object" && preferences !== null && !Array.isArray(preferences) ? preferences : {};
+  const quiet = typeof quietHours === "object" && quietHours !== null && !Array.isArray(quietHours) ? quietHours : {};
+  const frequency = prefs.frequency;
+  return {
+    enabled: prefs.enabled === true,
+    frequency: frequency === "every_other_day" || frequency === "important_only" ? frequency : "daily",
+    quietStart: typeof quiet.start === "string" ? quiet.start : "21:00",
+    quietEnd: typeof quiet.end === "string" ? quiet.end : "08:00"
   };
 }
 

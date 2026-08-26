@@ -24,11 +24,11 @@ const guide = [
 
 export default function PhotoCheckScreen() {
   const router = useRouter();
-  const { id } = useLocalSearchParams<{ id?: string }>();
+  const { id, type } = useLocalSearchParams<{ id?: string; type?: string }>();
   const auth = useAuth(); const cycleResource = useCycle(id); const profile = useProfile(); const mutation = useSubmitPhotoCheck();
   const [photo, setPhoto] = useState<CapturedPhoto | null>(null);
   const [selectionError, setSelectionError] = useState<string | null>(null);
-  const [checkType, setCheckType] = useState<PhotoCheckType>("progress");
+  const [checkType, setCheckType] = useState<PhotoCheckType>(type === "harvest_readiness" ? "harvest_readiness" : "progress");
   const [fixtureId, setFixtureId] = useState("AI-001");
   const cycle = cycleResource.data;
 

@@ -87,6 +87,48 @@ export interface AiRequestLogRow {
   lease_token: string | null;
 }
 
+export interface HarvestRow {
+  id: string;
+  cycle_id: string;
+  user_id: string;
+  seed_id: string;
+  harvest_number: number;
+  harvested_at: string;
+  storage_path: string | null;
+  suggestions: Json;
+  suggestion_status: "pending" | "completed" | "fallback" | "failed";
+  prompt_version: string | null;
+  model_version: string | null;
+  cost_estimate_usd: number;
+  latency_ms: number;
+  created_at: string;
+}
+
+export interface PushDeviceRow {
+  id: string;
+  user_id: string;
+  expo_push_token: string;
+  platform: "android" | "ios";
+  enabled: boolean;
+  updated_at: string;
+}
+
+export interface NotificationRow {
+  id: string;
+  user_id: string;
+  cycle_id: string | null;
+  type: string;
+  scheduled_for: string;
+  delivered_at: string | null;
+  deep_link: string | null;
+  status: string;
+  title: string;
+  body: string;
+  data: Json;
+  client_event_id: string | null;
+  provider_request_id: number | null;
+}
+
 export interface SeedStageRow {
   id: string;
   seed_id: string;
@@ -146,6 +188,9 @@ export interface Database {
       cycle_events: TableShape<CycleEventRow, Omit<CycleEventRow, "id"> & { id?: string }>;
       photo_checks: TableShape<PhotoCheckRow>;
       ai_request_logs: TableShape<AiRequestLogRow>;
+      harvests: TableShape<HarvestRow>;
+      push_devices: TableShape<PushDeviceRow>;
+      notifications: TableShape<NotificationRow>;
       seeds: TableShape<SeedRow>;
       seed_stages: TableShape<SeedStageRow>;
     };
@@ -186,6 +231,22 @@ export interface Database {
       complete_ai_photo_check: {
         Args: { p_request_id: string; p_lease_token: string; p_user_id: string; p_check_type: string; p_storage_path: string; p_result: Json; p_occurred_at: string; p_input_tokens: number; p_cached_input_tokens: number; p_output_tokens: number; p_cost_estimate_usd: number; p_latency_ms: number; p_attempt_count: number; p_provider_request_id: string | null; p_error_code: string | null };
         Returns: PhotoCheckRow;
+      };
+      complete_cycle_harvest: {
+        Args: { p_cycle_id: string; p_harvested_at: string; p_storage_path: string | null; p_client_event_id: string };
+        Returns: HarvestRow;
+      };
+      register_push_device: {
+        Args: { p_expo_push_token: string; p_platform: "android" | "ios" };
+        Returns: PushDeviceRow;
+      };
+      update_notification_preferences: {
+        Args: { p_enabled: boolean; p_frequency: string; p_quiet_start: string; p_quiet_end: string };
+        Returns: ProfileRow;
+      };
+      refresh_cycle_notification: {
+        Args: { p_cycle_id: string; p_now?: string };
+        Returns: NotificationRow | null;
       };
     };
     Enums: Record<never, never>;
