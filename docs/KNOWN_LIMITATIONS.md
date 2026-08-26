@@ -3,6 +3,7 @@
 ## Product validation
 
 - The blueprint’s Stage 9 gate requires a genuine 10 to 14 day Cress cycle. It cannot be responsibly compressed into an automated or same-day test. Final Stage 9 product acceptance remains pending that real grow.
+- Development builds can create a separate harvest-ready simulation for interface testing. Its event history is labelled `development_cycle_simulated`; it is not evidence for the genuine grow-cycle acceptance gate.
 - Harvest wording and all authored seed guidance require ongoing horticultural review before production release.
 - Temporary seed and profile photography remains replaceable production artwork.
 
