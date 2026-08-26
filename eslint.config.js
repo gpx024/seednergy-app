@@ -3,7 +3,7 @@ const expoConfig = require("eslint-config-expo/flat");
 module.exports = [
   ...expoConfig,
   {
-    ignores: [".expo/**", "coverage/**", "design-system/**", "dist/**", "node_modules/**", "supabase/functions/**"],
+    ignores: [".expo/**", "coverage/**", "design-system/**", "dist/**", "dist-stage8/**", "node_modules/**", "supabase/functions/**"],
   },
   {
     files: ["**/*.{ts,tsx}"],

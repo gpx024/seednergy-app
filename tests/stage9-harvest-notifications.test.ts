@@ -11,6 +11,7 @@ const root = process.cwd();
 const migration = ["202608260011_stage9_harvest_notifications.sql", "202608260012_stage9_harvest_readiness_repair.sql", "202608260013_stage9_repair_dangling_harvest_photos.sql", "202608260014_stage9_attach_recovered_harvest_photo.sql"].map((name) => readFileSync(join(root, "supabase/migrations", name), "utf8")).join("\n");
 const edge = readFileSync(join(root, "supabase/functions/harvest-suggestions/index.ts"), "utf8");
 const notificationProvider = readFileSync(join(root, "src/presentation/notifications/NotificationProvider.tsx"), "utf8");
+const harvestResultScreen = readFileSync(join(root, "app/harvest/[id].tsx"), "utf8");
 
 describe("Stage 9 notification platform safety", () => {
   it("does not call native notification-response APIs on web", () => {
@@ -20,6 +21,12 @@ describe("Stage 9 notification platform safety", () => {
 });
 
 describe("Stage 9 harvest records", () => {
+  it("shows an honest bounded state when a harvest has no photo", () => {
+    expect(harvestResultScreen).toContain("No harvest photo added");
+    expect(harvestResultScreen).not.toContain("resolveSeedImage");
+    expect(harvestResultScreen).toContain("height: 240");
+  });
+
   it("accepts only 3 to 5 concise post-harvest ideas", () => {
     expect(harvestSuggestionsSchema.safeParse({ headline: "Fresh cress, ready to enjoy", ideas: [
       { title: "Top a soup", description: "Scatter it over the bowl just before serving." },
