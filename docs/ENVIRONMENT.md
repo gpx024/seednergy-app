@@ -66,6 +66,17 @@ npx supabase functions deploy harvest-suggestions
 
 ## Notification test
 
+Before the first Android push test, configure Firebase Cloud Messaging under the client-owned Google account:
+
+1. Open Firebase Console and add Firebase to the existing client-owned Google Cloud project, or create a client-owned Firebase project.
+2. Register an Android app with package name `com.seednergy.app`.
+3. Download `google-services.json`, place it at the repository path agreed for environment files, and configure `expo.android.googleServicesFile` in `app.json`.
+4. Create an FCM v1 service-account key in Firebase.
+5. Run `npx eas-cli credentials --platform android` and upload the FCM v1 key under Android push notification credentials.
+6. Build a new development APK after `google-services.json` is configured.
+
+Do not reuse a personal Firebase project for client production ownership. Keep the service-account JSON out of Git and treat it as a credential.
+
 1. Install the new development APK containing `expo-notifications`.
 2. Log in on a physical phone.
 3. Open Profile, Notifications.
@@ -77,4 +88,3 @@ npx supabase functions deploy harvest-suggestions
 ## Secret hygiene
 
 Do not commit `.env.local`, API keys, service-role keys, OAuth client secrets, exported user data, or private photos. Rotate a credential immediately if it appears in Git history, logs, screenshots, or chat.
-

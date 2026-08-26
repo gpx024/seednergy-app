@@ -9,6 +9,7 @@
 ## Notifications
 
 - A new Android development APK must be installed before push notifications can be tested because `expo-notifications` adds native code.
+- Android Firebase Cloud Messaging is not configured in this repository yet. The client-owned Firebase Android app, `google-services.json`, and Expo FCM v1 credential must be added before real push delivery can pass.
 - The dispatcher records a message as sent when Expo accepts the HTTP request. Expo ticket and receipt reconciliation, invalid-token cleanup, retries, and delivery analytics are not implemented yet.
 - The five-minute cron interval means delivery is approximate, not exact to the minute.
 - Quiet hours are displayed but not yet editable as separate time pickers in the app.
