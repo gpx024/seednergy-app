@@ -5,6 +5,7 @@ node_modules/
 .expo/
 dist/
 dist-stage7*/
+dist-stage8/
 web-build/
 
 # Credentials and local environment settings

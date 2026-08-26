@@ -1,7 +1,6 @@
-import { photoCheckContextSchema, photoCheckResultSchema, type PhotoCheckContext, type PhotoCheckResult, type PhotoCheckType } from "@/src/domain/photoCheck";
+import { photoCheckContextSchema, photoCheckResultSchema, type PhotoCheckContext, type PhotoCheckType } from "@/src/domain/photoCheck";
 import type { CycleView } from "@/src/application/cycles/cycleView";
-import type { CoachingProvider } from "@/src/ports/CoachingProvider";
-import type { VisionProvider } from "@/src/ports/VisionProvider";
+import type { PhotoCheckExecution, PhotoCheckProvider } from "@/src/ports/PhotoCheckProvider";
 
 export function buildPhotoCheckContext(cycle: CycleView, lightCondition: string | null): PhotoCheckContext {
   const stage = cycle.seed.stages.find((candidate) => candidate.stage === cycle.stageId);
@@ -22,14 +21,13 @@ export function buildPhotoCheckContext(cycle: CycleView, lightCondition: string 
 }
 
 export async function runPhotoCheck(input: {
-  fixtureId: string;
+  requestId: string;
+  fixtureId?: string;
   checkType: PhotoCheckType;
   storagePath: string;
   context: PhotoCheckContext;
-  visionProvider: VisionProvider;
-  coachingProvider: CoachingProvider;
-}): Promise<PhotoCheckResult> {
-  const analysis = await input.visionProvider.analyse(input);
-  const coaching = await input.coachingProvider.generate({ ...input, analysis });
-  return photoCheckResultSchema.parse({ ...analysis, ...coaching });
+  provider: PhotoCheckProvider;
+}): Promise<PhotoCheckExecution> {
+  const execution = await input.provider.check(input);
+  return { ...execution, result: photoCheckResultSchema.parse(execution.result) };
 }

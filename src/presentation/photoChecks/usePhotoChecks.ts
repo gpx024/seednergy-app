@@ -2,9 +2,11 @@ import * as Crypto from "expo-crypto";
 import { useCallback, useEffect, useState } from "react";
 
 import { buildPhotoCheckContext, runPhotoCheck } from "@/src/application/photoChecks/runPhotoCheck";
+import { featureFlags } from "@/src/config/features";
 import type { PhotoCheckType } from "@/src/domain/photoCheck";
 import { fixturePhotoCheckProvider } from "@/src/infrastructure/ai/FixturePhotoCheckProvider";
 import { photoCheckFixtureIds } from "@/src/infrastructure/ai/photoCheckFixtures";
+import { supabasePhotoCheckProvider } from "@/src/infrastructure/ai/SupabasePhotoCheckProvider";
 import { photoCheckRepository } from "@/src/infrastructure/repositories/SupabasePhotoCheckRepository";
 import { cyclePhotoStorage } from "@/src/infrastructure/storage/SupabaseCyclePhotoStorage";
 import type { PhotoCheckRecord } from "@/src/ports/PhotoCheckRepository";
@@ -40,8 +42,11 @@ export function useSubmitPhotoCheck() {
       if (body.byteLength > 10 * 1024 * 1024) throw new Error("The photo must be smaller than 10 MB.");
       const storagePath = await cyclePhotoStorage.upload(input.userId, input.cycle.cycle.id, input.photo.fileName, body, input.photo.contentType);
       const context = buildPhotoCheckContext(input.cycle, input.lightCondition);
-      const result = await runPhotoCheck({ fixtureId: input.fixtureId, checkType: input.checkType, storagePath, context, visionProvider: fixturePhotoCheckProvider, coachingProvider: fixturePhotoCheckProvider });
-      const record = await photoCheckRepository.save({ cycleId: input.cycle.cycle.id, checkType: input.checkType, storagePath, result, occurredAt: new Date().toISOString(), clientEventId: Crypto.randomUUID() });
+      const requestId = Crypto.randomUUID();
+      const provider = featureFlags.fixturePhotoChecks ? fixturePhotoCheckProvider : supabasePhotoCheckProvider;
+      const execution = await runPhotoCheck({ requestId, fixtureId: featureFlags.fixturePhotoChecks ? input.fixtureId : undefined, checkType: input.checkType, storagePath, context, provider });
+      if (execution.persistedCheckId) return execution.persistedCheckId;
+      const record = await photoCheckRepository.save({ cycleId: input.cycle.cycle.id, checkType: input.checkType, storagePath, result: execution.result, occurredAt: new Date().toISOString(), clientEventId: requestId });
       return record.id;
     } catch (reason) {
       const nextError = toError(reason); setError(nextError); throw nextError;

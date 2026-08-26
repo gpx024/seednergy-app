@@ -4,8 +4,6 @@ import { consumesPhotoCheckQuota, photoCheckResultSchema, type PhotoCheckContext
 import { FixturePhotoCheckProvider } from "@/src/infrastructure/ai/FixturePhotoCheckProvider";
 import { photoCheckFixtureIds, photoCheckFixtures } from "@/src/infrastructure/ai/photoCheckFixtures";
 import { runPhotoCheck } from "@/src/application/photoChecks/runPhotoCheck";
-import type { CoachingProvider } from "@/src/ports/CoachingProvider";
-import type { VisionProvider } from "@/src/ports/VisionProvider";
 
 const context: PhotoCheckContext = {
   cycleId: "10000000-0000-4000-8000-000000000001",
@@ -32,11 +30,10 @@ describe("Stage 7 deterministic photo checks", () => {
     ["AI-004", "issue_likely"], ["AI-005", "harvest_likely"], ["AI-006", "rejected"]
   ])("returns %s through the exact provider interfaces", async (fixtureId, status) => {
     const provider = new FixturePhotoCheckProvider();
-    const vision: VisionProvider = provider; const coaching: CoachingProvider = provider;
-    const result = await runPhotoCheck({ fixtureId, checkType: "progress", storagePath: "user/cycle/photo.jpg", context, visionProvider: vision, coachingProvider: coaching });
-    expect(result.status).toBe(status);
-    expect(result.actions).toHaveLength(1);
-    expect(result.costEstimate).toBe(0);
+    const execution = await runPhotoCheck({ requestId: crypto.randomUUID(), fixtureId, checkType: "progress", storagePath: "user/cycle/photo.jpg", context, provider });
+    expect(execution.result.status).toBe(status);
+    expect(execution.result.actions).toHaveLength(1);
+    expect(execution.result.costEstimate).toBe(0);
   });
 
   it("does not consume quota for unclear, rejected, or provider errors", () => {

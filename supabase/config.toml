@@ -33,3 +33,6 @@ enable_confirmations = true
 [storage]
 enabled = true
 file_size_limit = "25MiB"
+
+[functions.photo-check]
+verify_jwt = false

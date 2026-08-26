@@ -63,6 +63,30 @@ export interface PhotoCheckRow {
   client_event_id: string | null;
 }
 
+export interface AiRequestLogRow {
+  id: string;
+  user_id: string;
+  cycle_id: string;
+  client_event_id: string;
+  state: "running" | "completed" | "failed";
+  status: string | null;
+  confidence: string | null;
+  model_version: string;
+  prompt_version: string;
+  input_tokens: number;
+  cached_input_tokens: number;
+  output_tokens: number;
+  cost_estimate_usd: number;
+  latency_ms: number;
+  attempt_count: number;
+  provider_request_id: string | null;
+  quota_consumed: boolean;
+  error_code: string | null;
+  created_at: string;
+  finished_at: string | null;
+  lease_token: string | null;
+}
+
 export interface SeedStageRow {
   id: string;
   seed_id: string;
@@ -121,6 +145,7 @@ export interface Database {
       cycles: TableShape<CycleRow>;
       cycle_events: TableShape<CycleEventRow, Omit<CycleEventRow, "id"> & { id?: string }>;
       photo_checks: TableShape<PhotoCheckRow>;
+      ai_request_logs: TableShape<AiRequestLogRow>;
       seeds: TableShape<SeedRow>;
       seed_stages: TableShape<SeedStageRow>;
     };
@@ -148,6 +173,18 @@ export interface Database {
       };
       save_photo_check: {
         Args: { p_cycle_id: string; p_check_type: string; p_storage_path: string; p_result: Json; p_occurred_at: string; p_client_event_id: string };
+        Returns: PhotoCheckRow;
+      };
+      begin_ai_photo_check: {
+        Args: { p_user_id: string; p_cycle_id: string; p_client_event_id: string; p_daily_limit: number; p_model_version: string; p_prompt_version: string; p_lease_token: string };
+        Returns: AiRequestLogRow;
+      };
+      finish_ai_photo_check: {
+        Args: { p_request_id: string; p_status: string; p_confidence: string; p_input_tokens: number; p_cached_input_tokens: number; p_output_tokens: number; p_cost_estimate_usd: number; p_latency_ms: number; p_attempt_count: number; p_provider_request_id: string | null; p_error_code: string | null };
+        Returns: AiRequestLogRow;
+      };
+      complete_ai_photo_check: {
+        Args: { p_request_id: string; p_lease_token: string; p_user_id: string; p_check_type: string; p_storage_path: string; p_result: Json; p_occurred_at: string; p_input_tokens: number; p_cached_input_tokens: number; p_output_tokens: number; p_cost_estimate_usd: number; p_latency_ms: number; p_attempt_count: number; p_provider_request_id: string | null; p_error_code: string | null };
         Returns: PhotoCheckRow;
       };
     };

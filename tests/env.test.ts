@@ -9,7 +9,8 @@ describe("public environment configuration", () => {
       EXPO_PUBLIC_ENABLE_DEV_ROUTES: true,
       EXPO_PUBLIC_SUPABASE_URL: "https://example.supabase.co",
       EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "",
-      EXPO_PUBLIC_ENABLE_APPLE_AUTH: false
+      EXPO_PUBLIC_ENABLE_APPLE_AUTH: false,
+      EXPO_PUBLIC_PHOTO_CHECK_PROVIDER: "live"
     });
   });
 
@@ -18,10 +19,11 @@ describe("public environment configuration", () => {
   });
 
   it("parses the public Supabase and provider flags", () => {
-    expect(parsePublicEnvironment({ EXPO_PUBLIC_SUPABASE_URL: "https://project.supabase.co", EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_example", EXPO_PUBLIC_ENABLE_APPLE_AUTH: "true" })).toMatchObject({
+    expect(parsePublicEnvironment({ EXPO_PUBLIC_SUPABASE_URL: "https://project.supabase.co", EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_example", EXPO_PUBLIC_ENABLE_APPLE_AUTH: "true", EXPO_PUBLIC_PHOTO_CHECK_PROVIDER: "fixture" })).toMatchObject({
       EXPO_PUBLIC_SUPABASE_URL: "https://project.supabase.co",
       EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_example",
-      EXPO_PUBLIC_ENABLE_APPLE_AUTH: true
+      EXPO_PUBLIC_ENABLE_APPLE_AUTH: true,
+      EXPO_PUBLIC_PHOTO_CHECK_PROVIDER: "fixture"
     });
   });
 });

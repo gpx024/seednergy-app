@@ -5,7 +5,8 @@ const publicEnvironmentSchema = z.object({
   EXPO_PUBLIC_ENABLE_DEV_ROUTES: z.enum(["true", "false"]).default("true").transform((value) => value === "true"),
   EXPO_PUBLIC_SUPABASE_URL: z.string().url().optional().default("https://example.supabase.co"),
   EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY: z.string().optional().default(""),
-  EXPO_PUBLIC_ENABLE_APPLE_AUTH: z.enum(["true", "false"]).default("false").transform((value) => value === "true")
+  EXPO_PUBLIC_ENABLE_APPLE_AUTH: z.enum(["true", "false"]).default("false").transform((value) => value === "true"),
+  EXPO_PUBLIC_PHOTO_CHECK_PROVIDER: z.enum(["live", "fixture"]).default("live")
 });
 
 export type PublicEnvironment = z.infer<typeof publicEnvironmentSchema>;
