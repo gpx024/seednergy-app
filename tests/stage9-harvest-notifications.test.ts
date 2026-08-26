@@ -6,7 +6,7 @@ import { applyCycleCommand } from "@/src/domain/harvest";
 import { harvestRecordSchema, harvestSuggestionsSchema } from "@/src/domain/harvestRecord";
 
 const root = process.cwd();
-const migration = ["202608260011_stage9_harvest_notifications.sql", "202608260012_stage9_harvest_readiness_repair.sql"].map((name) => readFileSync(join(root, "supabase/migrations", name), "utf8")).join("\n");
+const migration = ["202608260011_stage9_harvest_notifications.sql", "202608260012_stage9_harvest_readiness_repair.sql", "202608260013_stage9_repair_dangling_harvest_photos.sql", "202608260014_stage9_attach_recovered_harvest_photo.sql"].map((name) => readFileSync(join(root, "supabase/migrations", name), "utf8")).join("\n");
 const edge = readFileSync(join(root, "supabase/functions/harvest-suggestions/index.ts"), "utf8");
 
 describe("Stage 9 harvest records", () => {
@@ -21,6 +21,11 @@ describe("Stage 9 harvest records", () => {
 
   it("validates a private harvest record", () => {
     expect(harvestRecordSchema.parse({ id: "73af2ba1-c4b8-4c85-a12e-171ae7b5ed98", cycleId: "a4205eef-262e-49ca-b67f-19f4507cf821", userId: "94941f38-681a-4639-9815-96ac7f3991dd", seedId: "663df460-0ac3-4308-973e-75c61685eaa8", harvestNumber: 1, harvestedAt: "2026-08-26T10:00:00.000Z", storagePath: null, suggestions: null, suggestionStatus: "pending", promptVersion: null, modelVersion: null, costEstimate: 0, latencyMs: 0 }).harvestNumber).toBe(1);
+  });
+
+  it("accepts PostgreSQL timestamps with an explicit timezone offset", () => {
+    const result = harvestRecordSchema.safeParse({ id: "73af2ba1-c4b8-4c85-a12e-171ae7b5ed98", cycleId: "a4205eef-262e-49ca-b67f-19f4507cf821", userId: "94941f38-681a-4639-9815-96ac7f3991dd", seedId: "663df460-0ac3-4308-973e-75c61685eaa8", harvestNumber: 1, harvestedAt: "2026-08-26T15:28:00+00:00", storagePath: null, suggestions: null, suggestionStatus: "pending", promptVersion: null, modelVersion: null, costEstimate: 0, latencyMs: 0 });
+    expect(result.success).toBe(true);
   });
 
   it("keeps repeating harvest cycles active", () => {
@@ -43,6 +48,7 @@ describe("Stage 9 database boundaries", () => {
   it("keeps harvest photos private and suggestions server-side", () => {
     expect(migration).toContain('create policy "harvests select own rows"');
     expect(migration).toContain("invalid harvest photo path");
+    expect(migration).toContain("function public.attach_harvest_photo");
     expect(edge).toContain('required("OPENAI_API_KEY")');
     expect(edge).toContain("Never return full recipes");
     expect(edge).toContain("store: false");

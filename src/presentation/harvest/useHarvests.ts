@@ -30,11 +30,24 @@ export function useCompleteHarvest() {
         const bytes = await response.arrayBuffer();
         storagePath = await cyclePhotoStorage.uploadHarvest(input.userId, input.cycleId, input.photo.fileName, bytes, input.photo.contentType);
       }
-      const record = await harvestRepository.complete({ cycleId: input.cycleId, harvestedAt: new Date().toISOString(), storagePath, clientEventId: Crypto.randomUUID() });
+      let record: HarvestRecord;
+      try {
+        record = await harvestRepository.complete({ cycleId: input.cycleId, harvestedAt: new Date().toISOString(), storagePath, clientEventId: Crypto.randomUUID() });
+      } catch (completionError) {
+        const existing = await harvestRepository.getLatestForCycle(input.cycleId).catch(() => null);
+        if (!existing) {
+          if (storagePath) await cyclePhotoStorage.remove(storagePath).catch(() => undefined);
+          throw completionError;
+        }
+        if (storagePath && !existing.storagePath) record = await harvestRepository.attachPhoto(existing.id, storagePath);
+        else {
+          if (storagePath && existing.storagePath !== storagePath) await cyclePhotoStorage.remove(storagePath).catch(() => undefined);
+          record = existing;
+        }
+      }
       try { return await harvestRepository.requestSuggestions(record.id); }
       catch { return record; }
     } catch (reason) {
-      if (storagePath) await cyclePhotoStorage.remove(storagePath).catch(() => undefined);
       const nextError = toError(reason); setError(nextError); throw nextError;
     } finally { setLoading(false); }
   }
@@ -50,8 +63,9 @@ export function useHarvest(id: string | undefined) {
     if (!id) { setData(null); setLoading(false); return; }
     setLoading(true); setError(null);
     try {
-      const record = await harvestRepository.get(id);
+      let record = await harvestRepository.get(id);
       if (!record) { setData(null); return; }
+      if (record.suggestionStatus === "pending") record = await harvestRepository.requestSuggestions(record.id).catch(() => record as HarvestRecord);
       setData(await hydrate(record));
     } catch (reason) { setError(toError(reason)); }
     finally { setLoading(false); }

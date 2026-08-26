@@ -21,8 +21,20 @@ export class SupabaseHarvestRepository implements HarvestRepository {
     return mapHarvest(data.harvest as HarvestRow);
   }
 
+  async attachPhoto(harvestId: string, storagePath: string): Promise<HarvestRecord> {
+    const { data, error } = await supabase.rpc("attach_harvest_photo", { p_harvest_id: harvestId, p_storage_path: storagePath });
+    if (error) throw error;
+    return mapHarvest(data);
+  }
+
   async get(id: string): Promise<HarvestRecord | null> {
     const { data, error } = await supabase.from("harvests").select("*").eq("id", id).maybeSingle();
+    if (error) throw error;
+    return data ? mapHarvest(data) : null;
+  }
+
+  async getLatestForCycle(cycleId: string): Promise<HarvestRecord | null> {
+    const { data, error } = await supabase.from("harvests").select("*").eq("cycle_id", cycleId).order("harvested_at", { ascending: false }).limit(1).maybeSingle();
     if (error) throw error;
     return data ? mapHarvest(data) : null;
   }

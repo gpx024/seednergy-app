@@ -16,7 +16,7 @@ export const harvestRecordSchema = z.object({
   userId: z.uuid(),
   seedId: z.uuid(),
   harvestNumber: z.int().positive(),
-  harvestedAt: z.iso.datetime(),
+  harvestedAt: z.iso.datetime({ offset: true }),
   storagePath: z.string().min(1).nullable(),
   suggestions: harvestSuggestionsSchema.nullable(),
   suggestionStatus: z.enum(["pending", "completed", "fallback", "failed"]),

@@ -9,7 +9,9 @@ export interface CompleteHarvestInput {
 
 export interface HarvestRepository {
   complete(input: CompleteHarvestInput): Promise<HarvestRecord>;
+  attachPhoto(harvestId: string, storagePath: string): Promise<HarvestRecord>;
   requestSuggestions(harvestId: string): Promise<HarvestRecord>;
   get(id: string): Promise<HarvestRecord | null>;
+  getLatestForCycle(cycleId: string): Promise<HarvestRecord | null>;
   getAll(): Promise<readonly HarvestRecord[]>;
 }

@@ -232,10 +232,14 @@ export interface Database {
         Args: { p_request_id: string; p_lease_token: string; p_user_id: string; p_check_type: string; p_storage_path: string; p_result: Json; p_occurred_at: string; p_input_tokens: number; p_cached_input_tokens: number; p_output_tokens: number; p_cost_estimate_usd: number; p_latency_ms: number; p_attempt_count: number; p_provider_request_id: string | null; p_error_code: string | null };
         Returns: PhotoCheckRow;
       };
-      complete_cycle_harvest: {
+       complete_cycle_harvest: {
         Args: { p_cycle_id: string; p_harvested_at: string; p_storage_path: string | null; p_client_event_id: string };
         Returns: HarvestRow;
-      };
+        };
+        attach_harvest_photo: {
+          Args: { p_harvest_id: string; p_storage_path: string };
+          Returns: HarvestRow;
+        };
       register_push_device: {
         Args: { p_expo_push_token: string; p_platform: "android" | "ios" };
         Returns: PushDeviceRow;
