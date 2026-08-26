@@ -10,6 +10,10 @@ Create `.env.local` from `.env.example` and provide:
 - `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
 - `EXPO_PUBLIC_ENABLE_APPLE_AUTH`
 - `EXPO_PUBLIC_PHOTO_CHECK_PROVIDER`
+- `EXPO_PUBLIC_PRIVACY_POLICY_URL`
+- `EXPO_PUBLIC_TERMS_URL`
+- `EXPO_PUBLIC_SUPPORT_URL`
+- `EXPO_PUBLIC_SENTRY_DSN`
 
 These values are included in the application bundle and must not contain secrets.
 
@@ -19,6 +23,7 @@ Configure in Supabase Edge Function secrets:
 
 - `OPENAI_API_KEY`
 - `OPENAI_MODEL`, currently a compatible low-cost model selected for development
+- `PHOTO_RETENTION_JOB_SECRET`, generated during Stage 11 and used only to authenticate the retention job
 
 Supabase provides `SUPABASE_URL`, `SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY` to Edge Functions. Do not copy the service-role key into `.env.local`.
 
@@ -62,7 +67,20 @@ Apply and deploy:
 npx supabase db push
 npx supabase functions deploy photo-check
 npx supabase functions deploy harvest-suggestions
+npx supabase functions deploy delete-account
+npx supabase functions deploy photo-retention
 ```
+
+## Stage 11 privacy operations
+
+- Account deletion runs through the `delete-account` Edge Function. It authenticates the current user, recursively removes all objects below that user’s private storage prefix, verifies the prefix is empty, deletes owned database rows in dependency order, then deletes the Supabase Auth user.
+- Photo retention runs through the `photo-retention` Edge Function and writes every attempt to `privacy_job_runs`.
+- The retention job is intentionally `skipped_unconfigured` while `privacy_configuration.check_photo_retention_days` is null. Do not set the proposed 90-day value until the legal policy is approved.
+- Once approved, update the configuration value and schedule a daily authenticated POST to the function. The `PHOTO_RETENTION_JOB_SECRET` value must remain server-side.
+
+## Sentry
+
+Create the client-owned Sentry project before production monitoring is enabled. Add the public DSN as `EXPO_PUBLIC_SENTRY_DSN`. Store `SENTRY_AUTH_TOKEN` as a sensitive EAS environment variable for source-map uploads, never in `.env.local` or Git. Adding `@sentry/react-native` changes native code, so install a new development APK before testing Sentry.
 
 ## Notification test
 

@@ -7,6 +7,7 @@ import type { PhotoCheckType } from "@/src/domain/photoCheck";
 import { fixturePhotoCheckProvider } from "@/src/infrastructure/ai/FixturePhotoCheckProvider";
 import { photoCheckFixtureIds } from "@/src/infrastructure/ai/photoCheckFixtures";
 import { supabasePhotoCheckProvider } from "@/src/infrastructure/ai/SupabasePhotoCheckProvider";
+import { analyticsService } from "@/src/infrastructure/analytics/SupabaseAnalyticsService";
 import { photoCheckRepository } from "@/src/infrastructure/repositories/SupabasePhotoCheckRepository";
 import { cyclePhotoStorage } from "@/src/infrastructure/storage/SupabaseCyclePhotoStorage";
 import type { PhotoCheckRecord } from "@/src/ports/PhotoCheckRepository";
@@ -36,6 +37,7 @@ export function useSubmitPhotoCheck() {
     validateCapturedPhoto(input.photo);
     setLoading(true); setError(null);
     try {
+      await analyticsService.track("photo_check_started", { cycle_day: input.cycle.day, seed_slug: input.cycle.seed.slug }).catch(() => undefined);
       const response = await fetch(input.photo.uri);
       if (!response.ok) throw new Error("The selected photo could not be read.");
       const body = await response.arrayBuffer();
@@ -45,8 +47,12 @@ export function useSubmitPhotoCheck() {
       const requestId = Crypto.randomUUID();
       const provider = featureFlags.fixturePhotoChecks ? fixturePhotoCheckProvider : supabasePhotoCheckProvider;
       const execution = await runPhotoCheck({ requestId, fixtureId: featureFlags.fixturePhotoChecks ? input.fixtureId : undefined, checkType: input.checkType, storagePath, context, provider });
-      if (execution.persistedCheckId) return execution.persistedCheckId;
+      if (execution.persistedCheckId) {
+        await analyticsService.track("photo_check_completed", { status: execution.result.status, cycle_day: input.cycle.day, seed_slug: input.cycle.seed.slug }).catch(() => undefined);
+        return execution.persistedCheckId;
+      }
       const record = await photoCheckRepository.save({ cycleId: input.cycle.cycle.id, checkType: input.checkType, storagePath, result: execution.result, occurredAt: new Date().toISOString(), clientEventId: requestId });
+      await analyticsService.track("photo_check_completed", { status: execution.result.status, cycle_day: input.cycle.day, seed_slug: input.cycle.seed.slug }).catch(() => undefined);
       return record.id;
     } catch (reason) {
       const nextError = toError(reason); setError(nextError); throw nextError;

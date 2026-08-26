@@ -2,6 +2,7 @@ import * as Crypto from "expo-crypto";
 import { useState } from "react";
 
 import { contentRepository } from "@/src/infrastructure/repositories/SupabaseContentRepository";
+import { analyticsService } from "@/src/infrastructure/analytics/SupabaseAnalyticsService";
 import { cycleRepository } from "@/src/infrastructure/repositories/SupabaseCycleRepository";
 import { profileRepository } from "@/src/infrastructure/repositories/SupabaseProfileRepository";
 import { useAuth } from "@/src/presentation/auth/AuthProvider";
@@ -33,6 +34,10 @@ export function useStartFirstCycle() {
         timezone,
         clientEventId: Crypto.randomUUID()
       });
+      await Promise.all([
+        analyticsService.track("onboarding_completed").catch(() => undefined),
+        analyticsService.track("cycle_started", { seed_slug: cress.slug, source: "onboarding" }).catch(() => undefined)
+      ]);
       await onboarding.clear();
       return cycle.id;
     } catch (reason) {

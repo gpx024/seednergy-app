@@ -23,6 +23,14 @@
 - Local fresh-project migration verification requires Docker. The linked remote project accepted the complete numbered migration chain and Supabase database lint reports no schema errors.
 - `npm audit --omit=dev` currently reports 23 transitive Expo toolchain advisories, 14 moderate and 9 high. Expo Doctor passes all 18 compatibility checks. The suggested automatic fix is an unsupported major Expo SDK upgrade, so it was not applied inside Stage 9 and should be handled as a planned SDK upgrade with full regression testing.
 
+## Stage 11 release blockers
+
+- The blueprint decision log still marks the proposed 90-day check-photo retention period as OPEN and requiring legal approval. Retention infrastructure is deployed, authenticated and logged, but deliberately returns `skipped_unconfigured` until that policy is approved. Harvest photos are never part of automated check-photo retention.
+- Approved public Privacy Policy, Terms of Service and support URLs have not been supplied. The app exposes their configuration points and clearly labels them unavailable during development.
+- Sentry is installed with default PII collection disabled, but reporting remains disabled until the client-owned Sentry DSN is supplied. Source-map upload also needs a sensitive `SENTRY_AUTH_TOKEN` in EAS.
+- The current Android development APK does not contain the newly added Sentry native module. A new development APK is required for complete Stage 11 device testing.
+- Account deletion has unit and boundary coverage and the deployed function rejects unauthenticated requests. A destructive authenticated deletion must be tested with a disposable account before production acceptance.
+
 ## Deferred stages
 
 Payments, CMS authoring UI, public community features, public Garden sharing, gamification, commerce, and production Apple authentication remain outside Stage 9.

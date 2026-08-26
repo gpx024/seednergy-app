@@ -10,6 +10,7 @@ export interface GrowerProfile {
   timeAvailability: string | null;
   motivation: string | null;
   onboardingCompletedAt: string | null;
+  aiPhotoNoticeAcceptedAt: string | null;
   notificationPreferences: NotificationPreferences;
 }
 
@@ -22,4 +23,5 @@ export interface CompleteOnboardingInput extends OnboardingAnswers {
 export interface ProfileRepository {
   getMine(): Promise<GrowerProfile | null>;
   completeOnboarding(input: CompleteOnboardingInput): Promise<GrowerProfile>;
+  acceptAiPhotoNotice(): Promise<GrowerProfile>;
 }

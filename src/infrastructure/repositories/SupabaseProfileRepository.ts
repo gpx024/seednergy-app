@@ -22,6 +22,12 @@ export class SupabaseProfileRepository implements ProfileRepository {
     if (error) throw error;
     return mapProfile(data);
   }
+
+  async acceptAiPhotoNotice(): Promise<GrowerProfile> {
+    const { data, error } = await supabase.rpc("accept_ai_photo_notice");
+    if (error) throw error;
+    return mapProfile(data);
+  }
 }
 
 function mapProfile(row: ProfileRow): GrowerProfile {
@@ -34,6 +40,7 @@ function mapProfile(row: ProfileRow): GrowerProfile {
     timeAvailability: row.time_availability,
     motivation: row.motivation,
     onboardingCompletedAt: row.onboarding_completed_at,
+    aiPhotoNoticeAcceptedAt: row.ai_photo_notice_accepted_at,
     notificationPreferences: parseNotificationPreferences(row.notification_prefs, row.quiet_hours)
   };
 }

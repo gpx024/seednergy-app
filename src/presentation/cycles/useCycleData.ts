@@ -5,6 +5,7 @@ import { buildCycleView, prioritizeCycleViews, type CycleView } from "@/src/appl
 import { contentRepository } from "@/src/infrastructure/repositories/SupabaseContentRepository";
 import { cycleRepository } from "@/src/infrastructure/repositories/SupabaseCycleRepository";
 import { notificationService } from "@/src/infrastructure/notifications/ExpoNotificationService";
+import { analyticsService } from "@/src/infrastructure/analytics/SupabaseAnalyticsService";
 
 interface Resource<T> {
   data: T;
@@ -47,6 +48,7 @@ export function useStartCycle() {
       const seed = await contentRepository.getPublishedSeed(slug);
       if (!seed || seed.accessType !== "free") throw new Error("This seed is not available to start.");
       const cycle = await cycleRepository.start({ seedId: seed.id, seedContentVersion: seed.contentVersion, startedAt: new Date().toISOString(), timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, clientEventId: Crypto.randomUUID() });
+      await analyticsService.track("cycle_started", { seed_slug: seed.slug, source: "seed_detail" }).catch(() => undefined);
       await notificationService.refreshCycle(cycle.id).catch(() => undefined);
       return cycle.id;
     } catch (reason) {
@@ -91,7 +93,10 @@ export function useCycle(id: string | undefined): Resource<CycleView | null> & {
     data, loading, error, reload, mutating,
     markActionDone: async () => {
       if (!data) return;
-      await mutate(() => cycleRepository.markActionDone({ cycleId: data.cycle.id, stageId: data.stageId, occurredAt: new Date().toISOString(), clientEventId: Crypto.randomUUID() }));
+      await mutate(async () => {
+        await cycleRepository.markActionDone({ cycleId: data.cycle.id, stageId: data.stageId, occurredAt: new Date().toISOString(), clientEventId: Crypto.randomUUID() });
+        await analyticsService.track("cycle_action_completed", { cycle_day: data.day, seed_slug: data.seed.slug }).catch(() => undefined);
+      });
     },
     archive: async () => {
       if (!data) return;

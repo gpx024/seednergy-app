@@ -1,7 +1,7 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import * as ImagePicker from "expo-image-picker";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { featureFlags } from "@/src/config/features";
@@ -32,6 +32,10 @@ export default function PhotoCheckScreen() {
   const [fixtureId, setFixtureId] = useState("AI-001");
   const cycle = cycleResource.data;
 
+  useEffect(() => {
+    if (!profile.loading && profile.data && !profile.data.aiPhotoNoticeAcceptedAt && id) router.replace({ pathname: "/cycle/[id]/photo-notice", params: { id, ...(type ? { type } : {}) } });
+  }, [id, profile.data, profile.loading, router, type]);
+
   async function choose(source: "camera" | "library") {
     mutation.clearError();
     setSelectionError(null);
@@ -55,6 +59,7 @@ export default function PhotoCheckScreen() {
   if (cycleResource.loading || profile.loading) return <ScreenContainer><FeedbackState kind="loading" title="Preparing your growth check" description="Loading this cycle’s authored context." /></ScreenContainer>;
   if (cycleResource.error || profile.error) return <ScreenContainer><FeedbackState kind="error" title="This check is unavailable" description={(cycleResource.error ?? profile.error)?.message ?? "Try again."} actionLabel="Try again" onAction={() => void Promise.all([cycleResource.reload(), profile.reload()])} /></ScreenContainer>;
   if (!cycle) return <ScreenContainer><FeedbackState kind="empty" title="Cycle not found" description="Return to your cycles and choose an active grow." /></ScreenContainer>;
+  if (!profile.data?.aiPhotoNoticeAcceptedAt) return <ScreenContainer><FeedbackState kind="loading" title="Preparing your privacy notice" description="Your first photo check starts with a clear explanation of how the image is used." /></ScreenContainer>;
 
   return <ScreenContainer scroll contentStyle={styles.container}>
     <Pressable accessibilityLabel="Back" accessibilityRole="button" hitSlop={12} onPress={() => router.back()} style={styles.back}><Ionicons color={tokens.colors.ink} name="arrow-back" size={tokens.layout.icon.lg} /></Pressable>

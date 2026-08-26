@@ -1,8 +1,9 @@
 import type { Session, User } from "@supabase/supabase-js";
-import { createContext, useContext, useEffect, useMemo, useState, type PropsWithChildren } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState, type PropsWithChildren } from "react";
 import { AppState, Platform } from "react-native";
 
 import { authService } from "@/src/infrastructure/auth/SupabaseAuthService";
+import { analyticsService } from "@/src/infrastructure/analytics/SupabaseAnalyticsService";
 import { supabase } from "@/src/infrastructure/supabase/client";
 import type { AuthResult } from "@/src/ports/AuthService";
 
@@ -25,6 +26,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const trackedUserId = useRef<string | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -44,6 +46,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
       data.subscription.unsubscribe();
     };
   }, []);
+
+  useEffect(() => {
+    const userId = session?.user.id ?? null;
+    if (!userId || trackedUserId.current === userId) return;
+    trackedUserId.current = userId;
+    void analyticsService.track("app_opened").catch(() => undefined);
+  }, [session?.user.id]);
 
   useEffect(() => {
     if (Platform.OS === "web") return;

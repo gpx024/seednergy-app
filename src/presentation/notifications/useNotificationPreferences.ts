@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { defaults, notificationService } from "@/src/infrastructure/notifications/ExpoNotificationService";
+import { analyticsService } from "@/src/infrastructure/analytics/SupabaseAnalyticsService";
 import { toNotificationPreferencesError } from "@/src/presentation/notifications/notificationErrors";
 import type { NotificationPreferences } from "@/src/ports/NotificationService";
 
@@ -20,6 +21,7 @@ export function useNotificationPreferences() {
     try {
       if (preferences.enabled) await notificationService.enable(preferences);
       else await notificationService.disable(preferences);
+      await analyticsService.track("notification_preference_changed", { status: preferences.enabled ? "enabled" : "disabled" }).catch(() => undefined);
     } catch (reason) {
       if (enabling) setPreferences((current) => ({ ...current, enabled: false }));
       const nextError = toNotificationPreferencesError(reason); setError(nextError); throw nextError;

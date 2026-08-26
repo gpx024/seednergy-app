@@ -1,4 +1,5 @@
 import { useState } from "react";
+import * as Linking from "expo-linking";
 import { useRouter } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
@@ -7,6 +8,7 @@ import { AppButton, AppField, ScreenContainer } from "@/src/ui/components";
 import { OnboardingHeader } from "@/src/ui/patterns/OnboardingHeader";
 import { tokens } from "@/src/ui/tokens";
 import { featureFlags } from "@/src/config/features";
+import { legalLinks } from "@/src/config/legal";
 import { useAuth } from "@/src/presentation/auth/AuthProvider";
 
 export default function CreateAccountScreen() {
@@ -41,7 +43,7 @@ export default function CreateAccountScreen() {
       {message ? <Text accessibilityLiveRegion="polite" style={styles.message}>{message}</Text> : null}
       <AppButton disabled={!email || password.length < 6} label={t("actions.continue")} loading={loading} onPress={() => submit(() => auth.signUp(email, password))} style={styles.action} />
       <AppButton label={t("onboarding.haveAccount")} onPress={() => router.push("/(onboarding)/sign-in")} variant="text" />
-      <Text style={styles.legal}>{t("onboarding.legalPrefix")}<Text style={styles.legalLink}>{t("onboarding.termsOfService")}</Text>{t("onboarding.legalAnd")}<Text style={styles.legalLink}>{t("onboarding.privacyPolicy")}</Text></Text>
+      <Text style={styles.legal}>{t("onboarding.legalPrefix")}<Text accessibilityRole={legalLinks.terms ? "link" : undefined} onPress={legalLinks.terms ? () => void Linking.openURL(legalLinks.terms) : undefined} style={styles.legalLink}>{t("onboarding.termsOfService")}</Text>{t("onboarding.legalAnd")}<Text accessibilityRole={legalLinks.privacyPolicy ? "link" : undefined} onPress={legalLinks.privacyPolicy ? () => void Linking.openURL(legalLinks.privacyPolicy) : undefined} style={styles.legalLink}>{t("onboarding.privacyPolicy")}</Text></Text>
     </ScreenContainer>
   );
 }

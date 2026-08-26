@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import type { HarvestRecord } from "@/src/domain";
 import type { PublishedSeed } from "@/src/domain/content";
 import { contentRepository } from "@/src/infrastructure/repositories/SupabaseContentRepository";
+import { analyticsService } from "@/src/infrastructure/analytics/SupabaseAnalyticsService";
 import { harvestRepository } from "@/src/infrastructure/repositories/SupabaseHarvestRepository";
 import { cyclePhotoStorage } from "@/src/infrastructure/storage/SupabaseCyclePhotoStorage";
 import type { CapturedPhoto } from "@/src/presentation/photoChecks/usePhotoChecks";
@@ -45,6 +46,7 @@ export function useCompleteHarvest() {
           record = existing;
         }
       }
+      await analyticsService.track("harvest_completed").catch(() => undefined);
       try { return await harvestRepository.requestSuggestions(record.id); }
       catch { return record; }
     } catch (reason) {

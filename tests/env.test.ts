@@ -10,7 +10,11 @@ describe("public environment configuration", () => {
       EXPO_PUBLIC_SUPABASE_URL: "https://example.supabase.co",
       EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "",
       EXPO_PUBLIC_ENABLE_APPLE_AUTH: false,
-      EXPO_PUBLIC_PHOTO_CHECK_PROVIDER: "live"
+      EXPO_PUBLIC_PHOTO_CHECK_PROVIDER: "live",
+      EXPO_PUBLIC_PRIVACY_POLICY_URL: "",
+      EXPO_PUBLIC_TERMS_URL: "",
+      EXPO_PUBLIC_SUPPORT_URL: "",
+      EXPO_PUBLIC_SENTRY_DSN: ""
     });
   });
 

@@ -1,0 +1,15 @@
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+
+import { useAcceptAiPhotoNotice } from "@/src/presentation/profile/useAcceptAiPhotoNotice";
+import { AppButton, AppCard, ScreenContainer } from "@/src/ui/components";
+import { tokens } from "@/src/ui/tokens";
+
+export default function PhotoNoticeScreen() {
+  const router = useRouter(); const { id, type } = useLocalSearchParams<{ id?: string; type?: string }>(); const mutation = useAcceptAiPhotoNotice();
+  async function accept() { await mutation.accept(); router.replace({ pathname: "/cycle/[id]/check", params: { id: id ?? "", ...(type ? { type } : {}) } }); }
+  return <ScreenContainer scroll contentStyle={styles.container}><Pressable accessibilityLabel="Back" hitSlop={12} onPress={() => router.back()}><Ionicons color={tokens.colors.ink} name="arrow-back" size={tokens.layout.icon.lg} /></Pressable><View style={styles.intro}><Text style={styles.eyebrow}>BEFORE YOUR FIRST CHECK</Text><Text accessibilityRole="header" style={styles.title}>How your photo is used</Text><Text style={styles.body}>Seednergy sends the photo you choose through its secure backend to an AI provider for guidance about this grow cycle.</Text></View><AppCard style={styles.card}><Text style={styles.cardTitle}>Private and specific</Text><Text style={styles.body}>Your photo is not posted publicly. The AI receives the cycle context needed to assess it, and the provider request is configured not to be stored for model training.</Text></AppCard><AppCard style={styles.card}><Text style={styles.cardTitle}>Helpful, not infallible</Text><Text style={styles.body}>AI guidance can be wrong. Use the result as a practical prompt, not professional horticultural, medical or food-safety advice.</Text></AppCard><AppCard variant="muted" style={styles.card}><Text style={styles.cardTitle}>Retention under review</Text><Text style={styles.body}>The final check-photo retention period still needs legal approval. Automated deletion remains disabled until that policy is confirmed.</Text></AppCard>{mutation.error ? <Text style={styles.error}>{mutation.error.message}</Text> : null}<AppButton label="I understand, continue" loading={mutation.loading} onPress={() => void accept().catch(() => undefined)} /><AppButton label="Not now" onPress={() => router.back()} variant="ghost" /></ScreenContainer>;
+}
+
+const styles = StyleSheet.create({ container: { gap: tokens.spacing.cardGap, paddingBottom: tokens.spacing.xl }, intro: { gap: tokens.spacing.sm, marginHorizontal: tokens.spacing.md }, eyebrow: { ...tokens.typography.label, color: tokens.colors.oliveLabel }, title: { ...tokens.typography.displayLarge, color: tokens.colors.terracottaText }, body: { ...tokens.typography.body, color: tokens.colors.ink82 }, card: { gap: tokens.spacing.sm }, cardTitle: { ...tokens.typography.cardTitle, color: tokens.colors.forest }, error: { ...tokens.typography.bodyStrong, color: tokens.colors.alert, textAlign: "center" } });

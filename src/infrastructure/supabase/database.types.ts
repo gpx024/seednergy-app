@@ -18,6 +18,7 @@ export interface ProfileRow {
   environment_slug: string | null;
   light_condition_slug: string | null;
   onboarding_completed_at: string | null;
+  ai_photo_notice_accepted_at: string | null;
 }
 
 export interface CycleRow {
@@ -191,6 +192,7 @@ export interface Database {
       harvests: TableShape<HarvestRow>;
       push_devices: TableShape<PushDeviceRow>;
       notifications: TableShape<NotificationRow>;
+      analytics_events: TableShape<{ id: string; user_id: string; event_name: string; properties: Json; occurred_at: string }>;
       seeds: TableShape<SeedRow>;
       seed_stages: TableShape<SeedStageRow>;
     };
@@ -252,6 +254,10 @@ export interface Database {
         Args: { p_cycle_id: string; p_now?: string };
         Returns: NotificationRow | null;
       };
+      accept_ai_photo_notice: { Args: Record<never, never>; Returns: ProfileRow };
+      record_analytics_event: { Args: { p_event_name: string; p_properties?: Json; p_occurred_at?: string }; Returns: undefined };
+      finalize_account_deletion: { Args: { p_user_id: string }; Returns: undefined };
+      prepare_photo_retention: { Args: { p_retention_days: number }; Returns: number };
     };
     Enums: Record<never, never>;
     CompositeTypes: Record<never, never>;

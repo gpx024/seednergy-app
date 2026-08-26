@@ -27,7 +27,7 @@ export default function ProfileScreen() {
       <AppCard variant="hero" style={styles.identity}><Image accessibilityLabel={t("main.albaPortrait")} source={alba} style={styles.avatar} /><View style={styles.identityCopy}><Text style={styles.name}>{displayName}</Text><Text style={styles.identityMeta}>{user?.email ?? t("main.albaMeta")}</Text></View></AppCard>
       <SettingsGroup label={t("main.yourSpace")} items={[{ icon: "location-outline", title: t("main.growingSpace"), value: environment }, { icon: "sunny-outline", title: t("profile.light"), value: light }]} />
       <SettingsGroup label="Your harvests" items={[{ icon: "images-outline", title: "Private harvest gallery", value: "Your completed cycles", onPress: () => router.push("/harvest/gallery") }]} />
-      <SettingsGroup label={t("main.account")} items={[{ icon: "person-outline", title: t("main.accountDetails"), value: user?.email ?? t("main.albaEmail") }, { icon: "notifications-outline", title: "Notifications", value: profile.data?.notificationPreferences.enabled ? "Enabled" : "Off", onPress: () => router.push("/settings") }]} />
+      <SettingsGroup label={t("main.account")} items={[{ icon: "person-outline", title: t("main.accountDetails"), value: user?.email ?? t("main.albaEmail") }, { icon: "notifications-outline", title: "Notifications", value: profile.data?.notificationPreferences.enabled ? "Enabled" : "Off", onPress: () => router.push("/settings") }, { icon: "shield-checkmark-outline", title: "Account and privacy", value: "Data, legal and help", onPress: () => router.push("/settings/privacy") }]} />
       <AppButton label={t("onboarding.signOut")} onPress={() => void signOut()} variant="secondary" />
     </ScreenContainer>
   );

@@ -3,6 +3,7 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { resolveSeedImage } from "@/src/presentation/content/seedImages";
+import { useAnalyticsEvent } from "@/src/presentation/analytics/useAnalyticsEvent";
 import { calculateGardenCardWidth } from "@/src/presentation/harvest/galleryLayout";
 import { useHarvestGallery } from "@/src/presentation/harvest/useHarvests";
 import { FeedbackState, ScreenContainer } from "@/src/ui/components";
@@ -11,6 +12,7 @@ export default function PrivateGardenScreen() {
   const router = useRouter(); const resource = useHarvestGallery();
   const [gridWidth, setGridWidth] = useState(0);
   const cardWidth = calculateGardenCardWidth(gridWidth, tokens.spacing.cardGap);
+  useAnalyticsEvent("garden_opened");
   return <ScreenContainer scroll contentStyle={styles.container}><View style={styles.header}><Pressable accessibilityLabel="Back" accessibilityRole="button" hitSlop={12} onPress={() => router.back()}><Ionicons color={tokens.colors.ink} name="arrow-back" size={tokens.layout.icon.lg} /></Pressable><Ionicons color={tokens.colors.olive} name="lock-closed-outline" size={tokens.layout.icon.md} /></View><View style={styles.intro}><Text style={styles.eyebrow}>PRIVATE TO YOU</Text><Text accessibilityRole="header" style={styles.title}>Your Garden</Text><Text style={styles.body}>A quiet record of what you have grown and harvested.</Text></View>
     {resource.loading ? <FeedbackState kind="loading" title="Opening your garden" description="Gathering your harvest history." /> : null}{resource.error ? <FeedbackState kind="error" title="Your garden is unavailable" description={resource.error.message} actionLabel="Try again" onAction={() => void resource.reload()} /> : null}{!resource.loading && !resource.error && resource.data.length === 0 ? <FeedbackState kind="empty" title="Your first harvest will live here" description="Complete a grow cycle to begin your private archive." /> : null}
     <View onLayout={(event) => setGridWidth(event.nativeEvent.layout.width)} style={styles.grid}>{resource.data.map((item) => { const source = item.photoUrl ? { uri: item.photoUrl } : resolveSeedImage(item.seed.images); return <Pressable accessibilityRole="button" key={item.record.id} onPress={() => router.push(`/harvest/${item.record.id}`)} style={[styles.card, cardWidth > 0 ? { width: cardWidth } : styles.cardFallback]}>{source ? <View style={styles.media}><Image accessibilityLabel={`${item.seed.commonName} harvest`} resizeMode="cover" source={source} style={styles.image} /></View> : null}<View style={styles.copy}><Text style={styles.name}>{item.seed.commonName}</Text><Text style={styles.meta}>{formatDate(item.record.harvestedAt)} · Harvest {item.record.harvestNumber}</Text>{!item.photoUrl ? <Text style={styles.authored}>Seed photo</Text> : null}</View></Pressable>; })}</View></ScreenContainer>;

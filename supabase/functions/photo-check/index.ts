@@ -86,6 +86,7 @@ Deno.serve(async (request) => {
     }
     console.error(JSON.stringify({ event: "photo_check_failed", requestId: logId, errorCode, latencyMs: Date.now() - startedAt }));
     if (errorCode === "invalid_request") return json({ error: errorCode, message: "The photo-check request was invalid." }, 400);
+    if (errorCode === "ai_photo_notice_required") return json({ error: errorCode, message: "Review the AI photo notice before your first check." }, 428);
     if (errorCode === "active_cycle_not_found" || errorCode === "storage_path_not_owned") return json({ error: errorCode, message: "This photo does not belong to the active cycle." }, 403);
     return json({ result });
   }
@@ -118,9 +119,10 @@ async function loadServerContext(client: ReturnType<typeof createClient>, userId
   const [{ data: seed, error: seedError }, { data: stages, error: stagesError }, { data: profile, error: profileError }] = await Promise.all([
     client.from("seeds").select("id,name,content_version").eq("id", cycle.seed_id).maybeSingle(),
     client.from("seed_stages").select("stage,phase,day_from,day_to,what_good_looks_like,common_problems,photo_check_prompt,position").eq("seed_id", cycle.seed_id).order("position"),
-    client.from("profiles").select("light_condition_slug").eq("id", userId).maybeSingle()
+    client.from("profiles").select("light_condition_slug,ai_photo_notice_accepted_at").eq("id", userId).maybeSingle()
   ]);
   if (seedError || stagesError || profileError) throw new Error("context_query_failed");
+  if (!profile?.ai_photo_notice_accepted_at) throw new Error("ai_photo_notice_required");
   if (!seed || seed.content_version !== cycle.seed_content_version || !stages?.length) throw new Error("authored_context_unavailable");
   const day = calculateCycleDay(cycle.started_at, cycle.timezone);
   const stage = stages.find((candidate) => day >= candidate.day_from && (candidate.day_to === null || day <= candidate.day_to)) ?? stages.at(-1);
@@ -209,7 +211,7 @@ function providerFailureResult(errorCode: string): PhotoCheckResult {
 function safeErrorCode(error: unknown): string {
   if (!(error instanceof Error)) return "provider_error";
   if (error.name === "ZodError" || error instanceof SyntaxError) return "invalid_request";
-  const known = ["active_cycle_not_found", "storage_path_not_owned", "photo_download_failed", "invalid_photo_size", "invalid_photo_type", "authored_context_unavailable"];
+  const known = ["active_cycle_not_found", "storage_path_not_owned", "photo_download_failed", "invalid_photo_size", "invalid_photo_type", "authored_context_unavailable", "ai_photo_notice_required"];
   return known.find((code) => error.message.includes(code)) ?? "provider_error";
 }
 

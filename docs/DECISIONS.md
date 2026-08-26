@@ -1,5 +1,16 @@
 # Implementation decision log
 
+## 2026-08-26, Stage 11 privacy and compliance decisions
+
+- Account deletion removes storage objects through the Supabase Storage API before database and Auth deletion. Direct SQL deletion from `storage.objects` is not used because it can orphan the underlying files.
+- The deletion sequence is retry-safe. Storage removal is verified before database cleanup, database deletes are idempotent, and Auth deletion happens last.
+- The append-only `cycle_events` rule remains intact during normal use. A transaction-local flag permits deletion only inside the service-role account-deletion function.
+- Check-photo retention is configurable and disabled while the blueprint’s 90-day proposal remains legally unapproved. The deployed job logs `skipped_unconfigured` rather than silently choosing a policy.
+- Harvest photos remain until the user deletes the account. They are excluded from the automated check-photo retention job.
+- Product analytics use a first-party Supabase table, an explicit event allowlist and a small non-PII property allowlist. Analytics failures never block the grow cycle.
+- The first AI photo notice is stored on the profile and enforced by both the mobile route and the server-side photo-check function.
+- Sentry is configured with default PII disabled and zero performance tracing. It remains inactive until a client-owned DSN is supplied.
+
 ## 2026-08-26, Stage 9 harvest and notification decisions
 
 - Harvest completion is a database RPC, not a client-side table update. This keeps ownership, readiness, idempotency, the cycle transition, the harvest record, and the event in one transaction.
@@ -12,4 +23,3 @@
 - Development defaults are daily frequency with quiet hours from 21:00 to 08:00. Users can disable reminders or choose a quieter frequency.
 - Expo Push is the delivery provider for the Expo React Native client. Native notification support requires a rebuilt development APK.
 - The database cron dispatcher is deliberately simple for the initial product stage. Receipt reconciliation and retry processing are deferred and recorded as limitations.
-

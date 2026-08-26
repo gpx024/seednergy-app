@@ -39,3 +39,9 @@ verify_jwt = false
 
 [functions.harvest-suggestions]
 verify_jwt = false
+
+[functions.delete-account]
+verify_jwt = false
+
+[functions.photo-retention]
+verify_jwt = false

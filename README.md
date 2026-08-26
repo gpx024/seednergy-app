@@ -1,6 +1,6 @@
 # Seednergy app
 
-Expo React Native application for Seednergy’s guided seed-to-harvest experience. The current implementation covers onboarding, Supabase authentication, authored seed content, the grow-cycle engine, AI-assisted private photo checks, harvest completion, a Private Garden, and action-based push notification scheduling.
+Expo React Native application for Seednergy’s guided seed-to-harvest experience. The current implementation covers onboarding, Supabase authentication, authored seed content, the grow-cycle engine, AI-assisted private photo checks, harvest completion, a Private Garden, action-based push notification scheduling, and Stage 11 privacy controls.
 
 The product and technical source of truth is the Notion page **Seednergy Build Blueprint Codex**. Local documents describe the implemented system and operational handover, they do not replace the blueprint.
 
@@ -40,6 +40,8 @@ npx supabase db push --dry-run
 npx supabase db push
 npx supabase functions deploy photo-check
 npx supabase functions deploy harvest-suggestions
+npx supabase functions deploy delete-account
+npx supabase functions deploy photo-retention
 ```
 
 Set `OPENAI_API_KEY` and `OPENAI_MODEL` as Supabase Edge Function secrets. They must never be exposed through an `EXPO_PUBLIC_` variable.
@@ -52,4 +54,3 @@ Set `OPENAI_API_KEY` and `OPENAI_MODEL` as Supabase Edge Function secrets. They 
 - [Known limitations](./docs/KNOWN_LIMITATIONS.md)
 - [Stage 8 AI evaluation](./docs/AI_EVALUATION_STAGE8.md)
 - [Seed content authoring](./docs/SEED_CONTENT_AUTHORING.md)
-
