@@ -4,6 +4,8 @@ import { describe, expect, it } from "vitest";
 
 import { applyCycleCommand } from "@/src/domain/harvest";
 import { harvestRecordSchema, harvestSuggestionsSchema } from "@/src/domain/harvestRecord";
+import { calculateGardenCardWidth } from "@/src/presentation/harvest/galleryLayout";
+import { toNotificationPreferencesError } from "@/src/presentation/notifications/notificationErrors";
 
 const root = process.cwd();
 const migration = ["202608260011_stage9_harvest_notifications.sql", "202608260012_stage9_harvest_readiness_repair.sql", "202608260013_stage9_repair_dangling_harvest_photos.sql", "202608260014_stage9_attach_recovered_harvest_photo.sql"].map((name) => readFileSync(join(root, "supabase/migrations", name), "utf8")).join("\n");
@@ -60,5 +62,17 @@ describe("Stage 9 database boundaries", () => {
     expect(migration).toContain("current_stage.next_action");
     expect(migration).toContain("'/cycle/' || owned_cycle.id::text");
     expect(migration).toContain("seednergy-dispatch-notifications");
+  });
+});
+
+describe("Stage 9 presentation safeguards", () => {
+  it("keeps a two-column Garden grid within its measured container", () => {
+    expect(calculateGardenCardWidth(320, 16)).toBe(152);
+    expect(calculateGardenCardWidth(0, 16)).toBe(0);
+  });
+
+  it("turns a missing Android Firebase setup into an actionable message", () => {
+    const error = toNotificationPreferencesError(new Error("Default FirebaseApp is not initialized in this process com.seednergy.app"));
+    expect(error.message).toContain("new Firebase-enabled Seednergy build");
   });
 });
