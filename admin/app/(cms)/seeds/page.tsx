@@ -1,0 +1,5 @@
+import Link from "next/link";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { CreateSeedButton } from "./CreateSeedButton";
+
+export default async function SeedsPage(){const supabase=await createSupabaseServerClient();const {data,error}=await supabase.from("seed_drafts").select("seed_id,seed_data,status,based_on_version,updated_at").order("updated_at",{ascending:false});return <><p className="eyebrow">Content library</p><h1>Seeds</h1><p>Open a seed to edit metadata, stages, imagery, and publication state.</p><CreateSeedButton/>{error&&<p className="error">{error.message}</p>}<table className="table"><thead><tr><th>Seed</th><th>Access</th><th>Status</th><th>Version</th><th></th></tr></thead><tbody>{(data??[]).map(row=>{const seed=row.seed_data as Record<string,unknown>;return <tr key={row.seed_id}><td><strong>{String(seed.name??"Untitled")}</strong><br/><small>{String(seed.botanical_name??"")}</small></td><td>{String(seed.access_type??"")}</td><td><span className="pill">{row.status}</span></td><td>{row.based_on_version}</td><td><Link className="button" href={`/seeds/${row.seed_id}`}>Edit</Link></td></tr>})}</tbody></table></>}

@@ -1,0 +1,6 @@
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
+
+export function CreateSeedButton(){const router=useRouter();const [open,setOpen]=useState(false);const [name,setName]=useState("");const [slug,setSlug]=useState("");const [message,setMessage]=useState("");async function create(){const {data,error}=await createSupabaseBrowserClient().rpc("create_seed_draft",{p_name:name,p_slug:slug});if(error)setMessage(error.message);else router.push(`/seeds/${data}`)}return <div>{open?<div className="card" style={{marginBottom:22}}><div className="form-grid"><div className="field"><label>Name</label><input value={name} onChange={e=>{setName(e.target.value);setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""))}}/></div><div className="field"><label>Slug</label><input value={slug} onChange={e=>setSlug(e.target.value)}/></div></div><div className="actions" style={{marginTop:14}}><button className="button" onClick={create}>Create draft</button><button className="button ghost" onClick={()=>setOpen(false)}>Cancel</button></div>{message&&<p className="error">{message}</p>}</div>:<button className="button" onClick={()=>setOpen(true)}>Create seed</button>}</div>}

@@ -179,6 +179,15 @@ export interface SeedRow {
   content_sources: Json;
 }
 
+export interface SeedPublicationRow {
+  seed_id: string;
+  version: number;
+  seed_data: Json;
+  stages_data: Json;
+  published_by: string | null;
+  published_at: string;
+}
+
 type TableShape<Row, Insert = Partial<Row>, Update = Partial<Insert>> = { Row: Row; Insert: Insert; Update: Update; Relationships: [] };
 
 export interface Database {
@@ -195,6 +204,7 @@ export interface Database {
       analytics_events: TableShape<{ id: string; user_id: string; event_name: string; properties: Json; occurred_at: string }>;
       seeds: TableShape<SeedRow>;
       seed_stages: TableShape<SeedStageRow>;
+      seed_publications: TableShape<SeedPublicationRow>;
     };
     Views: Record<never, never>;
     Functions: {
@@ -257,6 +267,9 @@ export interface Database {
       accept_ai_photo_notice: { Args: Record<never, never>; Returns: ProfileRow };
       record_analytics_event: { Args: { p_event_name: string; p_properties?: Json; p_occurred_at?: string }; Returns: undefined };
       finalize_account_deletion: { Args: { p_user_id: string }; Returns: undefined };
+      publish_seed_draft: { Args: { p_seed_id: string }; Returns: number };
+      create_seed_draft: { Args: { p_name: string; p_slug: string }; Returns: string };
+      get_cms_dashboard_metrics: { Args: Record<never, never>; Returns: Json };
       prepare_photo_retention: { Args: { p_retention_days: number }; Returns: number };
     };
     Enums: Record<never, never>;

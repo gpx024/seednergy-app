@@ -17,7 +17,7 @@ interface Resource<T> {
 async function hydrateCycles(activeOnly: boolean): Promise<readonly CycleView[]> {
   const cycles = activeOnly ? await cycleRepository.getActive() : await cycleRepository.getAll();
   const views = await Promise.all(cycles.map(async (cycle) => {
-    const seed = await contentRepository.getPublishedSeedById(cycle.seedId);
+    const seed = await contentRepository.getPublishedSeedById(cycle.seedId, cycle.seedContentVersion);
     if (!seed) throw new Error("The authored seed content for this cycle is unavailable.");
     return buildCycleView(cycle, seed);
   }));
@@ -74,7 +74,7 @@ export function useCycle(id: string | undefined): Resource<CycleView | null> & {
     try {
       const cycle = await cycleRepository.get(id);
       if (!cycle) { setData(null); return; }
-      const seed = await contentRepository.getPublishedSeedById(cycle.seedId);
+      const seed = await contentRepository.getPublishedSeedById(cycle.seedId, cycle.seedContentVersion);
       if (!seed) throw new Error("The authored seed content for this cycle is unavailable.");
       setData(buildCycleView(cycle, seed));
     } catch (reason) { setError(toError(reason)); }

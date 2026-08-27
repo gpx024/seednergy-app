@@ -26,7 +26,14 @@ export class SupabaseContentRepository implements ContentRepository {
     return this.getPublishedSeedWhere("slug", slug);
   }
 
-  async getPublishedSeedById(id: string): Promise<PublishedSeed | null> {
+  async getPublishedSeedById(id: string, contentVersion?: number): Promise<PublishedSeed | null> {
+    if (contentVersion !== undefined) {
+      const publication = await supabase.from("seed_publications").select("seed_data,stages_data").eq("seed_id", id).eq("version", contentVersion).maybeSingle();
+      if (!publication.error && publication.data) {
+        return mapPublishedSeed(publication.data.seed_data as unknown as SeedRow, publication.data.stages_data as unknown as SeedStageRow[]);
+      }
+      if (publication.error && publication.error.code !== "42P01") throw publication.error;
+    }
     return this.getPublishedSeedWhere("id", id);
   }
 
@@ -37,7 +44,12 @@ export class SupabaseContentRepository implements ContentRepository {
     const seed = seedResult.data as unknown as SeedRow;
     const stageResult = await supabase.from("seed_stages").select("*").eq("seed_id", seed.id).order("position");
     if (stageResult.error) throw stageResult.error;
-    return parseOrThrow(publishedSeedSchema, {
+    return mapPublishedSeed(seed, stageResult.data as SeedStageRow[]);
+  }
+}
+
+function mapPublishedSeed(seed: SeedRow, stages: SeedStageRow[]): PublishedSeed {
+  return parseOrThrow(publishedSeedSchema, {
       ...mapSeed(seed),
       harvestMode: seed.harvest_mode,
       materials: seed.materials,
@@ -45,7 +57,7 @@ export class SupabaseContentRepository implements ContentRepository {
       harvestReadiness: seed.harvest_readiness,
       storageGuidance: seed.storage_guidance,
       tasteProfile: seed.taste_profile,
-      stages: (stageResult.data as SeedStageRow[]).map((stage) => ({
+      stages: stages.map((stage) => ({
         id: stage.id,
         stage: stage.stage,
         phase: stage.phase,
@@ -65,7 +77,6 @@ export class SupabaseContentRepository implements ContentRepository {
         harvestCriteria: stage.harvest_criteria
       }))
     });
-  }
 }
 
 function mapSeed(seed: SeedRow): SeedSummary {

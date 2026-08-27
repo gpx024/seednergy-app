@@ -1,11 +1,14 @@
 # Dependencies
 node_modules/
+admin/.next/
+admin/tsconfig.tsbuildinfo
 
 # Expo
 .expo/
 dist/
 dist-stage7*/
 dist-stage8/
+dist-stage14/
 web-build/
 
 # Credentials and local environment settings

@@ -1,0 +1,5 @@
+import { requireAdmin } from "@/lib/auth";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { SettingsForm, UsageLimitForm } from "./SettingsForm";
+
+export default async function SettingsPage(){const admin=await requireAdmin();const supabase=await createSupabaseServerClient();const [{data:settings},{data:limits}]=await Promise.all([supabase.from("cms_ai_settings").select("*").order("id"),supabase.from("cms_usage_limits").select("*").in("id",["free","paid"]).order("id")]);return <><p className="eyebrow">Controlled configuration</p><h1>AI settings</h1><p>Prompt and model configuration is separated by check type. API secrets remain in Supabase Edge Function secrets and are never exposed to this browser.</p>{(settings??[]).map(setting=><SettingsForm key={setting.id} settings={setting as Record<string,unknown>}/>)}{["publisher","owner"].includes(admin.role)&&<><h2>Usage limits</h2><p className="notice">These values are provisional configuration until the commercial quota decision is approved.</p><div className="grid">{(limits??[]).map(limit=><UsageLimitForm key={limit.id} limit={limit as Record<string,unknown>}/>)}</div></>}</>}
