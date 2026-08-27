@@ -20,7 +20,7 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/app/adaptive-icon.png",
         "monochromeImage": "./assets/app/adaptive-icon.png",
-        "backgroundColor": "#efe9dc"
+        "backgroundColor": "#eeece7"
       }
     },
     "userInterfaceStyle": "light",
@@ -38,7 +38,7 @@
           "image": "./assets/app/splash-icon.png",
           "imageWidth": 190,
           "resizeMode": "contain",
-          "backgroundColor": "#efe9dc"
+          "backgroundColor": "#eeece7"
         }
       ],
       [

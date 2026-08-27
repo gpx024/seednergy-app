@@ -3,7 +3,7 @@ import { useRouter } from "expo-router";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
-import { AppButton, AppCard, BrandHeader, FeedbackState, ScreenContainer } from "@/src/ui/components";
+import { AppButton, AppCard, FeedbackState, ScreenContainer } from "@/src/ui/components";
 import { tokens } from "@/src/ui/tokens";
 import { useAuth } from "@/src/presentation/auth/AuthProvider";
 import { useProfile } from "@/src/presentation/profile/useProfile";
@@ -20,7 +20,6 @@ export default function ProfileScreen() {
   const light = profile.data?.lightCondition ? labelValue(profile.data.lightCondition) : t("main.notConnected");
   return (
     <ScreenContainer includeBottomSafeArea={false} scroll contentStyle={styles.container}>
-      <BrandHeader />
       <Text accessibilityRole="header" style={styles.title}>{t("main.profile")}</Text>
       {profile.loading ? <FeedbackState kind="loading" title={t("profile.loading")} description={t("profile.loadingBody")} /> : null}
       {profile.error ? <FeedbackState actionLabel={t("content.tryAgain")} description={profile.error.message} kind="error" onAction={() => void profile.reload()} title={t("profile.error")} /> : null}

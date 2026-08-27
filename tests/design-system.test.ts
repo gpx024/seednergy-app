@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 
 import { colors } from "@/src/ui/tokens/colors";
 import { semanticTokens } from "@/src/ui/tokens/semantic";
@@ -6,14 +8,20 @@ import { spacing } from "@/src/ui/tokens/spacing";
 import { typography } from "@/src/ui/tokens/typography";
 
 describe("Seednergy design system contract", () => {
-  it("uses the approved v5 palette and type families", () => {
-    expect(semanticTokens.tokenStatus).toBe("handoff-v5");
-    expect(colors.canvas).toBe("#EFE9DC");
-    expect(colors.card).toBe("#F4F1E9");
-    expect(colors.forest).toBe("#34432C");
-    expect(colors.actionPrimary).toBe("#34432C");
-    expect(colors.stone).toBe("#EFE9DC");
-    expect(colors.terracottaText).toBe("#B25F35");
+  it("uses the approved August 2026 palette and type families", () => {
+    expect(semanticTokens.tokenStatus).toBe("home-refresh-2026-08-27");
+    expect(colors.background).toBe("#EEECE7");
+    expect(colors.raised).toBe("#F3F1EC");
+    expect(colors.brand).toBe("#472C2A");
+    expect(colors.olive).toBe("#6D7A38");
+    expect(colors.seed).toBe("#504B24");
+    expect(colors.accent).toBe("#A66C6F");
+    expect(colors.progressText).toBe("#6A6960");
+    expect(colors.highlight).toBe("#70484A");
+    expect(colors.coachLabel).toBe("#DCDAD5");
+    expect(colors.tabActiveSurface).toBe("#E5E3DE");
+    expect(colors.tabInactiveSurface).toBe("#DCDAD5");
+    expect(colors.tabActiveContent).toBe("#846967");
     expect(typography.display.fontFamily).toBe("CrimsonText_600SemiBold");
     expect(typography.body.fontFamily).toBe("Inter_400Regular");
     expect(typography.button.fontFamily).toBe("CrimsonText_700Bold");
@@ -29,5 +37,14 @@ describe("Seednergy design system contract", () => {
     expect(spacing.gutter).toBe(16);
     expect(spacing.cardPadding).toBe(16);
     expect(spacing.sectionGap).toBe(24);
+  });
+
+  it("keeps the handoff tokens on the current palette", () => {
+    const handoffTokens = readFileSync(resolve("design-system/handoff/tokens.css"), "utf8");
+
+    expect(handoffTokens).toContain("--sd-canvas:      #EEECE7");
+    expect(handoffTokens).toContain("--sd-card:        #F3F1EC");
+    expect(handoffTokens).toContain("--sd-inv-ground:  #472C2A");
+    expect(handoffTokens).not.toMatch(/#(?:E8E2D4|EFEADF|71763B|5C7F3F|2F3D28|9E3521)/i);
   });
 });

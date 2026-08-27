@@ -122,6 +122,7 @@
     "greetingName": "Hi, Alba",
     "greeting": "Hi, {{name}}",
     "growerName": "Grower",
+    "locationWeather": "London, 26°",
     "growingSpace": "Growing space",
     "growth": "Growth",
     "growthDay": "Growth · Day 3",

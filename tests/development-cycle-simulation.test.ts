@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import { startedAtForSimulatedCycleDay } from "@/src/application/cycles/developmentSimulation";
 import { calculateCycleDay } from "@/src/domain";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 
 describe("development cycle simulation", () => {
   it("creates a start date that evaluates to the requested cycle day", () => {
@@ -13,5 +15,11 @@ describe("development cycle simulation", () => {
   it("rejects invalid simulated days", () => {
     expect(() => startedAtForSimulatedCycleDay(0)).toThrow("positive whole number");
     expect(() => startedAtForSimulatedCycleDay(1.5)).toThrow("positive whole number");
+  });
+
+  it("allows the simulator in non-production internal builds only", () => {
+    const source = readFileSync(join(process.cwd(), "src/config/features.ts"), "utf8");
+    expect(source).toContain('environment.EXPO_PUBLIC_APP_ENV !== "production"');
+    expect(source).toContain("environment.EXPO_PUBLIC_ENABLE_DEV_ROUTES");
   });
 });

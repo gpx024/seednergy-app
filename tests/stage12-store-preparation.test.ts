@@ -22,7 +22,7 @@ describe("Stage 12 store preparation", () => {
       appConfig.expo.android.adaptiveIcon.monochromeImage,
     ];
     const splash = appConfig.expo.plugins.find((entry: unknown) => Array.isArray(entry) && entry[0] === "expo-splash-screen");
-    expect(splash?.[1].backgroundColor).toBe("#efe9dc");
+    expect(splash?.[1].backgroundColor).toBe("#eeece7");
     assets.push(splash?.[1].image);
 
     for (const asset of assets) {

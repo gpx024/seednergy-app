@@ -6,22 +6,20 @@ import { useTranslation } from "react-i18next";
 import { AppButton, AppCard, BrandHeader, CycleGauge, CycleProgress, FeedbackState, PhotoFrame, ScreenContainer, StageBadge } from "@/src/ui/components";
 import { resolveSeedImage } from "@/src/presentation/content/seedImages";
 import { useCycleList } from "@/src/presentation/cycles/useCycleData";
-import { useProfile } from "@/src/presentation/profile/useProfile";
 import { tokens } from "@/src/ui/tokens";
+
+const profileImage = require("../../assets/images/profiles/alba-temporary.png");
 
 export default function HomeScreen() {
   const { t } = useTranslation();
   const router = useRouter();
   const cycles = useCycleList(true);
-  const profile = useProfile();
   const reloadCycles = cycles.reload;
-  const reloadProfile = profile.reload;
-  useFocusEffect(useCallback(() => { void reloadCycles(); void reloadProfile(); }, [reloadCycles, reloadProfile]));
+  useFocusEffect(useCallback(() => { void reloadCycles(); }, [reloadCycles]));
   const cycle = cycles.data[0];
   const cycleImage = cycle ? resolveSeedImage(cycle.seed.images) : undefined;
-  const name = profile.data?.displayName?.split(" ")[0] ?? t("main.growerName");
   return <ScreenContainer includeBottomSafeArea={false} scroll contentStyle={styles.container}>
-    <View style={styles.intro}><BrandHeader /><Text accessibilityRole="header" style={styles.greeting}>{t("main.greeting", { name })}</Text></View>
+    <View style={styles.intro}><BrandHeader locationLabel={t("main.locationWeather")} profileImage={profileImage} /></View>
     {cycles.loading ? <FeedbackState kind="loading" title={t("cycle.loadingTitle")} description={t("cycle.loadingBody")} /> : null}
     {cycles.error ? <FeedbackState actionLabel={t("content.tryAgain")} description={cycles.error.message} kind="error" onAction={() => void cycles.reload()} title={t("cycle.errorTitle")} /> : null}
     {!cycles.loading && !cycles.error && !cycle ? <FeedbackState actionLabel={t("cycle.chooseSeed")} description={t("stageTwo.cyclesEmptyDescription")} kind="empty" onAction={() => router.push("/(tabs)/explore")} title={t("stageTwo.cyclesEmptyTitle")} /> : null}
@@ -34,4 +32,18 @@ export default function HomeScreen() {
 
 function phaseIndex(phase: "setup" | "growth" | "harvest") { return phase === "setup" ? 0 : phase === "growth" ? 1 : 2; }
 function statusLabel(priority: string) { return priority === "harvest_ready" ? "Harvest ready" : priority === "needs_check" || priority === "action_due" ? "Needs check" : priority === "harvest_soon" ? "Harvest soon" : "On track"; }
-const styles = StyleSheet.create({ container: { gap: tokens.spacing.md, paddingBottom: tokens.spacing.xs }, intro: { gap: 0 }, greeting: { ...tokens.typography.display, color: tokens.colors.terracottaText, marginHorizontal: tokens.spacing.md }, hero: { gap: tokens.spacing.md }, cycleSummary: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.sm }, cycleIdentity: { flex: 1, gap: tokens.spacing.xxs }, seedName: { ...tokens.typography.name, color: tokens.colors.forest }, stageLabel: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textTransform: "uppercase" }, photo: { height: 190, width: "100%" }, coach: { gap: tokens.spacing.xs }, coachLabel: { ...tokens.typography.label, color: tokens.colors.stone, textTransform: "uppercase" }, coachTitle: { ...tokens.typography.cardTitle, color: tokens.colors.stone }, coachBody: { ...tokens.typography.body, color: tokens.colors.stone }, more: { ...tokens.typography.caption, color: tokens.colors.ink64, textAlign: "center" } });
+const styles = StyleSheet.create({
+  container: { gap: tokens.spacing.lg, paddingBottom: tokens.spacing.xs },
+  intro: { marginHorizontal: tokens.spacing.lg },
+  hero: { gap: tokens.spacing.cardGap },
+  cycleSummary: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.sm },
+  cycleIdentity: { flex: 1, gap: 0 },
+  seedName: { fontFamily: "CrimsonText_600SemiBold", fontSize: 30, lineHeight: 34, color: tokens.colors.seed },
+  stageLabel: { ...tokens.typography.label, color: tokens.colors.accent, textTransform: "uppercase" },
+  photo: { height: 190, width: "100%" },
+  coach: { gap: tokens.spacing.xs },
+  coachLabel: { fontFamily: "CrimsonText_600SemiBold", fontSize: 16, lineHeight: 20, color: tokens.colors.coachLabel },
+  coachTitle: { ...tokens.typography.bodyStrong, fontSize: 16, lineHeight: 21, color: tokens.colors.raised },
+  coachBody: { ...tokens.typography.body, color: tokens.colors.raised },
+  more: { ...tokens.typography.caption, color: tokens.colors.textMuted, textAlign: "center" }
+});

@@ -1,4 +1,4 @@
 export const semanticTokens = {
-  tokenStatus: "handoff-v5",
-  note: "Translated literally from design-system/handoff/tokens.css for native React Native use."
+  tokenStatus: "home-refresh-2026-08-27",
+  note: "Approved Seednergy palette and Home hierarchy supplied on 27 August 2026."
 } as const;

@@ -19,15 +19,15 @@ const styles = StyleSheet.create({
 });
 
 const toneStyles = StyleSheet.create({
-  active: { backgroundColor: tokens.colors.card, ...tokens.elevation.raisedSm },
+  active: { backgroundColor: tokens.colors.raised, ...tokens.elevation.raisedSm },
   success: { backgroundColor: tokens.colors.olive, ...tokens.elevation.pillOlive },
   attention: { backgroundColor: tokens.colors.card, ...tokens.elevation.raisedSm },
-  premium: { backgroundColor: tokens.colors.terracottaText, ...tokens.elevation.pillTerracotta },
+  premium: { backgroundColor: tokens.colors.accent, ...tokens.elevation.pillTerracotta },
   neutral: { backgroundColor: tokens.colors.card, ...tokens.elevation.raisedSm }
 });
 
 const labelStyles = StyleSheet.create({
-  active: { color: tokens.colors.sage },
+  active: { color: tokens.colors.olive },
   success: { color: tokens.colors.stone },
   attention: { color: tokens.colors.alert },
   premium: { color: tokens.colors.stone },

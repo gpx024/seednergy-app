@@ -1,32 +1,33 @@
-/* Seednergy — mobile design tokens · v5 (stone ground, lifted cards, cycle gauge)
-   Source of truth for all app UI. Values are final; do not interpolate new ones. */
+/* Seednergy mobile design tokens, August 2026 home refresh.
+   Source of truth for all app UI. Derive extra shades from these approved values. */
 
 :root {
   /* ---- Colour ---- */
-  --sd-canvas:      #E8E2D4;  /* warm stone. the screen GROUND only */
-  --sd-card:        #EFEADF;  /* every raised surface — one step lighter than the ground */
-  --sd-sand:        #d8d1c0;  /* photo mats, tab-bar ground */
-  --sd-photo-a:     #D3CDBB;  /* photo placeholder gradient, dark stop */
-  --sd-photo-b:     #E4DDCC;  /* photo placeholder gradient, light stop */
-  --sd-gauge-track: #DCD5C4;  /* cycle-gauge unfilled ring */
-  --sd-input:       #FAF7F1;  /* text-entry fill. the only non-canvas surface colour */
-  --sd-terracotta:  #cc8353;  /* light fill + inverted kicker. NEVER carries text (cream on it is 2.3:1) */
-  --sd-terracotta-text:  #b25f35; /* terracotta AS TYPE at UI scale (5.46:1). #cc8353 as type is for Crimson display ≥20px only */
-  --sd-terracotta-panel: #b25f35; /* nested second-layer panel — darker so stone type passes AA (5.46:1) */
-  --sd-olive:       #71763b;  /* primary action, brand mark, completion badge, "new" status */
-  --sd-sage:        #5C7F3F;  /* growth ONLY: cycle-gauge fill, stage labels. never a button */
-  --sd-forest:      #2F3D28;  /* dark anchor: inverted ground, "on track", active filter tab, named type in lists */
-  --sd-alert:       #9E3521;  /* "needs check" and nothing else */
-  --sd-ink:         #2e2a24;  /* all body type, inactive tab icons */
-  --sd-stone:       #F7F5EE;  /* type on olive / alert / terracotta fills */
+  --sd-canvas:      #EEECE7;  /* main screen ground */
+  --sd-card:        #F3F1EC;  /* every raised surface */
+  --sd-sand:        #DCDAD5;  /* photo mats and inactive tab ground */
+  --sd-photo-a:     #DCDAD5;  /* photo placeholder gradient, dark stop */
+  --sd-photo-b:     #E5E3DE;  /* photo placeholder gradient, light stop */
+  --sd-gauge-track: rgba(80,75,36,.16); /* cycle-gauge unfilled ring */
+  --sd-input:       #F3F1EC;  /* text-entry fill */
+  --sd-terracotta:  #A66C6F;  /* accent and growth-stage label */
+  --sd-terracotta-text:  #472C2A; /* brand wordmark and dark display text */
+  --sd-terracotta-panel: #70484A; /* coach and next-action panel */
+  --sd-olive:       #6D7A38;  /* primary action, progress and on-track state */
+  --sd-sage:        #6D7A38;  /* compatibility alias for growth progress */
+  --sd-forest:      #504B24;  /* seed names and current-stage text */
+  --sd-alert:       #A64032;  /* needs-check alert and nothing else */
+  --sd-ink:         #472C2A;  /* body type and inactive tab content */
+  --sd-stone:       #F3F1EC;  /* type on dark fills */
+  --sd-tab-active-content: #846967;
 
   /* Greys are ink at reduced alpha — never a cold grey */
-  --sd-ink-90: rgba(46,42,36,.90);
-  --sd-ink-82: rgba(46,42,36,.82);  /* secondary copy */
-  --sd-ink-64: rgba(46,42,36,.64);  /* captions, meta, inactive nav */
-  --sd-olive-label: #5a5f2d;        /* uppercase section labels, sub-nav, segment idle */
+  --sd-ink-90: rgba(71,44,42,.90);
+  --sd-ink-82: rgba(71,44,42,.78);  /* secondary copy */
+  --sd-ink-64: rgba(71,44,42,.62);  /* captions and meta */
+  --sd-olive-label: #6D7A38;        /* uppercase section labels and sub-nav */
 
-  --sd-olive-pressed: #616533;
+  --sd-olive-pressed: #5E692F;
 
   /* ---- Relief · everything is RAISED except text inputs (--sd-inset) ---- */
   /* Light source: top-left. Offset ≈ blur (tight, crisp — never a soft fade). */
@@ -47,7 +48,7 @@
   --sd-bevel-action: inset 1.5px 1.5px 1px rgba(255,255,255,.42),
                      inset -1.5px -1.5px 1px rgba(58,62,26,.45);
 
-  /* Nested terracotta panel — relief cast against the stone card it sits on */
+  /* Nested highlight panel, relief cast against the raised card it sits on */
   --sd-raise-nested: 5px 5px 8px rgba(120,64,32,.46), -3px -3px 5px rgba(252,249,243,.60),
                      inset 1.5px 1.5px 1px rgba(255,255,255,.40),
                      inset -1.5px -1.5px 1px rgba(108,48,20,.45);
@@ -67,17 +68,17 @@
                     inset 1.5px 1.5px 1px rgba(255,255,255,.36), inset -1.5px -1.5px 1px rgba(52,56,24,.45);
 
   /* Tab bar — its own warm-stone ground; the active CELL is the raised element */
-  --sd-tabbar-ground: linear-gradient(150deg, #D3CDBB, #E4DDCC);
-  --sd-tabbar-on-bg:  linear-gradient(150deg, #DFD8C7, #EAE4D6);
+  --sd-tabbar-ground: #DCDAD5;
+  --sd-tabbar-on-bg:  #E5E3DE;
   --sd-tabbar-on-sh:  4px 4px 8px rgba(126,116,92,.42), -4px -4px 8px rgba(246,242,232,.85),
                       inset 1.5px 1.5px 1px rgba(255,255,255,.75), inset -1.5px -1.5px 1px rgba(126,116,92,.32);
 
   /* ---- Inverted ground · moment screens only (see DESIGN-SYSTEM.md §6) ---- */
-  --sd-inv-ground:  #2F3D28;              /* forest. inverted screens carry NO tab bar */
-  --sd-inv-surface: #EFEADF;
-  --sd-inv-text:    #E8E2D4;
-  --sd-inv-text-82: rgba(232,226,212,.82);
-  --sd-inv-kicker:  #cc8353;              /* uppercase label above an inverted headline */
+  --sd-inv-ground:  #472C2A;              /* special dark screens carry no tab bar */
+  --sd-inv-surface: #F3F1EC;
+  --sd-inv-text:    #EEECE7;
+  --sd-inv-text-82: rgba(238,236,231,.82);
+  --sd-inv-kicker:  #A66C6F;              /* uppercase label above an inverted headline */
   --sd-inv-raise-md: 6px 6px 10px rgba(12,18,10,.50), -4px -4px 7px rgba(130,160,110,.24);
   --sd-inv-raise-lg: 8px 8px 13px rgba(12,18,10,.52), -6px -6px 10px rgba(130,160,110,.26);
   --sd-inv-bevel: inset 1.5px 1.5px 1px rgba(255,255,255,.75),
@@ -138,7 +139,7 @@
                      box-shadow: var(--sd-inset);
                      font: 400 14px/1 var(--sd-font-ui); color: var(--sd-ink); }
 
-/* SECOND LAYER — a panel nested inside a card takes the terracotta fill + stone type.
+/* SECOND LAYER — a panel nested inside a card takes the highlight fill + raised-surface type.
    The strongest signal in the app: coach voice and next action only. */
 .sd-panel--nested  { background: var(--sd-terracotta-panel); border-radius: 18px; padding: 16px;
                      box-shadow: var(--sd-raise-nested); color: var(--sd-canvas); }
@@ -162,8 +163,8 @@
                      font: 500 11.5px/1 var(--sd-font-ui);
                      box-shadow: var(--sd-raise-sm), var(--sd-bevel); }
 
-/* CYCLE GAUGE — cycle progress is NEVER a bar. It is the logo's oval, sage filling
-   clockwise from the top, with the day count inside. 52x82 hero, 38x60 in a list.
+/* CYCLE GAUGE — cycle progress is NEVER a bar. It is the logo's oval, olive filling
+   clockwise from the top, with the day count inside. 44x69 hero, 38x60 in a list.
    SVG: <rect x=3.5 y=3.5 width=55 height=93 rx=27.5> twice — track then fill.
    fill: stroke var(--sd-sage), stroke-dasharray 250, stroke-dashoffset 250*(1-pct). */
 .sd-gauge          { position: relative; }
@@ -213,7 +214,7 @@
 .sd-tabbar__item      { flex: 1; display: flex; flex-direction: column; align-items: center;
                         gap: 7px; padding: 15px 0 18px; color: var(--sd-ink);
                         font: 500 10.5px/1 var(--sd-font-ui); }
-.sd-tabbar__item--on  { color: var(--sd-terracotta-text); font-weight: 600;
+.sd-tabbar__item--on  { color: var(--sd-tab-active-content); font-weight: 600;
                         background: var(--sd-tabbar-on-bg);
                         box-shadow: var(--sd-tabbar-on-sh); }
 

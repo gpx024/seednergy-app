@@ -16,7 +16,7 @@
 ## The two things that go wrong
 **Soft shadows.** Default shadow instincts produce wide, faded blurs. This system is offset ≈ blur, plus a 1.5px near-zero-blur bevel. If it looks like a soft glow, it's wrong.
 
-**A second background colour.** Every surface is `#E8E2D4`. The moment a card goes lighter than its background, the relief stops doing its job and the design collapses into a generic card UI.
+**An unapproved background colour.** The screen ground is `#EEECE7`, raised volume is `#F3F1EC`, and tab cells use only their approved active and inactive tones. Do not introduce another ground or card fill.
 
 ## Not in this handoff yet
 - Real app photography (cool-neutral grade — see DESIGN-SYSTEM §5). All imagery in the reference is placeholder.

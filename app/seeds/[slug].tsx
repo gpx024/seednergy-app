@@ -3,7 +3,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
-import { AppButton, AppCard, BrandHeader, PhotoFrame, ScreenContainer, StageBadge } from "@/src/ui/components";
+import { AppButton, AppCard, PhotoFrame, ScreenContainer, StageBadge } from "@/src/ui/components";
 import { resolveSeedAccess } from "@/src/application/content/access";
 import { resolveSeedImage } from "@/src/presentation/content/seedImages";
 import { usePublishedSeed } from "@/src/presentation/content/useSeedContent";
@@ -24,7 +24,6 @@ export default function SeedDetailScreen() {
   const image = resolveSeedImage(seed.images);
   return (
     <ScreenContainer scroll contentStyle={styles.container}>
-      <BrandHeader />
       <View style={styles.header}><Pressable accessibilityLabel={t("stageTwo.backToExplore")} accessibilityRole="button" hitSlop={12} onPress={() => router.back()} style={styles.headerButton}><Ionicons color={tokens.colors.ink} name="arrow-back" size={tokens.layout.icon.lg} /></Pressable><View style={styles.headerButton} /></View>
       <View style={styles.headerTitle}><Text style={styles.eyebrow}>{t("stageTwo.seedPreviewEyebrow")}</Text><Text accessibilityRole="header" style={styles.title}>{seed.commonName}</Text><Text style={styles.botanical}>{seed.botanicalName}</Text></View>
       {image ? <View><PhotoFrame accessibilityLabel={seed.commonName} source={image} style={styles.photo} /><View style={styles.badge}><StageBadge label={access.state === "available" ? t("stageTwo.free") : access.state === "locked" ? t("main.premium") : t("stageTwo.comingSoon")} tone={access.state === "locked" ? "premium" : "success"} /></View></View> : null}

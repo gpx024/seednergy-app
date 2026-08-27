@@ -18,8 +18,8 @@ export function ScreenContainer({ children, scroll = false, inverted = false, co
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: tokens.colors.canvas },
-  inverted: { backgroundColor: tokens.colors.forest },
+  safeArea: { flex: 1, backgroundColor: tokens.colors.background },
+  inverted: { backgroundColor: tokens.colors.brand },
   content: { flex: 1, paddingHorizontal: tokens.spacing.gutter, paddingVertical: tokens.spacing.md },
   scrollableContent: { flex: undefined, flexGrow: 1 },
   scrollContent: { flexGrow: 1 }

@@ -1,4 +1,4 @@
-# Seednergy — Mobile Design System v5
+# Seednergy Mobile Design System, August 2026 refresh
 Binding visual spec for the Seednergy app. Companion files: `tokens.css` (literal values), `SCREEN-MAP.md` (what to build).
 
 **Fonts:** Crimson Text (600, 400 italic) + Inter (400/500/600). Google Fonts.
@@ -8,13 +8,13 @@ Binding visual spec for the Seednergy app. Companion files: `tokens.css` (litera
 
 ## 1. The surfacing rule
 
-The app is one material at two tones. The screen **ground** is `#E8E2D4` warm stone; every **raised surface** is `#EFEADF`, one step lighter. That single step is what lets layer one separate from the canvas without abandoning the one-material idea. There are still **no borders and no third fill**. Depth comes only from light.
+The app is one material at two tones. The screen **ground** is `#EEECE7`; every **raised surface** is `#F3F1EC`, one step lighter. That single step separates layer one from the canvas while preserving the one-material idea. There are no borders and no unapproved surface fills. Depth comes from light.
 
 Two consequences to hold onto:
 
 **Everything is raised — with one exception.** Stage selectors, coach panels, pills: all raised. The single exception is **text inputs**, which sit inset on a near-white fill (`--sd-input`), because a field has to look like it receives. Nothing else in the app is inset.
 
-**Two layers.** Canvas is the surface and the card. The **second layer — a panel nested inside a card — is terracotta with stone type**. It uses a deeper terracotta (`#b25f35`) than the titles, and full-alpha stone type only — never reduce the type's alpha on this fill. Contrast is 3.6:1, so keep panel body copy at 13px+ and headlines in Crimson at 16px+; this is a deliberate brand call over strict AA. It is the loudest thing on the screen, so it is reserved for the coach's voice and the next action, and there is at most one per card. Pills and chips stay canvas; sand is held back for photo mats and dividers.
+**Two layers.** Canvas is the ground and raised volume is the card. The **second layer, a panel nested inside a card, uses highlight `#70484A` with raised-surface type `#F3F1EC`**. Keep panel body copy at 13px+ and headlines in Crimson at 16px+. It is the strongest block on the screen, so it is reserved for the coach's voice and next action, with at most one per card.
 
 **App relief stops at the app.** OS chrome — status bar, system keyboard — is never given the relief treatment. A bevelled keyboard reads as a toy.
 
@@ -30,31 +30,28 @@ Pressed feedback: soften the outer shadow one step down the scale and keep the b
 
 ## 2. Colour
 
-Five brand hexes plus one utility fill for text entry. Greys are ink at reduced alpha so nothing goes cold against the stone. Alphas stay high — 82% for body, 64% for captions — because low-contrast type on a mid-tone stone ground fails fast.
+The approved palette below is binding. Additional states must be derived from these colours instead of introducing legacy hexes.
 
-Uppercase section labels and sub-navigation (filter tabs, idle segment items) take **olive-label `#5a5f2d`** rather than grey ink: it reads as structure, not as disabled text.
+Uppercase section labels and sub-navigation use **olive `#6D7A38`**. Idle progress labels use `#6A6960`, while the current stage uses seed `#504B24`.
 
 | Token | Hex | Owns |
 |---|---|---|
-| canvas | `#E8E2D4` | the screen **ground** only |
-| card | `#EFEADF` | every **raised** surface — cards, pills, chips, segments, sheets |
-| sand | `#d8d1c0` | photo mats, tab-bar ground |
-| gauge-track | `#DCD5C4` | the cycle gauge's unfilled ring |
-| input | `#FAF7F1` | text-entry fill (inset) — the only non-canvas surface |
-| terracotta | `#cc8353` | light fill and the inverted-screen kicker. **Never carries text** — cream on it is 2.3:1 |
-| terracotta-panel | `#b25f35` | nested second-layer panels (darker, for AA type contrast) |
-| terracotta-text | `#b25f35` | terracotta **as type at UI scale** — tab labels, pills, step numbers, text buttons, small caps. `#cc8353` as type is for Crimson display ≥20px only (3.55:1 clears large-text, fails at UI scale) |
-| olive | `#71763b` | the one primary button per screen, brand mark, completion badge, "new" and "harvested" status |
-| sage | `#5C7F3F` | **growth only** — cycle-gauge fill, stage labels. Never a button, so action and progress never look alike |
-| forest | `#2F3D28` | the **dark anchor** — inverted grounds, "on track" status, the active filter tab, every named item in a list |
-| alert | `#9E3521` | "needs check" and nothing else. Its scarcity is what makes it work |
-| stone | `#F7F5EE` | type on an olive, alert or terracotta fill |
-| ink | `#2e2a24` | all body type, and inactive tab icons |
-| olive-label | `#5a5f2d` | uppercase section labels, filter tabs, idle segment items |
+| background | `#EEECE7` | main screen ground |
+| raised | `#F3F1EC` | every raised card, chip, field and light-on-dark label |
+| brand | `#472C2A` | Seednergy wordmark, body anchor and special dark pages |
+| olive | `#6D7A38` | city and temperature, progress, on-track state and primary button |
+| seed | `#504B24` | seed names and current progress-stage text |
+| accent | `#A66C6F` | growth-stage subtitle and supporting accent text |
+| progress text | `#6A6960` | idle stage labels such as Set up and Harvest |
+| highlight | `#70484A` | coach and next-action panel |
+| coach label / inactive tab | `#DCDAD5` | Your coach text and inactive tab ground |
+| active tab surface | `#E5E3DE` | raised current tab cell |
+| active tab content | `#846967` | current tab icon and label |
+| alert | `#A64032` | needs-check alerts only |
 
-**Division of labour, strictly:** olive is action and structure. Terracotta is voice and moment — roughly 5% of pixels. Never a terracotta filled button beside an olive one; never two filled buttons of equal weight on one screen.
+**Division of labour, strictly:** olive is action, progress and positive status. Highlight is the coach voice. Brand is the dark anchor and special-screen ground. Never show two filled buttons of equal weight on one screen.
 
-**Status is a filled pill, never a coloured word on stone.** The fill *is* the state: forest for on track, olive for new and harvested, alert clay for needs check, and the plain card fill for archived. Type is always stone or canvas. All of them carry the same relief, so the fill is the only variable a user has to read. Exactly one terracotta-filled pill per screen, maximum.
+**Status is a raised pill.** On track uses the raised surface with olive text, needs check uses alert, and archived uses the plain raised fill. All statuses carry the same relief so colour remains meaningful.
 
 ## 3. Type
 
@@ -62,17 +59,17 @@ Crimson Text carries all **named and actionable** text: screen titles, card name
 
 | Role | Font | Size |
 |---|---|---|
-| display/lg | Crimson 600 | 30/34, terracotta |
-| display/md | Crimson 600 | 25/29, terracotta |
-| card name | Crimson 600 | 22/1.15, **forest** |
-| list row name | Crimson 600 | 18/1.15, **forest** |
+| display/lg | Crimson 600 | 30/34, brand or accent according to hierarchy |
+| display/md | Crimson 600 | 25/29, brand or accent according to hierarchy |
+| card name | Crimson 600 | 22/1.15, **seed** |
+| list row name | Crimson 600 | 18/1.15, **seed** |
 | inverted headline | Crimson 600 | 38/1.15, cream — the achievement, not the status |
 | title | Crimson 600 | 19.5/24, ink |
 | panel headline | Crimson 600 | 16.5/1.3, ink |
 | button | Crimson **700** | 18/1 |
 | body | Inter 400 | 14/20, ink 82% |
 | caption | Inter 400 | 12/16, ink 64% |
-| label | Inter **700** | 10.5–11, .12em, caps, **olive-label** (stone on a terracotta panel) |
+| label | Inter **700** | 10.5–11, .12em, caps, **olive** (raised colour on a highlight panel) |
 | tab / segment | Inter 500–600 | 10.5 |
 
 Crimson runs ~2px larger than the Inter it replaces, to match x-height. Never Crimson below 16px. Never Inter above 20px.
@@ -91,7 +88,7 @@ Canonical tab set at launch: **house · cycle (clock-arrow) · magnifier · pers
 
 ## 4b. The cycle gauge and the cycle row
 
-**Cycle progress is never a bar.** It is the logo's oval, filling clockwise from the top in sage, with the day count inside. Two sizes only: **52×82** as the hero anchor on Home, **38×60** at the end of a list row.
+**Cycle progress is never a bar.** It is the logo's oval, filling clockwise from the top in olive, with the day count inside. Two sizes only: **44×69** as the compact hero anchor on Home, **38×60** at the end of a list row.
 
 ```
 <svg viewBox="0 0 62 100">
@@ -101,7 +98,7 @@ Canonical tab set at launch: **house · cycle (clock-arrow) · magnifier · pers
 </svg>
 ```
 
-`stroke-dasharray: 250` on the fill; `stroke-dashoffset` is `250 × (1 − pct)`. The 52×82 variant uses stroke-width 5 and dasharray 252. Do not rotate the rect — the path already starts at the top.
+`stroke-dasharray: 250` on the fill; `stroke-dashoffset` is `250 × (1 − pct)`. The 44×69 variant uses stroke-width 5 and dasharray 252. Do not rotate the rect, the path already starts at the top.
 
 Why it matters: the brand concept is The Living Cycle, and this puts it in the component a user looks at most. It also reads faster than a bar, because the number and the arc occupy one place.
 
@@ -111,7 +108,7 @@ Why it matters: the brand concept is The Living Cycle, and this puts it in the c
 
 ## 4c. The tab bar
 
-No divider line. The bar carries **its own warm-stone ground** (`--sd-tabbar-ground`) — the tone change alone separates it from the canvas. The **active cell** is the raised element: it fills the whole cell, full height and half the gap to each neighbour, and runs **flush to the screen's bottom edge** with no radius and no bar padding. Active icon and label are terracotta `#b25f35`; inactive are full ink.
+No divider line. The bar uses inactive ground `#DCDAD5`. The **active cell** is the raised element: it fills the whole cell, full height and half the gap to each neighbour, and runs **flush to the screen's bottom edge** with no radius and no bar padding. Active surface is `#E5E3DE` with icon and label `#846967`; inactive icon and label use brand `#472C2A`.
 
 **Inverted screens carry no tab bar at all.** See §6.
 
@@ -132,15 +129,15 @@ Marketing photography (warm, editorial, hands-in-soil, window light) belongs to 
 
 ## 6. The inverted ground — moment screens
 
-To break the monotony of a single-colour app, **moment screens invert to forest** `#2F3D28`: raised cards stay `#EFEADF`, type goes cream, and relief is recast with a near-black cast shadow and a green-lit highlight (`--sd-inv-*`).
+To break the monotony of a single-colour app, **moment screens invert to brand** `#472C2A`: raised cards stay `#F3F1EC`, type uses `#EEECE7`, and relief is recast for the dark ground (`--sd-inv-*`).
 
 Three rules for an inverted screen:
 
-**No tab bar.** This is the clean distinction across the app: cream screens are places you navigate, forest screens are moments you pass through. A nav bar would say "you're still browsing" at exactly the moment the design is trying to interrupt.
+**No tab bar.** This is the clean distinction across the app: light screens are places you navigate, dark brand screens are moments you pass through. A nav bar would say "you're still browsing" at exactly the moment the design is trying to interrupt.
 
 **A dismiss affordance top-left** — a plain cream cross, no relief — so the screen can be revisited from history without becoming a dead end. The primary and text buttons are the real exits.
 
-**The achievement leads, the status labels.** On cycle complete, "You grew this." is the 38px Crimson headline and "Cycle complete" is a small terracotta kicker above it. Not the other way round.
+**The achievement leads, the status labels.** On cycle complete, "You grew this." is the 38px Crimson headline and "Cycle complete" is a small accent kicker above it. Not the other way round.
 
 On the completion screen the photo takes **the logo's seed silhouette** — a 200×306 stone frame at 100px radius — with an olive check badge. It matches the gauge and closes the loop the gauge opens.
 
@@ -148,14 +145,14 @@ Use it for, and only for: cycle complete · purchase success · the three paywal
 
 ## 7. Non-negotiables
 
-1. Canvas for the ground, `#EFEADF` for every raised surface; terracotta for nested panels; near-white for text inputs; sand for photo mats and the tab-bar ground. Nothing else. No borders, no dividers except rows inside a settings group.
+1. Use `#EEECE7` for the ground, `#F3F1EC` for every raised surface, and `#70484A` for the nested coach panel. No borders or unapproved surface fills, except dividers inside a settings group.
 2. Every element raised and bevelled — except text inputs, which are inset. OS chrome gets neither.
 3. Offset ≈ blur. No wide soft shadows.
 4. One primary (olive) button per screen. SSO and alternate actions may carry olive *labels*, never olive fills.
-5. Terracotta: titles (`#cc8353` display / `#b25f35` at UI scale), the active **tab-bar** item, and one nested panel per card. Never a filled button on a cream screen. The **active filter tab is forest**, not terracotta — a filter is structure, not voice.
+5. Accent `#A66C6F` supports hierarchy. The active tab uses `#846967`; the active filter and primary button use olive `#6D7A38`; the coach panel uses highlight `#70484A`.
 5b. Cycle progress is the oval gauge, never a bar. Status is a filled pill, never a coloured word.
-5c. Inverted screens are forest and carry no tab bar.
+5c. Inverted screens use brand `#472C2A` and carry no tab bar.
 6. Crimson for named/actionable, Inter for body/labels/sub-nav.
 7. 14px minimum between raised elements.
-8. Greys are ink at alpha — never a cold grey. The only semantic colour is alert clay `#9E3521`, and it means "needs check" and nothing else. No amber, no blue, no new hexes.
-9. Two greens, two jobs: olive is action and brand, sage is growth and progress. Never swap them.
+8. The alert colour is `#A64032`, and it means "needs check" and nothing else. No amber, blue or unapproved hexes.
+9. Olive `#6D7A38` owns action, progress and positive status. Seed `#504B24` owns plant names and the current stage.

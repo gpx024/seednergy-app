@@ -19,9 +19,9 @@ export function CycleProgress({ labels, activeStep, accessibilityLabel }: CycleP
 
 const styles = StyleSheet.create({
   segments: { flexDirection: "row", gap: tokens.spacing.xs },
-  segment: { flex: 1, height: tokens.spacing.xxs, borderRadius: tokens.radii.pill, backgroundColor: tokens.colors.gaugeTrack },
-  segmentActive: { backgroundColor: tokens.colors.sage },
+  segment: { flex: 1, height: tokens.spacing.xxs, borderRadius: tokens.radii.pill, backgroundColor: tokens.colors.track },
+  segmentActive: { backgroundColor: tokens.colors.olive },
   labels: { flexDirection: "row", justifyContent: "space-between", marginTop: tokens.spacing.xs },
-  label: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textTransform: "uppercase" },
-  labelActive: { color: tokens.colors.sage }
+  label: { ...tokens.typography.label, color: tokens.colors.progressText, textTransform: "uppercase" },
+  labelActive: { color: tokens.colors.seed }
 });

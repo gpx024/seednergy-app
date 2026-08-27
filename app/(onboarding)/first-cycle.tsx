@@ -2,7 +2,7 @@ import { useRouter } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
-import { AppButton, AppCard, BrandHeader, PhotoFrame, ScreenContainer, StageBadge } from "@/src/ui/components";
+import { AppButton, AppCard, PhotoFrame, ScreenContainer, StageBadge } from "@/src/ui/components";
 import { tokens } from "@/src/ui/tokens";
 import { explainCressRecommendation } from "@/src/application/onboarding/recommendation";
 import { useOnboarding } from "@/src/presentation/onboarding/OnboardingProvider";
@@ -21,7 +21,6 @@ export default function FirstCycleScreen() {
   }
   return (
     <ScreenContainer scroll contentStyle={styles.container}>
-      <BrandHeader />
       <Text accessibilityRole="header" style={styles.title}>{t("onboarding.firstCycleTitle")}</Text>
       <PhotoFrame accessibilityLabel={t("onboarding.cressPhoto")} source={cress} style={styles.photo} />
       <View style={styles.seedHeading}><View><Text style={styles.seedName}>{t("stageTwo.cress")}</Text><Text style={styles.scientificName}>Lepidium sativum</Text></View><StageBadge label={t("stageTwo.free")} tone="premium" /></View>

@@ -7,7 +7,7 @@ export interface FeatureFlags {
 }
 
 export const featureFlags: FeatureFlags = Object.freeze({
-  developmentRoutes: environment.EXPO_PUBLIC_APP_ENV === "development" && environment.EXPO_PUBLIC_ENABLE_DEV_ROUTES,
+  developmentRoutes: environment.EXPO_PUBLIC_APP_ENV !== "production" && environment.EXPO_PUBLIC_ENABLE_DEV_ROUTES,
   appleAuthentication: environment.EXPO_PUBLIC_ENABLE_APPLE_AUTH,
   fixturePhotoChecks: environment.EXPO_PUBLIC_PHOTO_CHECK_PROVIDER === "fixture"
 });

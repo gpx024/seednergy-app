@@ -4,7 +4,7 @@ import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
-import { AppField, BrandHeader, ScreenContainer, SeedCard } from "@/src/ui/components";
+import { AppField, ScreenContainer, SeedCard } from "@/src/ui/components";
 import { resolveSeedAccess } from "@/src/application/content/access";
 import { resolveSeedImage } from "@/src/presentation/content/seedImages";
 import { useSeedLibrary } from "@/src/presentation/content/useSeedContent";
@@ -17,7 +17,6 @@ export default function ExploreScreen() {
   const library = useSeedLibrary(query);
   return (
     <ScreenContainer includeBottomSafeArea={false} scroll contentStyle={styles.container}>
-      <BrandHeader />
       <View style={styles.heading}><Text accessibilityRole="header" style={styles.title}>{t("main.exploreSeeds")}</Text><Text style={styles.body}>{t("main.exploreBody")}</Text></View>
       <AppField accessibilityLabel={t("main.searchSeeds")} label={t("main.searchSeeds")} onChangeText={setQuery} placeholder={t("main.searchPlaceholder")} value={query} />
       {library.loading ? <Text accessibilityLiveRegion="polite" style={styles.message}>{t("content.loading")}</Text> : null}

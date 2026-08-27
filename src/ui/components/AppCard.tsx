@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 const variantStyles = StyleSheet.create({
   default: { ...tokens.elevation.raisedMd },
   hero: { borderRadius: tokens.radii.media, ...tokens.elevation.raisedLg },
-  nested: { backgroundColor: tokens.colors.terracottaPanel, borderRadius: tokens.radii.button, ...tokens.elevation.nested },
+  nested: { backgroundColor: tokens.colors.highlight, borderRadius: tokens.radii.button, ...tokens.elevation.nested },
   muted: { ...tokens.elevation.raisedSm },
   dashed: { ...tokens.elevation.raisedMd }
 });
