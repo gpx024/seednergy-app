@@ -1,8 +1,17 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 
 import { parsePublicEnvironment } from "@/src/config/env";
 
 describe("public environment configuration", () => {
+  it("uses static Expo public environment references that Metro can inline", () => {
+    const source = readFileSync(join(process.cwd(), "src", "config", "env.ts"), "utf8");
+    expect(source).toContain("process.env.EXPO_PUBLIC_SUPABASE_URL");
+    expect(source).toContain("process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY");
+    expect(source).not.toContain("parsePublicEnvironment(process.env)");
+  });
+
   it("uses safe development defaults", () => {
     expect(parsePublicEnvironment({})).toEqual({
       EXPO_PUBLIC_APP_ENV: "development",

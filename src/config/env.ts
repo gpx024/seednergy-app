@@ -19,6 +19,20 @@ export function parsePublicEnvironment(input: Record<string, string | undefined>
   return publicEnvironmentSchema.parse(input);
 }
 
-export const environment = parsePublicEnvironment(process.env);
+// Expo replaces EXPO_PUBLIC_* values only when they are referenced with static
+// dot notation. Passing the entire process.env object leaves release builds on
+// schema defaults because Metro cannot inline dynamic property access.
+export const environment = parsePublicEnvironment({
+  EXPO_PUBLIC_APP_ENV: process.env.EXPO_PUBLIC_APP_ENV,
+  EXPO_PUBLIC_ENABLE_DEV_ROUTES: process.env.EXPO_PUBLIC_ENABLE_DEV_ROUTES,
+  EXPO_PUBLIC_SUPABASE_URL: process.env.EXPO_PUBLIC_SUPABASE_URL,
+  EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY: process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+  EXPO_PUBLIC_ENABLE_APPLE_AUTH: process.env.EXPO_PUBLIC_ENABLE_APPLE_AUTH,
+  EXPO_PUBLIC_PHOTO_CHECK_PROVIDER: process.env.EXPO_PUBLIC_PHOTO_CHECK_PROVIDER,
+  EXPO_PUBLIC_PRIVACY_POLICY_URL: process.env.EXPO_PUBLIC_PRIVACY_POLICY_URL,
+  EXPO_PUBLIC_TERMS_URL: process.env.EXPO_PUBLIC_TERMS_URL,
+  EXPO_PUBLIC_SUPPORT_URL: process.env.EXPO_PUBLIC_SUPPORT_URL,
+  EXPO_PUBLIC_SENTRY_DSN: process.env.EXPO_PUBLIC_SENTRY_DSN
+});
 
 export const isSupabaseConfigured = environment.EXPO_PUBLIC_SUPABASE_URL !== "https://example.supabase.co" && environment.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY.length > 0;
