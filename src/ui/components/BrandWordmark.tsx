@@ -1,4 +1,6 @@
-import { Asset } from "expo-asset";
+import { useAssets } from "expo-asset";
+import { useState } from "react";
+import { Text } from "react-native";
 import { SvgUri } from "react-native-svg";
 
 import { tokens } from "@/src/ui/tokens";
@@ -8,8 +10,16 @@ interface BrandWordmarkProps {
   color?: string;
 }
 
-const wordmark = Asset.fromModule(require("../../../assets/brand/wordmark-olive.svg"));
+const wordmarkModule = require("../../../assets/brand/wordmark-olive.svg");
 
 export function BrandWordmark({ width = 112, color = tokens.colors.brand }: BrandWordmarkProps) {
-  return <SvgUri accessibilityLabel="Seednergy" fill={color} height={width / 4.68} uri={wordmark.uri} width={width} />;
+  const [assets, assetError] = useAssets([wordmarkModule]);
+  const [renderFailed, setRenderFailed] = useState(false);
+  const asset = assets?.[0];
+
+  if (!asset || assetError || renderFailed) {
+    return <Text accessibilityLabel="Seednergy" numberOfLines={1} style={{ color, fontFamily: "CrimsonText_600SemiBold", fontSize: width / 4.7, lineHeight: width / 4.2 }}>Seednergy</Text>;
+  }
+
+  return <SvgUri accessibilityLabel="Seednergy" height={width / 4.68} onError={() => setRenderFailed(true)} uri={asset.localUri ?? asset.uri} width={width} />;
 }

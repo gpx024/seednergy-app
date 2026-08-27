@@ -1,8 +1,6 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { useRouter } from "expo-router";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text } from "react-native";
 
-import { AppCard, ScreenContainer } from "@/src/ui/components";
+import { AppCard, BackHeader, ScreenContainer } from "@/src/ui/components";
 import { tokens } from "@/src/ui/tokens";
 
 const questions = [
@@ -14,8 +12,7 @@ const questions = [
 ] as const;
 
 export default function HelpScreen() {
-  const router = useRouter();
-  return <ScreenContainer scroll contentStyle={styles.container}><View style={styles.header}><Pressable accessibilityLabel="Back" hitSlop={12} onPress={() => router.back()}><Ionicons color={tokens.colors.ink} name="arrow-back" size={tokens.layout.icon.lg} /></Pressable><Text accessibilityRole="header" style={styles.title}>Help and FAQs</Text></View>{questions.map(([question, answer]) => <AppCard key={question} style={styles.card}><Text style={styles.question}>{question}</Text><Text style={styles.answer}>{answer}</Text></AppCard>)}</ScreenContainer>;
+  return <ScreenContainer scroll contentStyle={styles.container}><BackHeader center={<Text accessibilityRole="header" style={styles.title}>Help and FAQs</Text>} />{questions.map(([question, answer]) => <AppCard key={question} style={styles.card}><Text style={styles.question}>{question}</Text><Text style={styles.answer}>{answer}</Text></AppCard>)}</ScreenContainer>;
 }
 
-const styles = StyleSheet.create({ container: { gap: tokens.spacing.cardGap, paddingBottom: tokens.spacing.xl }, header: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.md, marginHorizontal: tokens.spacing.md }, title: { ...tokens.typography.displayMedium, color: tokens.colors.terracottaText, flex: 1 }, card: { gap: tokens.spacing.sm }, question: { ...tokens.typography.cardTitle, color: tokens.colors.forest }, answer: { ...tokens.typography.body, color: tokens.colors.ink82 } });
+const styles = StyleSheet.create({ container: { gap: tokens.spacing.cardGap, paddingBottom: tokens.spacing.xl }, title: { ...tokens.typography.displayMedium, color: tokens.colors.terracottaText }, card: { gap: tokens.spacing.sm }, question: { ...tokens.typography.cardTitle, color: tokens.colors.forest }, answer: { ...tokens.typography.body, color: tokens.colors.ink82 } });

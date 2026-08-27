@@ -1,6 +1,7 @@
 export { AppButton } from "@/src/ui/components/AppButton";
 export { AppCard } from "@/src/ui/components/AppCard";
 export { AppField } from "@/src/ui/components/AppField";
+export { BackHeader } from "@/src/ui/components/BackHeader";
 export { BrandMark } from "@/src/ui/components/BrandMark";
 export { BrandHeader } from "@/src/ui/components/BrandHeader";
 export { BrandWordmark } from "@/src/ui/components/BrandWordmark";

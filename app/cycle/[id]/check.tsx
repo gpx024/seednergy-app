@@ -9,7 +9,7 @@ import { useAuth } from "@/src/presentation/auth/AuthProvider";
 import { useCycle } from "@/src/presentation/cycles/useCycleData";
 import { developmentPhotoCheckFixtureIds, useSubmitPhotoCheck, type CapturedPhoto, type PhotoCheckType } from "@/src/presentation/photoChecks/usePhotoChecks";
 import { useProfile } from "@/src/presentation/profile/useProfile";
-import { AppButton, AppCard, FeedbackState, ScreenContainer } from "@/src/ui/components";
+import { AppButton, AppCard, BackHeader, FeedbackState, ScreenContainer } from "@/src/ui/components";
 import { tokens } from "@/src/ui/tokens";
 
 const checkTypes: { value: PhotoCheckType; label: string }[] = [
@@ -62,7 +62,7 @@ export default function PhotoCheckScreen() {
   if (!profile.data?.aiPhotoNoticeAcceptedAt) return <ScreenContainer><FeedbackState kind="loading" title="Preparing your privacy notice" description="Your first photo check starts with a clear explanation of how the image is used." /></ScreenContainer>;
 
   return <ScreenContainer scroll contentStyle={styles.container}>
-    <Pressable accessibilityLabel="Back" accessibilityRole="button" hitSlop={12} onPress={() => router.back()} style={styles.back}><Ionicons color={tokens.colors.ink} name="arrow-back" size={tokens.layout.icon.lg} /></Pressable>
+    <BackHeader />
     <View style={styles.intro}><Text style={styles.eyebrow}>ACTIVE CYCLE</Text><Text style={styles.title}>Check your growth</Text><Text style={styles.context}>{cycle.seed.commonName} · {cycle.phase} · Day {cycle.day}</Text></View>
     <View style={styles.section}><Text style={styles.label}>CHECK TYPE</Text><ScrollView horizontal contentContainerStyle={styles.choiceRow} showsHorizontalScrollIndicator={false}>{checkTypes.map((item) => <Pressable key={item.value} onPress={() => setCheckType(item.value)} style={[styles.choice, checkType === item.value && styles.choiceActive]}><Text style={[styles.choiceText, checkType === item.value && styles.choiceTextActive]}>{item.label}</Text></Pressable>)}</ScrollView></View>
     {photo ? <>
@@ -87,7 +87,7 @@ function normalizeContentType(value: string | undefined): CapturedPhoto["content
 function toErrorMessage(reason: unknown) { return reason instanceof Error ? reason.message : "The photo could not be selected."; }
 
 const styles = StyleSheet.create({
-  container: { gap: tokens.spacing.cardGap, paddingBottom: tokens.spacing.xl }, back: { alignItems: "center", height: tokens.layout.size.touchTarget, justifyContent: "center", width: tokens.layout.size.touchTarget },
+  container: { gap: tokens.spacing.cardGap, paddingBottom: tokens.spacing.xl },
   intro: { gap: tokens.spacing.xs, marginHorizontal: tokens.spacing.md }, eyebrow: { ...tokens.typography.label, color: tokens.colors.oliveLabel }, title: { ...tokens.typography.displayLarge, color: tokens.colors.terracottaText }, context: { ...tokens.typography.title, color: tokens.colors.forest },
   section: { gap: tokens.spacing.xs }, label: { ...tokens.typography.label, color: tokens.colors.oliveLabel }, choiceRow: { gap: tokens.spacing.xs, paddingVertical: tokens.spacing.xs }, choice: { backgroundColor: tokens.colors.card, borderRadius: 999, paddingHorizontal: tokens.spacing.md, paddingVertical: tokens.spacing.sm, ...tokens.elevation.raisedSm }, choiceActive: { backgroundColor: tokens.colors.olive }, choiceText: { ...tokens.typography.bodyStrong, color: tokens.colors.oliveLabel }, choiceTextActive: { color: tokens.colors.stone },
   entry: { alignItems: "center", gap: tokens.spacing.md, paddingVertical: tokens.spacing.xl }, captureIcon: { alignItems: "center", backgroundColor: tokens.colors.card, borderRadius: 999, height: 112, justifyContent: "center", width: 112, ...tokens.elevation.raisedSm }, entryTitle: { ...tokens.typography.cardTitle, color: tokens.colors.forest, textAlign: "center" }, entryBody: { ...tokens.typography.body, color: tokens.colors.ink82, textAlign: "center" },

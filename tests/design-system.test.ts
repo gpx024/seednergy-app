@@ -47,4 +47,17 @@ describe("Seednergy design system contract", () => {
     expect(handoffTokens).toContain("--sd-inv-ground:  #472C2A");
     expect(handoffTokens).not.toMatch(/#(?:E8E2D4|EFEADF|71763B|5C7F3F|2F3D28|9E3521)/i);
   });
+
+  it("keeps back navigation branded and the wordmark recoverable", () => {
+    const backHeader = readFileSync(resolve("src/ui/components/BackHeader.tsx"), "utf8");
+    const wordmark = readFileSync(resolve("src/ui/components/BrandWordmark.tsx"), "utf8");
+    const home = readFileSync(resolve("app/(tabs)/home.tsx"), "utf8");
+
+    expect(backHeader).toContain("<BrandMark");
+    expect(backHeader).toContain('name="arrow-back"');
+    expect(wordmark).toContain("renderFailed");
+    expect(wordmark).toContain(">Seednergy</Text>");
+    expect(home).toContain('onProfilePress={() => router.push("/(tabs)/profile")}');
+    expect(home).toContain('t("main.greeting", { name })');
+  });
 });
