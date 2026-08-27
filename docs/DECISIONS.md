@@ -1,5 +1,12 @@
 # Implementation decision log
 
+## 2026-08-27, pre-commercial acceptance before store integration
+
+- Complete and verify one self-contained private Android build before involving the client in Apple, Google Play or RevenueCat accounts.
+- The preview uses the real backend, Google authentication and AI, but disables development controls, email delivery, payments and production push delivery.
+- Premium access is presented honestly as a non-transactional preview. No local or simulated entitlement is granted.
+- Commercial integrations remain required before public release and must be tested against client-owned accounts.
+
 ## 2026-08-26, Stage 11 privacy and compliance decisions
 
 - Account deletion removes storage objects through the Supabase Storage API before database and Auth deletion. Direct SQL deletion from `storage.objects` is not used because it can orphan the underlying files.

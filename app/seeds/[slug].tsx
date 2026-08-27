@@ -21,6 +21,11 @@ export default function SeedDetailScreen() {
   const seed = query.data;
   const access = resolveSeedAccess(seed.accessType);
   const image = resolveSeedImage(seed.images);
+  function handlePrimaryAction() {
+    if (access.state === "locked") { router.push("/paywall"); return; }
+    if (!access.canStart) return;
+    void starter.start(seed.slug).then((cycleId) => router.replace(`/cycle/${cycleId}`)).catch(() => undefined);
+  }
   return (
     <ScreenContainer scroll contentStyle={styles.container}>
       <BackHeader backLabel={t("stageTwo.backToExplore")} />
@@ -31,7 +36,7 @@ export default function SeedDetailScreen() {
       <AppCard style={styles.panel}><Text style={styles.panelLabel}>{t("seedDetail.expect")}</Text><Text style={styles.panelTitle}>{seed.expectedResult}</Text><Text style={styles.panelBody}>{seed.harvestReadiness}</Text></AppCard>
       {seed.accessType !== "coming_soon" ? <AppCard style={styles.panel}><Text style={styles.panelLabel}>{t("content.materials")}</Text><Text style={styles.panelBody}>{seed.materials.join(" · ")}</Text></AppCard> : null}
       {starter.error ? <Text accessibilityLiveRegion="polite" style={styles.error}>{starter.error.message}</Text> : null}
-      <AppButton disabled={access.state !== "available"} loading={starter.loading} label={access.state === "available" ? t("onboarding.startCycle") : access.state === "locked" ? t("content.premiumLocked") : t("stageTwo.comingSoon")} onPress={() => void starter.start(seed.slug).then((cycleId) => router.replace(`/cycle/${cycleId}`)).catch(() => undefined)} />
+      <AppButton disabled={access.state === "comingSoon"} loading={starter.loading} label={access.state === "available" ? t("onboarding.startCycle") : access.state === "locked" ? t("content.viewPremium") : t("stageTwo.comingSoon")} onPress={handlePrimaryAction} />
     </ScreenContainer>
   );
 }

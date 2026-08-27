@@ -6,6 +6,9 @@ Create `.env.local` from `.env.example` and provide:
 
 - `EXPO_PUBLIC_APP_ENV`
 - `EXPO_PUBLIC_ENABLE_DEV_ROUTES`
+- `EXPO_PUBLIC_ENABLE_EMAIL_AUTH`
+- `EXPO_PUBLIC_ENABLE_PAYMENTS`
+- `EXPO_PUBLIC_ENABLE_PUSH_NOTIFICATIONS`
 - `EXPO_PUBLIC_SUPABASE_URL`
 - `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
 - `EXPO_PUBLIC_ENABLE_APPLE_AUTH`
@@ -16,6 +19,8 @@ Create `.env.local` from `.env.example` and provide:
 - `EXPO_PUBLIC_SENTRY_DSN`
 
 These values are included in the application bundle and must not contain secrets.
+
+The checked-in EAS profiles set safe capability boundaries. The private `preview` build disables development controls, email authentication, payments and push delivery. Do not enable a flag merely to expose a screen. Enable it only when its provider, failure states and acceptance tests are complete.
 
 ## Supabase secrets
 
@@ -41,6 +46,16 @@ npx expo start --dev-client --tunnel --clear
 ```
 
 The app installed from a development APK needs this server while developing. A production or preview build bundles the JavaScript and does not need the laptop server.
+
+## Pre-commercial acceptance APK
+
+Build the self-contained private APK with:
+
+```text
+npx eas-cli build --platform android --profile preview
+```
+
+Use the acceptance sequence in `docs/PRECOMMERCIAL_ACCEPTANCE.md`. This profile intentionally does not expose harvest simulation, email sign-up, payment actions or push registration.
 
 ## Create a new Android development APK
 

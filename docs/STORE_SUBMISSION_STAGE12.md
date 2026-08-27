@@ -22,6 +22,8 @@ This document records what the current Seednergy build does. It is a technical p
 
 Before building `preview` or `production`, configure their public environment values in EAS. Never add the Supabase service-role key, OpenAI key, Sentry auth token, Google OAuth secret, Apple private key, Firebase service-account JSON, or any other secret to an `EXPO_PUBLIC_` variable.
 
+The current preview is intentionally pre-commercial. Its checked-in feature boundary disables development routes, email authentication, payments and production push delivery. Store-owned integrations will be enabled only in a later verified build after the client accounts are available.
+
 ## Permission purpose strings
 
 - Camera: "Seednergy uses the camera so you can photograph your active grow cycle."

@@ -3,6 +3,9 @@ import { z } from "zod";
 const publicEnvironmentSchema = z.object({
   EXPO_PUBLIC_APP_ENV: z.enum(["development", "preview", "production"]).default("development"),
   EXPO_PUBLIC_ENABLE_DEV_ROUTES: z.enum(["true", "false"]).default("true").transform((value) => value === "true"),
+  EXPO_PUBLIC_ENABLE_EMAIL_AUTH: z.enum(["true", "false"]).default("false").transform((value) => value === "true"),
+  EXPO_PUBLIC_ENABLE_PAYMENTS: z.enum(["true", "false"]).default("false").transform((value) => value === "true"),
+  EXPO_PUBLIC_ENABLE_PUSH_NOTIFICATIONS: z.enum(["true", "false"]).default("false").transform((value) => value === "true"),
   EXPO_PUBLIC_SUPABASE_URL: z.string().url().optional().default("https://example.supabase.co"),
   EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY: z.string().optional().default(""),
   EXPO_PUBLIC_ENABLE_APPLE_AUTH: z.enum(["true", "false"]).default("false").transform((value) => value === "true"),
@@ -25,6 +28,9 @@ export function parsePublicEnvironment(input: Record<string, string | undefined>
 export const environment = parsePublicEnvironment({
   EXPO_PUBLIC_APP_ENV: process.env.EXPO_PUBLIC_APP_ENV,
   EXPO_PUBLIC_ENABLE_DEV_ROUTES: process.env.EXPO_PUBLIC_ENABLE_DEV_ROUTES,
+  EXPO_PUBLIC_ENABLE_EMAIL_AUTH: process.env.EXPO_PUBLIC_ENABLE_EMAIL_AUTH,
+  EXPO_PUBLIC_ENABLE_PAYMENTS: process.env.EXPO_PUBLIC_ENABLE_PAYMENTS,
+  EXPO_PUBLIC_ENABLE_PUSH_NOTIFICATIONS: process.env.EXPO_PUBLIC_ENABLE_PUSH_NOTIFICATIONS,
   EXPO_PUBLIC_SUPABASE_URL: process.env.EXPO_PUBLIC_SUPABASE_URL,
   EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY: process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
   EXPO_PUBLIC_ENABLE_APPLE_AUTH: process.env.EXPO_PUBLIC_ENABLE_APPLE_AUTH,

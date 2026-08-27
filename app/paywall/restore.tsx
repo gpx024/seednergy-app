@@ -1,5 +1,5 @@
-import { ScreenStub } from "@/src/ui/ScreenStub";
+import { Redirect } from "expo-router";
 
 export default function RestorePurchasesScreen() {
-  return <ScreenStub titleKey="screens.restorePurchases.title" descriptionKey="screens.restorePurchases.description" />;
+  return <Redirect href="/paywall" />;
 }

@@ -11,8 +11,8 @@ describe("Stage 12 store preparation", () => {
   it("uses stable package identifiers and explicit store build versions", () => {
     expect(appConfig.expo.ios.bundleIdentifier).toBe("com.seednergy.app");
     expect(appConfig.expo.android.package).toBe("com.seednergy.app");
-    expect(appConfig.expo.ios.buildNumber).toBe("1");
-    expect(appConfig.expo.android.versionCode).toBe(1);
+    expect(appConfig.expo.ios.buildNumber).toBe("2");
+    expect(appConfig.expo.android.versionCode).toBe(2);
   });
 
   it("configures approved raster icon and splash assets", () => {

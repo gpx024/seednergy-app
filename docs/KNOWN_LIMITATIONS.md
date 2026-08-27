@@ -1,5 +1,12 @@
 # Known limitations and deferred work
 
+## Pre-commercial acceptance boundary
+
+- The private Android acceptance build is the last stage before commercial provider integration. It is not a store release candidate.
+- Google sign-in is the verified authentication path. Email sign-up and password recovery are hidden in the private preview until reliable production email delivery is configured and tested.
+- Premium pricing and benefits are visible for demonstration, but the build cannot take money, restore purchases or create entitlements.
+- Development-only routes and harvest simulation are removed from the self-contained preview build. Genuine product acceptance still requires a real grow cycle.
+
 ## Product validation
 
 - The blueprint’s Stage 9 gate requires a genuine 10 to 14 day Cress cycle. It cannot be responsibly compressed into an automated or same-day test. Final Stage 9 product acceptance remains pending that real grow.
@@ -40,6 +47,6 @@
 - Firebase/FCM and Apple push credentials remain deferred. Store disclosures must be reviewed again when push delivery is enabled.
 - Temporary seed/profile photography and horticultural guidance still require final production approval.
 
-## Deferred stages
+## Deferred commercialisation and extension work
 
-Payments, CMS authoring UI, public community features, public Garden sharing, gamification, commerce, and production Apple authentication remain outside Stage 9.
+RevenueCat, Apple and Google store products, server-verified purchase entitlements, production push delivery, signed iOS distribution and store submission are deferred to the final commercialisation stage. CMS authoring UI, public community features, public Garden sharing, gamification and commerce remain Phase C work.

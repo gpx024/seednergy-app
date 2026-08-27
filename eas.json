@@ -8,6 +8,13 @@
       "developmentClient": true,
       "distribution": "internal",
       "environment": "development",
+      "env": {
+        "EXPO_PUBLIC_APP_ENV": "development",
+        "EXPO_PUBLIC_ENABLE_DEV_ROUTES": "true",
+        "EXPO_PUBLIC_ENABLE_EMAIL_AUTH": "true",
+        "EXPO_PUBLIC_ENABLE_PAYMENTS": "false",
+        "EXPO_PUBLIC_ENABLE_PUSH_NOTIFICATIONS": "false"
+      },
       "android": {
         "buildType": "apk"
       }
@@ -15,12 +22,26 @@
     "preview": {
       "distribution": "internal",
       "environment": "preview",
+      "env": {
+        "EXPO_PUBLIC_APP_ENV": "preview",
+        "EXPO_PUBLIC_ENABLE_DEV_ROUTES": "false",
+        "EXPO_PUBLIC_ENABLE_EMAIL_AUTH": "false",
+        "EXPO_PUBLIC_ENABLE_PAYMENTS": "false",
+        "EXPO_PUBLIC_ENABLE_PUSH_NOTIFICATIONS": "false"
+      },
       "android": {
         "buildType": "apk"
       }
     },
     "production": {
       "environment": "production",
+      "env": {
+        "EXPO_PUBLIC_APP_ENV": "production",
+        "EXPO_PUBLIC_ENABLE_DEV_ROUTES": "false",
+        "EXPO_PUBLIC_ENABLE_EMAIL_AUTH": "false",
+        "EXPO_PUBLIC_ENABLE_PAYMENTS": "false",
+        "EXPO_PUBLIC_ENABLE_PUSH_NOTIFICATIONS": "false"
+      },
       "android": {
         "buildType": "app-bundle"
       }

@@ -38,10 +38,10 @@ export default function CreateAccountScreen() {
       <OnboardingHeader />
       <View style={styles.heading}><Text accessibilityRole="header" style={styles.title}>{t("onboarding.accountTitle")}</Text><Text style={styles.body}>{t("onboarding.accountBody")}</Text></View>
       <View style={styles.sso}>{featureFlags.appleAuthentication ? <AppButton disabled label={t("onboarding.apple")} variant="olive" /> : null}<AppButton disabled={loading} label={t("onboarding.google")} onPress={() => submit(() => auth.signInWithGoogle())} variant="olive" /></View>
-      <View style={styles.divider}><View style={styles.line} /><Text style={styles.or}>{t("onboarding.or")}</Text><View style={styles.line} /></View>
-      <View style={styles.fields}><AppField autoCapitalize="none" autoComplete="email" keyboardType="email-address" label={t("onboarding.email")} onChangeText={setEmail} placeholder="hello@example.com" value={email} /><AppField autoComplete="new-password" label={t("onboarding.password")} onChangeText={setPassword} placeholder="••••••••" secureTextEntry value={password} /></View>
+      {featureFlags.emailAuthentication ? <><View style={styles.divider}><View style={styles.line} /><Text style={styles.or}>{t("onboarding.or")}</Text><View style={styles.line} /></View>
+      <View style={styles.fields}><AppField autoCapitalize="none" autoComplete="email" keyboardType="email-address" label={t("onboarding.email")} onChangeText={setEmail} placeholder="hello@example.com" value={email} /><AppField autoComplete="new-password" label={t("onboarding.password")} onChangeText={setPassword} placeholder="••••••••" secureTextEntry value={password} /></View></> : <Text accessibilityLiveRegion="polite" style={styles.privateNote}>{t("onboarding.privateGoogleOnly")}</Text>}
       {message ? <Text accessibilityLiveRegion="polite" style={styles.message}>{message}</Text> : null}
-      <AppButton disabled={!email || password.length < 6} label={t("actions.continue")} loading={loading} onPress={() => submit(() => auth.signUp(email, password))} style={styles.action} />
+      {featureFlags.emailAuthentication ? <AppButton disabled={!email || password.length < 6} label={t("actions.continue")} loading={loading} onPress={() => submit(() => auth.signUp(email, password))} style={styles.action} /> : null}
       <AppButton label={t("onboarding.haveAccount")} onPress={() => router.push("/(onboarding)/sign-in")} variant="text" />
       <Text style={styles.legal}>{t("onboarding.legalPrefix")}<Text accessibilityRole={legalLinks.terms ? "link" : undefined} onPress={legalLinks.terms ? () => void Linking.openURL(legalLinks.terms) : undefined} style={styles.legalLink}>{t("onboarding.termsOfService")}</Text>{t("onboarding.legalAnd")}<Text accessibilityRole={legalLinks.privacyPolicy ? "link" : undefined} onPress={legalLinks.privacyPolicy ? () => void Linking.openURL(legalLinks.privacyPolicy) : undefined} style={styles.legalLink}>{t("onboarding.privacyPolicy")}</Text></Text>
     </ScreenContainer>
@@ -62,4 +62,5 @@ const styles = StyleSheet.create({
   legal: { ...tokens.typography.caption, color: tokens.colors.ink64, textAlign: "center", marginHorizontal: tokens.spacing.md },
   legalLink: { color: tokens.colors.terracottaText },
   message: { ...tokens.typography.caption, color: tokens.colors.terracottaText, textAlign: "center" }
+  ,privateNote: { ...tokens.typography.body, color: tokens.colors.ink82, marginHorizontal: tokens.spacing.md, textAlign: "center" }
 });

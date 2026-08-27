@@ -16,6 +16,9 @@ describe("public environment configuration", () => {
     expect(parsePublicEnvironment({})).toEqual({
       EXPO_PUBLIC_APP_ENV: "development",
       EXPO_PUBLIC_ENABLE_DEV_ROUTES: true,
+      EXPO_PUBLIC_ENABLE_EMAIL_AUTH: false,
+      EXPO_PUBLIC_ENABLE_PAYMENTS: false,
+      EXPO_PUBLIC_ENABLE_PUSH_NOTIFICATIONS: false,
       EXPO_PUBLIC_SUPABASE_URL: "https://example.supabase.co",
       EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "",
       EXPO_PUBLIC_ENABLE_APPLE_AUTH: false,
@@ -32,10 +35,13 @@ describe("public environment configuration", () => {
   });
 
   it("parses the public Supabase and provider flags", () => {
-    expect(parsePublicEnvironment({ EXPO_PUBLIC_SUPABASE_URL: "https://project.supabase.co", EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_example", EXPO_PUBLIC_ENABLE_APPLE_AUTH: "true", EXPO_PUBLIC_PHOTO_CHECK_PROVIDER: "fixture" })).toMatchObject({
+    expect(parsePublicEnvironment({ EXPO_PUBLIC_SUPABASE_URL: "https://project.supabase.co", EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_example", EXPO_PUBLIC_ENABLE_APPLE_AUTH: "true", EXPO_PUBLIC_ENABLE_EMAIL_AUTH: "true", EXPO_PUBLIC_ENABLE_PAYMENTS: "true", EXPO_PUBLIC_ENABLE_PUSH_NOTIFICATIONS: "true", EXPO_PUBLIC_PHOTO_CHECK_PROVIDER: "fixture" })).toMatchObject({
       EXPO_PUBLIC_SUPABASE_URL: "https://project.supabase.co",
       EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_example",
       EXPO_PUBLIC_ENABLE_APPLE_AUTH: true,
+      EXPO_PUBLIC_ENABLE_EMAIL_AUTH: true,
+      EXPO_PUBLIC_ENABLE_PAYMENTS: true,
+      EXPO_PUBLIC_ENABLE_PUSH_NOTIFICATIONS: true,
       EXPO_PUBLIC_PHOTO_CHECK_PROVIDER: "fixture"
     });
   });

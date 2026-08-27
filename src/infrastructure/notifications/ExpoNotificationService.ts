@@ -4,6 +4,7 @@ import * as Notifications from "expo-notifications";
 import { Platform } from "react-native";
 
 import { cycleRepository } from "@/src/infrastructure/repositories/SupabaseCycleRepository";
+import { featureFlags } from "@/src/config/features";
 import { profileRepository } from "@/src/infrastructure/repositories/SupabaseProfileRepository";
 import { supabase } from "@/src/infrastructure/supabase/client";
 import type { NotificationPreferences, NotificationService } from "@/src/ports/NotificationService";
@@ -15,6 +16,7 @@ export class ExpoNotificationService implements NotificationService {
   }
 
   async enable(preferences: NotificationPreferences): Promise<void> {
+    if (!featureFlags.pushNotifications) throw new Error("Push notifications are not enabled in this private build.");
     const permission = await Notifications.requestPermissionsAsync();
     if (permission.status !== "granted") throw new Error("Notifications are disabled for Seednergy in your phone settings.");
     await this.registerDevice();
@@ -27,6 +29,7 @@ export class ExpoNotificationService implements NotificationService {
   }
 
   async syncExistingPermission(): Promise<void> {
+    if (!featureFlags.pushNotifications) return;
     const permission = await Notifications.getPermissionsAsync();
     if (permission.status !== "granted") return;
     const preferences = await this.getPreferences();

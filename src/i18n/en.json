@@ -54,6 +54,7 @@
     "termsOfService": "Terms of Service",
     "legalAnd": " and ",
     "privacyPolicy": "Privacy Policy.",
+    "privateGoogleOnly": "This private build uses Google sign-in. Email delivery will be enabled and verified before public launch.",
     "lightBody": "Light is the engine of growth. Be as accurate as possible.",
     "lightTitle": "How much light does your space get?",
     "locationBody": "We’ll tailor your growing instructions based on your space.",
@@ -73,6 +74,8 @@
     "notNow": "Not now",
     "notificationsBody": "Get a gentle reminder when your cycle needs a check. Seednergy can still guide you inside the app if you skip this.",
     "notificationsTitle": "Stay in the loop",
+    "notificationsLaterBody": "Your next action will always be waiting inside Seednergy. Push delivery will be connected before public launch.",
+    "notificationsLaterTitle": "Reminders come later",
     "or": "or",
     "outdoor": "Outdoor small space",
     "outdoorBody": "Raised beds, small gardens or allotments.",
@@ -199,7 +202,31 @@
     "materials": "What you need",
     "notFound": "This seed is not available.",
     "premiumLocked": "Premium seed · Available with access",
+    "viewPremium": "View premium access",
     "tryAgain": "Try again"
+  },
+  "paywall": {
+    "benefitChecks": "A higher allowance for AI-assisted photo checks",
+    "benefitCycles": "Every active cycle continues even if access later expires",
+    "benefitSeeds": "Every premium launch seed and future additions",
+    "body": "Cress stays free. Premium access expands the seed library and gives you more supported photo checks.",
+    "commercialAction": "Purchases activate before launch",
+    "eyebrow": "Premium preview",
+    "keepExploring": "Keep exploring",
+    "monthly": "All premium seeds, monthly",
+    "privateBuildNote": "This private acceptance build does not take payments or create entitlements.",
+    "singleSeed": "One permanent seed unlock",
+    "title": "Grow beyond your first cycle",
+    "yearly": "All premium seeds, yearly"
+  },
+  "release": {
+    "availableBeforeLaunch": "Available before launch",
+    "backToProfile": "Back to profile",
+    "notFoundBody": "The page you opened is not part of this Seednergy build.",
+    "notFoundTitle": "We could not find that page",
+    "remindersBody": "This private build keeps every action available inside the app. Push delivery will be connected with the client-owned Firebase and Apple accounts before public launch.",
+    "remindersTitle": "Reminders come with the release build",
+    "returnHome": "Return home"
   },
   "gallery": {
     "attention": "Needs check",
