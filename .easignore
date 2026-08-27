@@ -19,7 +19,7 @@ tmp/
 design-system/
 docs/
 tests/
-supabase/
+/supabase/
 ARCHITECTURE.md
 
 # Platform and editor artefacts

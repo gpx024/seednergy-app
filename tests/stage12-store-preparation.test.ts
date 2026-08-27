@@ -5,6 +5,7 @@ import path from "node:path";
 const root = process.cwd();
 const appConfig = JSON.parse(fs.readFileSync(path.join(root, "app.json"), "utf8"));
 const easConfig = JSON.parse(fs.readFileSync(path.join(root, "eas.json"), "utf8"));
+const easIgnore = fs.readFileSync(path.join(root, ".easignore"), "utf8").split(/\r?\n/);
 
 describe("Stage 12 store preparation", () => {
   it("uses stable package identifiers and explicit store build versions", () => {
@@ -36,6 +37,12 @@ describe("Stage 12 store preparation", () => {
     expect(easConfig.build.preview.android.buildType).toBe("apk");
     expect(easConfig.build.production.android.buildType).toBe("app-bundle");
     expect(easConfig.build.production.developmentClient).not.toBe(true);
+  });
+
+  it("keeps the runtime Supabase client in EAS archives", () => {
+    expect(easIgnore).toContain("/supabase/");
+    expect(easIgnore).not.toContain("supabase/");
+    expect(fs.existsSync(path.join(root, "src", "infrastructure", "supabase", "client.ts"))).toBe(true);
   });
 
   it("keeps microphone access disabled and documents the submission inventory", () => {
