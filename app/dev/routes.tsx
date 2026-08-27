@@ -12,6 +12,7 @@ export default function DevelopmentRoutesScreen() {
     { href: "/home", labelKey: "tabs.home" },
     { href: "/cycles", labelKey: "tabs.cycles" },
     { href: "/explore", labelKey: "tabs.explore" },
+    { href: "/garden", labelKey: "tabs.garden" },
     { href: "/profile", labelKey: "tabs.profile" },
     { href: "/cycle/placeholder", labelKey: "routes.cycleDetail" },
     { href: "/cycle/placeholder/check", labelKey: "routes.photoCheck" },

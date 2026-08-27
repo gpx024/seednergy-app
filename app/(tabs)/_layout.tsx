@@ -12,7 +12,7 @@ const tabConfig = [
   { name: "home", label: "tabs.home", icon: "home-outline" },
   { name: "cycles", label: "tabs.cycles", icon: "time-outline" },
   { name: "explore", label: "tabs.explore", icon: "search-outline" },
-  { name: "profile", label: "tabs.profile", icon: "person-outline" }
+  { name: "garden", label: "tabs.garden", icon: "leaf-outline" }
 ] as const;
 
 export default function TabsLayout() {
@@ -34,6 +34,7 @@ export default function TabsLayout() {
       tabBarIcon: ({ color }) => <Ionicons color={color} name={tabConfig.find((tab) => tab.name === route.name)?.icon ?? "ellipse-outline"} size={19} />
     })}>
       {tabConfig.map((tab) => <Tabs.Screen key={tab.name} name={tab.name} options={{ title: t(tab.label) }} />)}
+      <Tabs.Screen name="profile" options={{ href: null }} />
     </Tabs>
   );
 }

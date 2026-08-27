@@ -188,6 +188,27 @@
     "loading": "Loading your profile",
     "loadingBody": "Your growing preferences will appear shortly."
   },
+  "garden": {
+    "body": "Keep what you grow private. Public sharing will arrive later, when it can be introduced safely.",
+    "comingSoon": "Coming soon",
+    "empty": "Your first harvest will live here",
+    "emptyBody": "Complete a grow cycle to begin your private archive.",
+    "error": "Your garden is unavailable",
+    "eyebrow": "Your growing story",
+    "harvestNumber": "Harvest {{number}}",
+    "harvestPhoto": "{{seed}} harvest",
+    "loading": "Opening your garden",
+    "loadingBody": "Gathering your harvest history.",
+    "private": "Private",
+    "privateBody": "A quiet record of what you have grown and harvested.",
+    "privateTitle": "Private to you",
+    "public": "Public",
+    "publicBody": "A future place to share completed grows and learn from other growers.",
+    "publicBoundary": "Nothing is shared from your Private Garden.",
+    "publicTitle": "Public Garden",
+    "seedPhoto": "Seed photo",
+    "title": "Garden"
+  },
   "seedDetail": {
     "expect": "What to expect",
     "expectBody": "Cress changes visibly from day to day and reaches a real edible harvest quickly, making uncertainty easier to understand.",
@@ -340,6 +361,7 @@
   "tabs": {
     "cycles": "Cycles",
     "explore": "Explore",
+    "garden": "Garden",
     "home": "Home",
     "profile": "Profile"
   }

@@ -22,7 +22,7 @@ Read this file first, then read the relevant stage of the Notion blueprint befor
 8. Never put API keys, service-role keys, payment secrets or provider credentials in the mobile application.
 9. Use typed contracts and runtime validation at application and API boundaries.
 10. Treat every item marked OPEN in the blueprint as unresolved. Do not guess a production policy.
-11. Do not add Public Garden, community, gamification, chat, open-ended AI chat or recipe generation before the blueprint permits it.
+11. Do not add Public Garden functionality, community data, sharing, gamification, chat, open-ended AI chat or recipe generation before the blueprint permits it. A non-functional Public Garden "Coming soon" surface is permitted by the 2026-08-27 decision log.
 12. Do not write legal, privacy, subscription or horticultural content as if it were approved. Flag it for review.
 
 ## Required workflow for every stage
@@ -70,6 +70,6 @@ After coding:
 
 The public launch baseline is the four-seed scope in the blueprint: Cress, Pea shoots, Radish microgreens and Broccoli microgreens, subject to the latest approved decision log. Cress is free. Other access rules must come from the blueprint, not invention in code.
 
-The first release has four main tabs: Home, Cycles, Explore and Profile. Garden, public sharing and gamification are later extensions.
+The first release has four main tabs: Home, Cycles, Explore and Garden. Profile remains accessible from the raised avatar on Home. Garden contains the implemented Private Garden and may show Public Garden only as a non-functional "Coming soon" state. Public sharing, community data and gamification are later extensions.
 
 The repository must remain runnable after every stage. If a requested change conflicts with this file or the Notion blueprint, stop and identify the conflict before editing.

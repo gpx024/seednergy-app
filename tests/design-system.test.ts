@@ -60,4 +60,15 @@ describe("Seednergy design system contract", () => {
     expect(home).toContain('onProfilePress={() => router.push("/(tabs)/profile")}');
     expect(home).toContain('t("main.greeting", { name })');
   });
+
+  it("keeps Profile behind the Home avatar and makes Garden the fourth primary tab", () => {
+    const tabs = readFileSync(resolve("app/(tabs)/_layout.tsx"), "utf8");
+    const garden = readFileSync(resolve("app/(tabs)/garden.tsx"), "utf8");
+
+    expect(tabs).toContain('{ name: "garden", label: "tabs.garden", icon: "leaf-outline" }');
+    expect(tabs).toContain('<Tabs.Screen name="profile" options={{ href: null }} />');
+    expect(garden).toContain('type GardenView = "private" | "public"');
+    expect(garden).toContain('t("garden.comingSoon")');
+    expect(garden).not.toContain("publicGardenRepository");
+  });
 });
