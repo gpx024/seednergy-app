@@ -8,6 +8,9 @@ const migration = readFileSync(join(root, "supabase/migrations/202608260015_stag
 const deletionFunction = readFileSync(join(root, "supabase/functions/delete-account/index.ts"), "utf8");
 const retentionFunction = readFileSync(join(root, "supabase/functions/photo-retention/index.ts"), "utf8");
 const photoCheckFunction = readFileSync(join(root, "supabase/functions/photo-check/index.ts"), "utf8");
+const monitoringAdapter = readFileSync(join(root, "src/infrastructure/monitoring/sentry.ts"), "utf8");
+const rootLayout = readFileSync(join(root, "app/_layout.tsx"), "utf8");
+const appConfig = JSON.parse(readFileSync(join(root, "app.json"), "utf8"));
 
 describe("Stage 11 account deletion", () => {
   it("removes and verifies every private storage object before deleting database and Auth records", () => {
@@ -48,6 +51,17 @@ describe("Stage 11 retention and AI notice", () => {
     expect(retentionFunction).toContain("skipped_unconfigured");
     expect(retentionFunction).toContain('from("photo_checks")');
     expect(retentionFunction).not.toContain('from("harvests").delete');
+  });
+
+  it("keeps Sentry privacy-safe and initialized only through the monitoring adapter", () => {
+    expect(monitoringAdapter).toContain("sendDefaultPii: false");
+    expect(monitoringAdapter).toContain("tracesSampleRate: 0");
+    expect(rootLayout).not.toContain("Sentry.init");
+    expect(rootLayout).not.toContain("Sentry.wrap(withMonitoring");
+    expect(appConfig.expo.plugins).toContainEqual([
+      "@sentry/react-native/expo",
+      expect.objectContaining({ organization: "seednergy", project: "seednergy-app" })
+    ]);
   });
 
   it("enforces the first-photo notice on the server", () => {

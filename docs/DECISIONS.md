@@ -9,7 +9,7 @@
 - Harvest photos remain until the user deletes the account. They are excluded from the automated check-photo retention job.
 - Product analytics use a first-party Supabase table, an explicit event allowlist and a small non-PII property allowlist. Analytics failures never block the grow cycle.
 - The first AI photo notice is stored on the profile and enforced by both the mobile route and the server-side photo-check function.
-- Sentry is configured with default PII disabled and zero performance tracing. It remains inactive until a client-owned DSN is supplied.
+- Sentry uses the client-owned `seednergy/seednergy-app` project with default PII disabled and zero performance tracing. Logs, Session Replay and User Feedback are disabled.
 
 ## 2026-08-26, Stage 9 harvest and notification decisions
 

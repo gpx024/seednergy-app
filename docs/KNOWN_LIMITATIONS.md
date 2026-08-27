@@ -27,8 +27,8 @@
 
 - The blueprint decision log still marks the proposed 90-day check-photo retention period as OPEN and requiring legal approval. Retention infrastructure is deployed, authenticated and logged, but deliberately returns `skipped_unconfigured` until that policy is approved. Harvest photos are never part of automated check-photo retention.
 - Approved public Privacy Policy, Terms of Service and support URLs have not been supplied. The app exposes their configuration points and clearly labels them unavailable during development.
-- Sentry is installed with default PII collection disabled, but reporting remains disabled until the client-owned Sentry DSN is supplied. Source-map upload also needs a sensitive `SENTRY_AUTH_TOKEN` in EAS.
-- The current Android development APK does not contain the newly added Sentry native module. A new development APK is required for complete Stage 11 device testing.
+- Sentry is configured for the client-owned `seednergy/seednergy-app` project with default PII, Logs, Session Replay, User Feedback and performance tracing disabled. Live error and source-map verification remains pending a new Sentry-enabled build.
+- Existing Android installs created before this configuration do not contain the complete Sentry native/build setup. Install a new preview or development APK before testing Sentry.
 - Account deletion has unit and boundary coverage and the deployed function rejects unauthenticated requests. A destructive authenticated deletion must be tested with a disposable account before production acceptance.
 
 ## Stage 12 release blockers

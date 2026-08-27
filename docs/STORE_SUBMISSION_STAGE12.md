@@ -43,7 +43,7 @@ The final declarations must include Seednergy's own handling and every integrate
 | Plant photographs selected or captured by the user | Private growth checks and optional harvest record | Yes | Private Supabase Storage; check photos may be sent to the configured OpenAI model for analysis |
 | Push token and notification preferences | Optional cycle-action notifications | Yes | Supabase and Expo Push Service when notifications are configured |
 | In-app product events | Operational product analytics without advertising | Yes, by account identifier | Supabase |
-| Crash and diagnostic information | Reliability monitoring when the client-owned DSN is enabled | Potentially linked through technical identifiers | Sentry; disabled while no DSN is configured |
+| Crash and diagnostic information | Reliability monitoring | Potentially linked through a pseudonymous account identifier and technical identifiers | Sentry; enabled with default PII, Logs, Session Replay, User Feedback and performance tracing disabled |
 
 No payment information, contacts, precise or approximate device location, health data, browsing history, advertising profile or public Garden content is implemented. The app does not currently sell data or use it for third-party advertising. These statements must be rechecked whenever SDKs or features change.
 
@@ -85,7 +85,8 @@ Required external inputs: approved public privacy-policy URL, client-owned Play 
 - [ ] Replace temporary seed and profile photography with approved production artwork.
 - [ ] Approve horticultural content and the photo-retention period.
 - [ ] Publish approved Privacy Policy, Terms of Service and support pages.
-- [ ] Configure client-owned Sentry and re-audit diagnostic disclosure.
+- [x] Configure client-owned Sentry with default PII, Logs, Session Replay, User Feedback and performance tracing disabled.
+- [ ] Verify a test crash and readable source map in a new preview build, then approve the diagnostic disclosure.
 - [ ] Configure Firebase/FCM and Apple push credentials, then re-audit notification disclosures.
 - [ ] Build and test a self-contained Android preview APK on the Pixel.
 - [ ] Create and upload an Android production AAB to Play internal testing.

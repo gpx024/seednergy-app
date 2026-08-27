@@ -80,7 +80,7 @@ npx supabase functions deploy photo-retention
 
 ## Sentry
 
-Create the client-owned Sentry project before production monitoring is enabled. Add the public DSN as `EXPO_PUBLIC_SENTRY_DSN`. Store `SENTRY_AUTH_TOKEN` as a sensitive EAS environment variable for source-map uploads, never in `.env.local` or Git. Adding `@sentry/react-native` changes native code, so install a new development APK before testing Sentry.
+The client-owned Sentry project is `seednergy/seednergy-app`. Add its public DSN as `EXPO_PUBLIC_SENTRY_DSN`. Store `SENTRY_AUTH_TOKEN` as a secret EAS environment variable for source-map uploads, never in Git. Logs, Session Replay, User Feedback, default PII collection and performance tracing are disabled. Adding `@sentry/react-native` changes native code, so install a new development or preview APK before testing Sentry.
 
 ## Notification test
 
