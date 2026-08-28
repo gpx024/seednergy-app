@@ -33,4 +33,4 @@ on conflict (user_id) do update set role = excluded.role, active = true;
 
 Deploy `admin/` as a separate Next.js project, for example on Vercel. Add the three variables from `.env.example`, use the deployed domain as `NEXT_PUBLIC_SITE_URL`, and add `https://your-domain/auth/callback` to Supabase Auth redirect URLs.
 
-Backups are handled at the Supabase project level. Before a production launch, enable the appropriate Supabase backup or point-in-time recovery plan and perform a documented restore test.
+Backups are handled at the Supabase project level, but database backups do not contain the binary objects in Supabase Storage. Follow the repository [backup and restore runbook](../docs/BACKUP_RESTORE_RUNBOOK.md) for separate database and Storage verification. Before a production launch, enable the appropriate Supabase backup or point-in-time recovery plan and establish encrypted off-site retention for Storage objects.
