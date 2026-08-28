@@ -71,4 +71,42 @@ describe("Seednergy design system contract", () => {
     expect(garden).toContain('t("garden.comingSoon")');
     expect(garden).not.toContain("publicGardenRepository");
   });
+
+  it("applies Review 06 headers, status dots and raised active navigation", () => {
+    const home = readFileSync(resolve("app/(tabs)/home.tsx"), "utf8");
+    const cycles = readFileSync(resolve("app/(tabs)/cycles.tsx"), "utf8");
+    const explore = readFileSync(resolve("app/(tabs)/explore.tsx"), "utf8");
+    const garden = readFileSync(resolve("app/(tabs)/garden.tsx"), "utf8");
+    const header = readFileSync(resolve("src/ui/components/BrandHeader.tsx"), "utf8");
+    const sectionHeader = readFileSync(resolve("src/ui/components/SectionHeader.tsx"), "utf8");
+    const badge = readFileSync(resolve("src/ui/components/StageBadge.tsx"), "utf8");
+    const tabs = readFileSync(resolve("app/(tabs)/_layout.tsx"), "utf8");
+
+    expect(header).toContain("wordmarkWidth = 156");
+    expect(header).toContain("fontSize: 24");
+    expect(home).toContain("profileImageUri={profile.avatarUrl}");
+    expect(sectionHeader).toContain("<BrandMark width={22}");
+    expect(cycles).toContain("<SectionHeader");
+    expect(explore).toContain("<SectionHeader");
+    expect(garden).toContain("<SectionHeader");
+    expect(garden).not.toContain('t("garden.eyebrow")');
+    expect(badge).toContain("dotAttention");
+    expect(badge).toContain("dotActive");
+    expect(tabs).toContain("bottom: 0");
+    expect(tabs).toContain("top: 0");
+  });
+
+  it("uses a persistent private avatar with a Seednergy mark fallback", () => {
+    const profile = readFileSync(resolve("app/(tabs)/profile.tsx"), "utf8");
+    const avatar = readFileSync(resolve("src/ui/components/ProfileAvatar.tsx"), "utf8");
+    const hook = readFileSync(resolve("src/presentation/profile/useProfile.ts"), "utf8");
+    const migration = readFileSync(resolve("supabase/migrations/202608280018_profile_avatar.sql"), "utf8");
+
+    expect(profile).toContain("profile.chooseAvatar()");
+    expect(avatar).toContain("<BrandMark");
+    expect(hook).toContain("uploadProfile");
+    expect(hook).toContain("createSignedUrl");
+    expect(migration).toContain("avatar_path");
+    expect(migration).toContain("/profile/%");
+  });
 });

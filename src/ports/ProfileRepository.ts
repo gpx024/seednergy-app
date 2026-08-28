@@ -11,6 +11,7 @@ export interface GrowerProfile {
   motivation: string | null;
   onboardingCompletedAt: string | null;
   aiPhotoNoticeAcceptedAt: string | null;
+  avatarPath: string | null;
   notificationPreferences: NotificationPreferences;
 }
 
@@ -24,4 +25,5 @@ export interface ProfileRepository {
   getMine(): Promise<GrowerProfile | null>;
   completeOnboarding(input: CompleteOnboardingInput): Promise<GrowerProfile>;
   acceptAiPhotoNotice(): Promise<GrowerProfile>;
+  updateAvatarPath(path: string | null): Promise<GrowerProfile>;
 }

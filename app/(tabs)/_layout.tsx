@@ -54,13 +54,13 @@ const styles = StyleSheet.create({
   barBackground: { ...StyleSheet.absoluteFillObject, backgroundColor: tokens.colors.tabInactiveSurface, borderBottomLeftRadius: 30, borderBottomRightRadius: 30 },
   item: { alignItems: "stretch", backgroundColor: "transparent", flex: 1, justifyContent: "center", minHeight: 58, overflow: "visible", paddingTop: tokens.spacing.xs },
   itemActive: { zIndex: 10 },
-  activeRelief: { backgroundColor: tokens.colors.tabActiveSurface, borderLeftColor: "rgba(255,255,255,0.78)", borderLeftWidth: 1, borderRightColor: "rgba(126,116,92,0.34)", borderRightWidth: 1, borderTopColor: "rgba(255,255,255,0.96)", borderTopLeftRadius: 4, borderTopRightRadius: 4, borderTopWidth: 1, bottom: -1, left: 0, position: "absolute", right: 0, top: -5, zIndex: 1, ...tokens.elevation.tabActive },
+  activeRelief: { backgroundColor: tokens.colors.tabActiveSurface, borderLeftColor: "rgba(255,255,255,0.78)", borderLeftWidth: 1, borderRightColor: "rgba(126,116,92,0.34)", borderRightWidth: 1, borderTopColor: "rgba(255,255,255,0.96)", borderTopWidth: 1, bottom: 0, left: 0, position: "absolute", right: 0, top: 0, zIndex: 1, ...tokens.elevation.tabActive },
   activeTopHighlight: { backgroundColor: "rgba(255,255,255,0.82)", height: 2, left: 1, position: "absolute", right: 1, top: 1 },
   activeLeftHighlight: { backgroundColor: "rgba(255,255,255,0.48)", bottom: 0, left: 1, position: "absolute", top: 2, width: 2 },
   activeRightEdge: { backgroundColor: "rgba(126,116,92,0.22)", bottom: 0, position: "absolute", right: 1, top: 2, width: 3 },
   activeBottomEdge: { backgroundColor: "rgba(126,116,92,0.24)", bottom: 0, height: 3, left: 1, position: "absolute", right: 1 },
   itemContent: { alignItems: "center", flex: 1, gap: tokens.spacing.xxs, justifyContent: "center", zIndex: 2 },
-  itemContentActive: { transform: [{ translateY: -2 }] },
+  itemContentActive: {},
   itemPressed: { opacity: 0.8 },
   label: { ...tokens.typography.tab, marginTop: 0 }
 });

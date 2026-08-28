@@ -4,7 +4,7 @@ import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
-import { AppField, ScreenContainer, SeedCard } from "@/src/ui/components";
+import { AppField, ScreenContainer, SectionHeader, SeedCard } from "@/src/ui/components";
 import { resolveSeedAccess } from "@/src/application/content/access";
 import { resolveSeedImage } from "@/src/presentation/content/seedImages";
 import { useSeedLibrary } from "@/src/presentation/content/useSeedContent";
@@ -17,7 +17,8 @@ export default function ExploreScreen() {
   const library = useSeedLibrary(query);
   return (
     <ScreenContainer includeBottomSafeArea={false} scroll contentStyle={styles.container}>
-      <View style={styles.heading}><Text accessibilityRole="header" style={styles.title}>{t("main.exploreSeeds")}</Text><Text style={styles.body}>{t("main.exploreBody")}</Text></View>
+      <SectionHeader title={t("main.exploreSeeds")} />
+      <Text style={styles.body}>{t("main.exploreBody")}</Text>
       <AppField accessibilityLabel={t("main.searchSeeds")} label={t("main.searchSeeds")} onChangeText={setQuery} placeholder={t("main.searchPlaceholder")} value={query} />
       {library.loading ? <Text accessibilityLiveRegion="polite" style={styles.message}>{t("content.loading")}</Text> : null}
       {library.error ? <Text accessibilityLiveRegion="polite" onPress={library.retry} style={styles.error}>{t("content.error")}</Text> : null}
@@ -33,10 +34,8 @@ export default function ExploreScreen() {
 
 const styles = StyleSheet.create({
   container: { gap: tokens.spacing.sectionGap, paddingBottom: tokens.spacing.xs },
-  heading: { gap: tokens.spacing.xs, marginHorizontal: tokens.spacing.md },
   label: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textTransform: "uppercase" },
-  title: { ...tokens.typography.displayLarge, color: tokens.colors.terracottaText },
-  body: { ...tokens.typography.body, color: tokens.colors.ink82 },
+  body: { ...tokens.typography.body, color: tokens.colors.ink82, marginHorizontal: tokens.spacing.md },
   grid: { flexDirection: "row", flexWrap: "wrap", gap: tokens.spacing.cardGap },
   note: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.xs },
   noteText: { ...tokens.typography.caption, color: tokens.colors.ink64, flex: 1 }

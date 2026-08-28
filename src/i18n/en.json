@@ -183,10 +183,12 @@
     "waterLightly": "Water lightly today"
   },
   "profile": {
+    "choosePhoto": "Choose profile photo",
     "error": "Your profile could not be loaded",
     "light": "Available light",
     "loading": "Loading your profile",
-    "loadingBody": "Your growing preferences will appear shortly."
+    "loadingBody": "Your growing preferences will appear shortly.",
+    "savingPhoto": "Saving photo…"
   },
   "garden": {
     "body": "Keep what you grow private. Public sharing will arrive later, when it can be introduced safely.",

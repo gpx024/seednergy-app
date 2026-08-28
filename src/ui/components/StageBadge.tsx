@@ -10,11 +10,15 @@ interface StageBadgeProps {
 }
 
 export function StageBadge({ label, tone = "active" }: StageBadgeProps) {
-  return <View accessibilityLabel={label} style={[styles.base, toneStyles[tone]]}><Text maxFontSizeMultiplier={1.5} style={[styles.label, labelStyles[tone]]}>{label}</Text></View>;
+  const showStatusDot = tone === "active" || tone === "attention";
+  return <View accessibilityLabel={label} style={[styles.base, toneStyles[tone]]}>{showStatusDot ? <View style={[styles.dot, tone === "attention" ? styles.dotAttention : styles.dotActive]} /> : null}<Text maxFontSizeMultiplier={1.5} style={[styles.label, labelStyles[tone]]}>{label}</Text></View>;
 }
 
 const styles = StyleSheet.create({
-  base: { alignSelf: "flex-start", paddingHorizontal: 13, paddingVertical: 7, borderRadius: tokens.radii.pill },
+  base: { alignItems: "center", alignSelf: "flex-start", flexDirection: "row", gap: 6, paddingHorizontal: 13, paddingVertical: 7, borderRadius: tokens.radii.pill },
+  dot: { borderRadius: 4, height: 7, width: 7 },
+  dotActive: { backgroundColor: tokens.colors.olive },
+  dotAttention: { backgroundColor: tokens.colors.alert },
   label: { fontFamily: "Inter_600SemiBold", fontSize: 11, lineHeight: 12, letterSpacing: 0.45, textTransform: "uppercase" }
 });
 

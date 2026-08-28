@@ -19,6 +19,7 @@ export interface ProfileRow {
   light_condition_slug: string | null;
   onboarding_completed_at: string | null;
   ai_photo_notice_accepted_at: string | null;
+  avatar_path: string | null;
 }
 
 export interface CycleRow {

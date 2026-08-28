@@ -28,6 +28,15 @@ export class SupabaseProfileRepository implements ProfileRepository {
     if (error) throw error;
     return mapProfile(data);
   }
+
+  async updateAvatarPath(path: string | null): Promise<GrowerProfile> {
+    const { data: userData, error: userError } = await supabase.auth.getUser();
+    if (userError) throw userError;
+    if (!userData.user) throw new Error("You need to be signed in to update your profile photo.");
+    const { data, error } = await supabase.from("profiles").update({ avatar_path: path }).eq("id", userData.user.id).select("*").single();
+    if (error) throw error;
+    return mapProfile(data);
+  }
 }
 
 function mapProfile(row: ProfileRow): GrowerProfile {
@@ -41,6 +50,7 @@ function mapProfile(row: ProfileRow): GrowerProfile {
     motivation: row.motivation,
     onboardingCompletedAt: row.onboarding_completed_at,
     aiPhotoNoticeAcceptedAt: row.ai_photo_notice_accepted_at,
+    avatarPath: row.avatar_path,
     notificationPreferences: parseNotificationPreferences(row.notification_prefs, row.quiet_hours)
   };
 }

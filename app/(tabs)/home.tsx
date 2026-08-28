@@ -9,8 +9,6 @@ import { useCycleList } from "@/src/presentation/cycles/useCycleData";
 import { useProfile } from "@/src/presentation/profile/useProfile";
 import { tokens } from "@/src/ui/tokens";
 
-const profileImage = require("../../assets/images/profiles/alba-temporary.png");
-
 export default function HomeScreen() {
   const { t } = useTranslation();
   const router = useRouter();
@@ -23,7 +21,7 @@ export default function HomeScreen() {
   const cycleImage = cycle ? resolveSeedImage(cycle.seed.images) : undefined;
   const name = profile.data?.displayName?.split(" ")[0] ?? t("main.growerName");
   return <ScreenContainer includeBottomSafeArea={false} scroll contentStyle={styles.container}>
-    <View style={styles.intro}><BrandHeader locationLabel={t("main.greeting", { name })} onProfilePress={() => router.push("/(tabs)/profile")} profileImage={profileImage} /></View>
+    <View style={styles.intro}><BrandHeader locationLabel={t("main.greeting", { name })} onProfilePress={() => router.push("/(tabs)/profile")} profileImageUri={profile.avatarUrl} /></View>
     {cycles.loading ? <FeedbackState kind="loading" title={t("cycle.loadingTitle")} description={t("cycle.loadingBody")} /> : null}
     {cycles.error ? <FeedbackState actionLabel={t("content.tryAgain")} description={cycles.error.message} kind="error" onAction={() => void cycles.reload()} title={t("cycle.errorTitle")} /> : null}
     {!cycles.loading && !cycles.error && !cycle ? <FeedbackState actionLabel={t("cycle.chooseSeed")} description={t("stageTwo.cyclesEmptyDescription")} kind="empty" onAction={() => router.push("/(tabs)/explore")} title={t("stageTwo.cyclesEmptyTitle")} /> : null}

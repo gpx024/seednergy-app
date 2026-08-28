@@ -8,7 +8,7 @@
     "scheme": "seednergy",
     "ios": {
       "bundleIdentifier": "com.seednergy.app",
-      "buildNumber": "3",
+      "buildNumber": "4",
       "supportsTablet": false,
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
@@ -16,7 +16,7 @@
     },
     "android": {
       "package": "com.seednergy.app",
-      "versionCode": 3,
+      "versionCode": 4,
       "adaptiveIcon": {
         "foregroundImage": "./assets/app/adaptive-icon.png",
         "monochromeImage": "./assets/app/adaptive-icon.png",
@@ -44,7 +44,7 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "Seednergy uses your selected plant photos for cycle-specific growth checks.",
+          "photosPermission": "Seednergy uses photos you choose for your profile and cycle-specific growth checks.",
           "cameraPermission": "Seednergy uses the camera so you can photograph your active grow cycle.",
           "microphonePermission": false
         }

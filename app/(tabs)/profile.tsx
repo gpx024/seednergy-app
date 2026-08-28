@@ -1,15 +1,13 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
-import { AppButton, AppCard, FeedbackState, ScreenContainer } from "@/src/ui/components";
+import { AppButton, AppCard, FeedbackState, ProfileAvatar, ScreenContainer } from "@/src/ui/components";
 import { tokens } from "@/src/ui/tokens";
 import { useAuth } from "@/src/presentation/auth/AuthProvider";
 import { useProfile } from "@/src/presentation/profile/useProfile";
 import { featureFlags } from "@/src/config/features";
-
-const alba = require("../../assets/images/profiles/alba-temporary.png");
 
 export default function ProfileScreen() {
   const { t } = useTranslation();
@@ -24,7 +22,7 @@ export default function ProfileScreen() {
       <Text accessibilityRole="header" style={styles.title}>{t("main.profile")}</Text>
       {profile.loading ? <FeedbackState kind="loading" title={t("profile.loading")} description={t("profile.loadingBody")} /> : null}
       {profile.error ? <FeedbackState actionLabel={t("content.tryAgain")} description={profile.error.message} kind="error" onAction={() => void profile.reload()} title={t("profile.error")} /> : null}
-      <AppCard variant="hero" style={styles.identity}><Image accessibilityLabel={t("main.albaPortrait")} source={alba} style={styles.avatar} /><View style={styles.identityCopy}><Text style={styles.name}>{displayName}</Text><Text style={styles.identityMeta}>{user?.email ?? t("main.albaMeta")}</Text></View></AppCard>
+      <AppCard variant="hero" style={styles.identity}><Pressable accessibilityLabel={t("profile.choosePhoto")} accessibilityRole="button" disabled={profile.avatarSaving} onPress={() => void profile.chooseAvatar()} style={({ pressed }) => [styles.avatarButton, pressed && styles.avatarPressed]}><ProfileAvatar size={92} uri={profile.avatarUrl} /><View style={styles.photoAction}><Ionicons color={tokens.colors.raised} name="camera-outline" size={16} /></View></Pressable><View style={styles.identityCopy}><Text style={styles.name}>{displayName}</Text><Text style={styles.identityMeta}>{user?.email ?? t("main.albaMeta")}</Text><Pressable accessibilityRole="button" disabled={profile.avatarSaving} onPress={() => void profile.chooseAvatar()}><Text style={styles.choosePhoto}>{profile.avatarSaving ? t("profile.savingPhoto") : t("profile.choosePhoto")}</Text></Pressable>{profile.avatarError ? <Text accessibilityLiveRegion="polite" style={styles.avatarError}>{profile.avatarError.message}</Text> : null}</View></AppCard>
       <SettingsGroup label={t("main.yourSpace")} items={[{ icon: "location-outline", title: t("main.growingSpace"), value: environment }, { icon: "sunny-outline", title: t("profile.light"), value: light }]} />
       <SettingsGroup label="Your harvests" items={[{ icon: "images-outline", title: "Private harvest gallery", value: "Your completed cycles", onPress: () => router.push("/(tabs)/garden") }]} />
       <SettingsGroup label={t("main.account")} items={[{ icon: "person-outline", title: t("main.accountDetails"), value: user?.email ?? t("main.albaEmail") }, { icon: "notifications-outline", title: "Notifications", value: featureFlags.pushNotifications ? profile.data?.notificationPreferences.enabled ? "Enabled" : "Off" : t("release.availableBeforeLaunch"), onPress: () => router.push("/settings") }, { icon: "shield-checkmark-outline", title: "Account and privacy", value: "Data, legal and help", onPress: () => router.push("/settings/privacy") }]} />
@@ -43,10 +41,14 @@ const styles = StyleSheet.create({
   container: { gap: tokens.spacing.sectionGap, paddingBottom: tokens.spacing.xs },
   title: { ...tokens.typography.displayLarge, color: tokens.colors.terracottaText, marginHorizontal: tokens.spacing.md },
   identity: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.md },
-  avatar: { height: 92, width: 92, borderRadius: tokens.radii.pill, ...tokens.elevation.photo },
+  avatarButton: { borderRadius: tokens.radii.pill, position: "relative", ...tokens.elevation.photo },
+  avatarPressed: { opacity: 0.82 },
+  photoAction: { alignItems: "center", backgroundColor: tokens.colors.olive, borderRadius: 14, bottom: 0, height: 28, justifyContent: "center", position: "absolute", right: 0, width: 28, ...tokens.elevation.pillOlive },
   identityCopy: { flex: 1, gap: tokens.spacing.xxs },
   name: { ...tokens.typography.cardTitle, color: tokens.colors.forest },
   identityMeta: { ...tokens.typography.body, color: tokens.colors.ink82 },
+  choosePhoto: { ...tokens.typography.bodyStrong, color: tokens.colors.olive, marginTop: tokens.spacing.xxs },
+  avatarError: { ...tokens.typography.caption, color: tokens.colors.alert },
   group: { gap: tokens.spacing.sm },
   groupLabel: { ...tokens.typography.label, color: tokens.colors.oliveLabel, marginHorizontal: tokens.spacing.md, textTransform: "uppercase" },
   list: { padding: 0, overflow: "hidden" },

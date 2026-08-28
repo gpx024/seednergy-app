@@ -8,7 +8,7 @@ import { useAnalyticsEvent } from "@/src/presentation/analytics/useAnalyticsEven
 import { resolveSeedImage } from "@/src/presentation/content/seedImages";
 import { calculateGardenCardWidth } from "@/src/presentation/harvest/galleryLayout";
 import { useHarvestGallery } from "@/src/presentation/harvest/useHarvests";
-import { AppCard, FeedbackState, ScreenContainer } from "@/src/ui/components";
+import { AppCard, FeedbackState, ScreenContainer, SectionHeader } from "@/src/ui/components";
 import { tokens } from "@/src/ui/tokens";
 
 type GardenView = "private" | "public";
@@ -27,11 +27,8 @@ export default function GardenScreen() {
 
   return (
     <ScreenContainer includeBottomSafeArea={false} scroll contentStyle={styles.container}>
-      <View style={styles.intro}>
-        <Text style={styles.eyebrow}>{t("garden.eyebrow")}</Text>
-        <Text accessibilityRole="header" style={styles.title}>{t("garden.title")}</Text>
-        <Text style={styles.body}>{t("garden.body")}</Text>
-      </View>
+      <SectionHeader title={t("garden.title")} />
+      <Text style={styles.body}>{t("garden.body")}</Text>
 
       <View accessibilityRole="tablist" style={styles.filters}>
         {(["private", "public"] as const).map((item) => {
@@ -62,10 +59,7 @@ function formatDate(value: string) {
 
 const styles = StyleSheet.create({
   container: { gap: tokens.spacing.sectionGap, paddingBottom: tokens.spacing.xs },
-  intro: { gap: tokens.spacing.xs, marginHorizontal: tokens.spacing.md },
-  eyebrow: { ...tokens.typography.label, color: tokens.colors.olive, textTransform: "uppercase" },
-  title: { ...tokens.typography.displayLarge, color: tokens.colors.brand },
-  body: { ...tokens.typography.body, color: tokens.colors.textSecondary },
+  body: { ...tokens.typography.body, color: tokens.colors.textSecondary, marginHorizontal: tokens.spacing.md },
   filters: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.md },
   filterSurface: { alignItems: "center", flex: 1, flexDirection: "row", gap: tokens.spacing.xs, justifyContent: "center", minHeight: tokens.layout.size.touchTarget },
   filterActiveSurface: { backgroundColor: tokens.colors.olive, borderRadius: tokens.radii.pill, ...tokens.elevation.pillOlive },

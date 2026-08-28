@@ -26,6 +26,17 @@ export class SupabaseCyclePhotoStorage implements CyclePhotoStorage {
     return path;
   }
 
+  async uploadProfile(userId: string, fileName: string, body: ArrayBuffer, contentType: string): Promise<string> {
+    const safeName = fileName.replace(/[^a-zA-Z0-9._-]/g, "-");
+    const path = `${userId}/profile/${randomUUID()}-${safeName}`;
+    const bucket = supabase.storage.from("cycle-photos");
+    const signed = await bucket.createSignedUploadUrl(path);
+    if (signed.error) throw signed.error;
+    const uploaded = await bucket.uploadToSignedUrl(path, signed.data.token, body, { contentType });
+    if (uploaded.error) throw uploaded.error;
+    return path;
+  }
+
   async createSignedUrl(path: string, expiresInSeconds = 300): Promise<string> {
     const { data, error } = await supabase.storage.from("cycle-photos").createSignedUrl(path, expiresInSeconds);
     if (error) throw error;
