@@ -23,3 +23,7 @@ Thumbs.db
 desktop.ini
 coverage/
 supabase/.temp/
+
+# Private AI evaluation inputs and generated evidence
+evaluation/stage8/images/
+reports/

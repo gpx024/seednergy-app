@@ -1,0 +1,52 @@
+{
+  "corpusVersion": "stage8-launch-seeds-v1",
+  "reviewStatus": "unreviewed",
+  "thresholds": {},
+  "monthlyCostScenarios": [
+    { "name": "Illustrative low usage", "users": 100, "checksPerUser": 2 },
+    { "name": "Illustrative expected usage", "users": 1000, "checksPerUser": 4 },
+    { "name": "Illustrative high usage", "users": 10000, "checksPerUser": 10 }
+  ],
+  "cases": [
+    {
+      "id": "CRESS-GROWTH-HEALTHY-001",
+      "image": "images/cress-growth-healthy-001.jpg",
+      "seedSlug": "cress",
+      "day": 5,
+      "lightCondition": "bright",
+      "checkType": "progress",
+      "expectedStatuses": ["on_track"],
+      "reviewerNotes": "Replace with the horticultural reviewer's labelled observation."
+    },
+    {
+      "id": "PEA-LOW-LIGHT-001",
+      "image": "images/pea-low-light-001.jpg",
+      "seedSlug": "pea-shoots",
+      "day": 7,
+      "lightCondition": "low",
+      "checkType": "issue",
+      "expectedStatuses": ["issue_likely"],
+      "reviewerNotes": "Illustrative structure only, this is not an approved label."
+    },
+    {
+      "id": "RADISH-UNCLEAR-001",
+      "image": "images/radish-unclear-001.jpg",
+      "seedSlug": "radish-microgreens",
+      "day": 4,
+      "lightCondition": "bright",
+      "checkType": "stage_review",
+      "expectedStatuses": ["unclear"],
+      "reviewerNotes": "Illustrative structure only, this is not an approved label."
+    },
+    {
+      "id": "BROCCOLI-HARVEST-001",
+      "image": "images/broccoli-harvest-001.jpg",
+      "seedSlug": "broccoli-microgreens",
+      "day": 10,
+      "lightCondition": "bright",
+      "checkType": "harvest_readiness",
+      "expectedStatuses": ["harvest_likely"],
+      "reviewerNotes": "Illustrative structure only, this is not an approved label."
+    }
+  ]
+}

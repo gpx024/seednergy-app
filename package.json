@@ -11,6 +11,7 @@
     "lint": "eslint .",
     "test": "vitest run --config vitest.config.mts",
     "test:watch": "vitest --config vitest.config.mts",
+    "eval:stage8": "node scripts/run-stage8-eval.mjs",
     "admin:dev": "npm --prefix admin run dev",
     "admin:build": "npm --prefix admin run build",
     "admin:test": "npm --prefix admin test"
