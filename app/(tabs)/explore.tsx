@@ -1,6 +1,6 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useFocusEffect, useRouter } from "expo-router";
+import { useCallback, useRef, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
@@ -15,6 +15,15 @@ export default function ExploreScreen() {
   const router = useRouter();
   const [query, setQuery] = useState("");
   const library = useSeedLibrary(query);
+  const retryLibrary = library.retry;
+  const firstFocus = useRef(true);
+  useFocusEffect(useCallback(() => {
+    if (firstFocus.current) {
+      firstFocus.current = false;
+      return;
+    }
+    retryLibrary();
+  }, [retryLibrary]));
   return (
     <ScreenContainer includeBottomSafeArea={false} scroll contentStyle={styles.container}>
       <SectionHeader title={t("main.exploreSeeds")} />

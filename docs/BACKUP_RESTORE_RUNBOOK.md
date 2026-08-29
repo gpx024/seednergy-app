@@ -78,7 +78,15 @@ Do not weaken Storage RLS policies to make a restore test pass. Use authorized a
 - `cycle-photos` contained 3 objects totalling 168,609 bytes. All were downloaded and hashed.
 - One `cycle-photos` object was uploaded to a unique verification prefix, downloaded again, and matched its source SHA-256 hash exactly.
 - The temporary remote object was deleted and the verification prefix was confirmed empty.
-- `seed-content` contained no application objects, so no binary restore could be performed for that bucket. Repeat the object restore test after the first CMS image is uploaded.
+- `seed-content` contained no application objects, so no binary restore could be performed for that bucket at that time.
+
+## Seed-content verification record, 29 August 2026
+
+- `seed-content` contained two Basil CMS uploads.
+- One Basil object was downloaded without inspecting its visual content and hashed with SHA-256.
+- The object was uploaded to the unique `_restore-verification/20260829T1726Z/` prefix, downloaded again, and matched the source SHA-256 hash exactly.
+- The exact temporary remote object was deleted through the authenticated Storage API and the verification prefix was confirmed empty.
+- Both local verification copies were deleted.
 
 ## Launch gate
 
@@ -87,5 +95,4 @@ Before production launch:
 - Select the appropriate Supabase managed backup or point-in-time recovery plan.
 - Establish encrypted off-site retention for Storage objects.
 - Schedule recurring backups and periodic restore drills.
-- Repeat the `seed-content` restore test after it contains an approved image.
-
+- Repeat Storage restore drills periodically and after material backup-process changes.

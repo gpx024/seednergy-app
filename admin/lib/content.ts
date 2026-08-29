@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { cmsSeedImageSchema } from "./seedImages";
+
 export const stageSchema = z.object({
   id: z.string().optional(), stage: z.string().min(1), phase: z.enum(["setup", "growth", "harvest"]),
   position: z.number().int().positive(), day_from: z.number().int().positive(), day_to: z.number().int().positive().nullable(),
@@ -15,7 +17,7 @@ export const seedDraftSchema = z.object({
   duration_days_min: z.number().int().positive(), duration_days_max: z.number().int().positive(),
   difficulty_label: z.string().min(1), environment_summary: z.string().min(1), light_summary: z.string().min(1),
   access_type: z.enum(["free", "paid", "coming_soon"]), taste_profile: z.string().min(1),
-  materials: z.array(z.string()), images: z.array(z.unknown()), active: z.boolean(), harvest_mode: z.enum(["single", "repeating"]),
+  materials: z.array(z.string()), images: z.array(cmsSeedImageSchema), active: z.boolean(), harvest_mode: z.enum(["single", "repeating"]),
   harvest_instructions: z.string().min(1), harvest_readiness: z.string().min(1), storage_guidance: z.string().min(1),
   content_review_status: z.enum(["draft", "grower_reviewed"]), content_sources: z.array(z.string()), content_version: z.number().int().positive()
 }).superRefine((seed, context) => {
