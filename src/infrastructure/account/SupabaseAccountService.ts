@@ -2,6 +2,12 @@ import { supabase } from "@/src/infrastructure/supabase/client";
 import type { AccountService } from "@/src/ports/AccountService";
 
 export class SupabaseAccountService implements AccountService {
+  async exportCurrentAccount(): Promise<unknown> {
+    const { data, error } = await supabase.functions.invoke("export-account", { body: {} });
+    if (error) throw new Error(await functionErrorMessage(error));
+    return data;
+  }
+
   async deleteCurrentAccount(): Promise<void> {
     const { error } = await supabase.functions.invoke("delete-account", { body: {} });
     if (error) throw new Error(await functionErrorMessage(error));

@@ -17,6 +17,7 @@ const monitoringVerificationScreen = readFileSync(join(root, "app/settings/monit
 const operationalFunctionNames = ["delete-account", "photo-check", "harvest-suggestions", "photo-retention"];
 const retentionPolicyMigration = readFileSync(join(root, "supabase/migrations/202608290020_stage11_retention_policy.sql"), "utf8");
 const photoErasureMigration = readFileSync(join(root, "supabase/migrations/202608290021_stage11_user_photo_erasure.sql"), "utf8");
+const exportFunction = readFileSync(join(root, "supabase/functions/export-account/index.ts"), "utf8");
 
 describe("Stage 11 account deletion", () => {
   it("removes and verifies every private storage object before deleting database and Auth records", () => {
@@ -56,6 +57,16 @@ describe("Stage 11 account deletion", () => {
     expect(deletionAuditMigration).not.toMatch(/user_id\s+uuid|email\s+text|storage_path\s+text|token\s+text/);
     expect(deletionFunction).toContain("auditId");
     expect(deletionFunction).toContain("storageVerifiedEmpty: true");
+  });
+
+  it("offers a personal-data export without storage locations, tokens or provider identifiers", () => {
+    for (const table of ["profiles", "cycles", "cycle_events", "photo_checks", "harvests", "notifications", "analytics_events", "entitlements", "ai_request_logs", "push_devices"]) {
+      expect(exportFunction).toContain(`\"${table}\"`);
+    }
+    for (const field of ["storage_path", "avatar_path", "expo_push_token", "lease_token", "provider_request_id"]) {
+      expect(exportFunction).toContain(`\"${field}\"`);
+    }
+    expect(exportFunction).toContain("account_export_failed");
   });
 });
 

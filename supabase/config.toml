@@ -45,3 +45,6 @@ verify_jwt = false
 
 [functions.photo-retention]
 verify_jwt = false
+
+[functions.export-account]
+verify_jwt = false

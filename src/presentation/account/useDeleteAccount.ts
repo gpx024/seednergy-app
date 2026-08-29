@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Share } from "react-native";
 
 import { accountService } from "@/src/infrastructure/account/SupabaseAccountService";
 import { analyticsService } from "@/src/infrastructure/analytics/SupabaseAnalyticsService";
@@ -6,6 +7,17 @@ import { analyticsService } from "@/src/infrastructure/analytics/SupabaseAnalyti
 export function useDeleteAccount() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  const [exporting, setExporting] = useState(false);
+  async function exportData() {
+    setExporting(true); setError(null);
+    try {
+      const data = await accountService.exportCurrentAccount();
+      await Share.share({ title: "Seednergy data export", message: JSON.stringify(data, null, 2) });
+    } catch (reason) {
+      const nextError = reason instanceof Error ? reason : new Error("Your data export could not be created.");
+      setError(nextError); throw nextError;
+    } finally { setExporting(false); }
+  }
   async function deleteAccount() {
     setLoading(true); setError(null);
     try {
@@ -16,5 +28,5 @@ export function useDeleteAccount() {
       setError(nextError); throw nextError;
     } finally { setLoading(false); }
   }
-  return { deleteAccount, loading, error };
+  return { deleteAccount, exportData, exporting, loading, error };
 }
