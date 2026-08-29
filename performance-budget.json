@@ -1,0 +1,8 @@
+{
+  "androidProductionExport": {
+    "hermesBundleBytesMax": 6750000,
+    "assetsBytesMax": 15000000,
+    "singleAssetBytesMax": 2650000,
+    "totalBytesMax": 22000000
+  }
+}

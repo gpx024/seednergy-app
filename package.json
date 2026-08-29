@@ -12,6 +12,8 @@
     "test": "vitest run --config vitest.config.mts",
     "test:watch": "vitest --config vitest.config.mts",
     "eval:stage8": "node scripts/run-stage8-eval.mjs",
+    "verify:performance": "node scripts/verify-performance.mjs",
+    "verify:release": "npm run typecheck && npm run lint && npm test && npm run admin:test && npm run admin:build && npx supabase db lint --linked --level error && npx expo-doctor && npm run verify:performance",
     "admin:dev": "npm --prefix admin run dev",
     "admin:build": "npm --prefix admin run build",
     "admin:test": "npm --prefix admin test"

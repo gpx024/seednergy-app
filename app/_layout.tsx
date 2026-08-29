@@ -1,7 +1,12 @@
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
-import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold } from "@expo-google-fonts/inter";
-import { CrimsonText_400Regular_Italic, CrimsonText_600SemiBold, CrimsonText_700Bold } from "@expo-google-fonts/crimson-text";
+import { Inter_400Regular } from "@expo-google-fonts/inter/400Regular";
+import { Inter_500Medium } from "@expo-google-fonts/inter/500Medium";
+import { Inter_600SemiBold } from "@expo-google-fonts/inter/600SemiBold";
+import { Inter_700Bold } from "@expo-google-fonts/inter/700Bold";
+import { CrimsonText_400Regular_Italic } from "@expo-google-fonts/crimson-text/400Regular_Italic";
+import { CrimsonText_600SemiBold } from "@expo-google-fonts/crimson-text/600SemiBold";
+import { CrimsonText_700Bold } from "@expo-google-fonts/crimson-text/700Bold";
 
 import "@/src/i18n";
 import { AuthProvider } from "@/src/presentation/auth/AuthProvider";
