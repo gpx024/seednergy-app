@@ -19,6 +19,7 @@ describe("public environment configuration", () => {
       EXPO_PUBLIC_ENABLE_EMAIL_AUTH: false,
       EXPO_PUBLIC_ENABLE_PAYMENTS: false,
       EXPO_PUBLIC_ENABLE_PUSH_NOTIFICATIONS: false,
+      EXPO_PUBLIC_ENABLE_MONITORING_VERIFICATION: false,
       EXPO_PUBLIC_SUPABASE_URL: "https://example.supabase.co",
       EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "",
       EXPO_PUBLIC_ENABLE_APPLE_AUTH: false,

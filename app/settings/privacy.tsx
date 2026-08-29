@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { legalLinks } from "@/src/config/legal";
+import { featureFlags } from "@/src/config/features";
 import { AppButton, AppCard, BackHeader, ScreenContainer } from "@/src/ui/components";
 import { tokens } from "@/src/ui/tokens";
 
@@ -12,7 +13,7 @@ export default function PrivacySettingsScreen() {
   return <ScreenContainer scroll contentStyle={styles.container}>
     <BackHeader center={<Text accessibilityRole="header" style={styles.title}>Account and privacy</Text>} />
     <AppCard style={styles.card}><Text style={styles.cardTitle}>Your data</Text><Text style={styles.body}>Your cycles, checks and private harvests belong to your account. Check photos are processed securely to provide cycle-specific guidance.</Text></AppCard>
-    <View style={styles.links}><LinkRow label="Privacy Policy" url={legalLinks.privacyPolicy} /><LinkRow label="Terms of Service" url={legalLinks.terms} /><LinkRow label="Help and FAQs" onPress={() => router.push("/settings/help")} /><LinkRow label="Support" url={legalLinks.support} /></View>
+    <View style={styles.links}><LinkRow label="Privacy Policy" url={legalLinks.privacyPolicy} /><LinkRow label="Terms of Service" url={legalLinks.terms} /><LinkRow label="Help and FAQs" onPress={() => router.push("/settings/help")} /><LinkRow label="Support" url={legalLinks.support} />{featureFlags.monitoringVerification ? <LinkRow label="Monitoring verification" onPress={() => router.push("/settings/monitoring-verification")} /> : null}</View>
     {!legalLinks.privacyPolicy || !legalLinks.terms ? <AppCard variant="muted" style={styles.card}><Text style={styles.cardTitle}>Legal review pending</Text><Text style={styles.body}>The approved public Privacy Policy and Terms links have not been configured yet. They are required before release.</Text></AppCard> : null}
     <AppButton label="Delete account" onPress={() => router.push("/settings/delete-account")} variant="text" />
   </ScreenContainer>;

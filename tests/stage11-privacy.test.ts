@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { collectStoragePaths, type StorageEntry } from "@/supabase/functions/delete-account/storage";
+import { redactSensitiveString, sanitizeMonitoringEvent } from "@/src/infrastructure/monitoring/privacy";
 
 const root = process.cwd();
 const migration = readFileSync(join(root, "supabase/migrations/202608260015_stage11_privacy_compliance.sql"), "utf8");
@@ -11,6 +12,9 @@ const photoCheckFunction = readFileSync(join(root, "supabase/functions/photo-che
 const monitoringAdapter = readFileSync(join(root, "src/infrastructure/monitoring/sentry.ts"), "utf8");
 const rootLayout = readFileSync(join(root, "app/_layout.tsx"), "utf8");
 const appConfig = JSON.parse(readFileSync(join(root, "app.json"), "utf8"));
+const deletionAuditMigration = readFileSync(join(root, "supabase/migrations/202608290019_stage11_deletion_audits.sql"), "utf8");
+const monitoringVerificationScreen = readFileSync(join(root, "app/settings/monitoring-verification.tsx"), "utf8");
+const operationalFunctionNames = ["delete-account", "photo-check", "harvest-suggestions", "photo-retention"];
 
 describe("Stage 11 account deletion", () => {
   it("removes and verifies every private storage object before deleting database and Auth records", () => {
@@ -43,6 +47,14 @@ describe("Stage 11 account deletion", () => {
     expect(migration).toContain("current_setting('seednergy.account_deletion', true)");
     expect(migration).toContain("auth.role() <> 'service_role'");
   });
+
+  it("records anonymous deletion proof without user identifiers or object paths", () => {
+    expect(deletionAuditMigration).toContain("account_deletion_audits");
+    expect(deletionAuditMigration).toContain("storage_verified_empty");
+    expect(deletionAuditMigration).not.toMatch(/user_id\s+uuid|email\s+text|storage_path\s+text|token\s+text/);
+    expect(deletionFunction).toContain("auditId");
+    expect(deletionFunction).toContain("storageVerifiedEmpty: true");
+  });
 });
 
 describe("Stage 11 retention and AI notice", () => {
@@ -51,6 +63,8 @@ describe("Stage 11 retention and AI notice", () => {
     expect(retentionFunction).toContain("skipped_unconfigured");
     expect(retentionFunction).toContain('from("photo_checks")');
     expect(retentionFunction).not.toContain('from("harvests").delete');
+    expect(retentionFunction).toContain('status: "dry_run"');
+    expect(retentionFunction).toContain("deletedRecords: 0, deletedObjects: 0");
   });
 
   it("keeps Sentry privacy-safe and initialized only through the monitoring adapter", () => {
@@ -62,6 +76,28 @@ describe("Stage 11 retention and AI notice", () => {
       "@sentry/react-native/expo",
       expect.objectContaining({ organization: "seednergy", project: "seednergy-app" })
     ]);
+    expect(monitoringVerificationScreen).toContain("featureFlags.monitoringVerification");
+  });
+
+  it("redacts user, request, secret and photo payloads from monitoring events", () => {
+    const event = sanitizeMonitoringEvent({
+      user: { id: "private-user" },
+      request: { url: "https://example.test?token=secret" },
+      extra: { photo: "data:image/jpeg;base64,AAAA" },
+      message: "hello@example.com Bearer abc.def.ghi",
+      contexts: { operation: { password: "secret", note: "safe" } }
+    });
+    expect(event).not.toHaveProperty("user");
+    expect(event).not.toHaveProperty("request");
+    expect(event).not.toHaveProperty("extra");
+    expect(event.message).toBe("[redacted-email] Bearer [redacted]");
+    expect(event.contexts.operation.password).toBe("[redacted]");
+    expect(redactSensitiveString("content://photos/private.jpg")).toBe("[redacted-photo]");
+  });
+
+  it("keeps sensitive payload fields out of operational logs", () => {
+    const logStatements = operationalFunctionNames.flatMap((name) => readFileSync(join(root, "supabase/functions", name, "index.ts"), "utf8").split("\n").filter((line) => line.includes("console."))).join("\n");
+    expect(logStatements).not.toMatch(/authorization|serviceRole|password|email|storagePath|storage_path|photoUri|photo_url|imageBase64|error\.message/i);
   });
 
   it("enforces the first-photo notice on the server", () => {

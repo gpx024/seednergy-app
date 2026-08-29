@@ -9,9 +9,17 @@ Deno.serve(async (request) => {
     const env = readEnvironment();
     if (request.headers.get("x-retention-secret") !== env.jobSecret) return json({ error: "unauthorized" }, 401);
     client = createClient(env.supabaseUrl, env.serviceRoleKey, { auth: { persistSession: false, autoRefreshToken: false } });
+    const input = await readInput(request);
     const { data: configuration, error: configurationError } = await client.from("privacy_configuration").select("check_photo_retention_days").eq("id", true).maybeSingle();
     if (configurationError) throw new Error(`configuration_read_failed:${configurationError.code}`);
-    const retentionDays = configuration?.check_photo_retention_days;
+    const retentionDays = input.dryRun ? input.retentionDays ?? configuration?.check_photo_retention_days : configuration?.check_photo_retention_days;
+    if (input.dryRun) {
+      if (!retentionDays) return json({ status: "skipped_unconfigured", message: "Provide retentionDays for a dry run, or approve and configure the legal retention period first." });
+      const cutoff = new Date(Date.now() - retentionDays * 86_400_000).toISOString();
+      const { count, error: countError } = await client.from("photo_checks").select("id", { count: "exact", head: true }).lte("submitted_at", cutoff);
+      if (countError) throw new Error(`retention_query_failed:${countError.code}`);
+      return json({ status: "dry_run", retentionDays, eligibleRecords: count ?? 0, cutoff, deletedRecords: 0, deletedObjects: 0 });
+    }
     const { data: run, error: runError } = await client.from("privacy_job_runs").insert({ job_name: "photo_retention", status: retentionDays ? "running" : "skipped_unconfigured", started_at: startedAt, finished_at: retentionDays ? null : new Date().toISOString() }).select("id").single();
     if (runError) throw new Error(`run_log_failed:${runError.code}`);
     runId = run.id;
@@ -44,6 +52,15 @@ Deno.serve(async (request) => {
 function readEnvironment() {
   const required = (name: string) => { const value = Deno.env.get(name); if (!value) throw new Error(`missing_${name.toLowerCase()}`); return value; };
   return { supabaseUrl: required("SUPABASE_URL"), serviceRoleKey: required("SUPABASE_SERVICE_ROLE_KEY"), jobSecret: required("PHOTO_RETENTION_JOB_SECRET") };
+}
+
+async function readInput(request: Request): Promise<{ dryRun: boolean; retentionDays?: number }> {
+  const body = await request.json().catch(() => ({})) as { dryRun?: unknown; retentionDays?: unknown };
+  const dryRun = body.dryRun === true;
+  if (body.retentionDays === undefined) return { dryRun };
+  const retentionDays = typeof body.retentionDays === "number" ? body.retentionDays : Number.NaN;
+  if (!Number.isInteger(retentionDays) || retentionDays < 1 || retentionDays > 3650) throw new Error("invalid_retention_period");
+  return { dryRun, retentionDays };
 }
 
 function json(body: unknown, status = 200): Response {
