@@ -25,7 +25,7 @@
       "env": {
         "EXPO_PUBLIC_APP_ENV": "preview",
         "EXPO_PUBLIC_ENABLE_DEV_ROUTES": "false",
-        "EXPO_PUBLIC_ENABLE_EMAIL_AUTH": "false",
+        "EXPO_PUBLIC_ENABLE_EMAIL_AUTH": "true",
         "EXPO_PUBLIC_ENABLE_PAYMENTS": "false",
         "EXPO_PUBLIC_ENABLE_PUSH_NOTIFICATIONS": "false"
       },
@@ -38,7 +38,7 @@
       "env": {
         "EXPO_PUBLIC_APP_ENV": "production",
         "EXPO_PUBLIC_ENABLE_DEV_ROUTES": "false",
-        "EXPO_PUBLIC_ENABLE_EMAIL_AUTH": "false",
+        "EXPO_PUBLIC_ENABLE_EMAIL_AUTH": "true",
         "EXPO_PUBLIC_ENABLE_PAYMENTS": "false",
         "EXPO_PUBLIC_ENABLE_PUSH_NOTIFICATIONS": "false"
       },
