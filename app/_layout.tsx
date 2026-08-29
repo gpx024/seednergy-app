@@ -8,6 +8,7 @@ import { AuthProvider } from "@/src/presentation/auth/AuthProvider";
 import { OnboardingProvider } from "@/src/presentation/onboarding/OnboardingProvider";
 import { NotificationProvider } from "@/src/presentation/notifications/NotificationProvider";
 import { withMonitoring } from "@/src/presentation/monitoring/MonitoringBoundary";
+import { ConnectivityProvider } from "@/src/presentation/network/ConnectivityProvider";
 
 export const unstable_settings = {
   initialRouteName: "index"
@@ -20,7 +21,7 @@ function RootLayout() {
     return null;
   }
 
-  return <AuthProvider><OnboardingProvider><NotificationProvider><Stack screenOptions={{ headerShown: false }}><Stack.Screen name="(onboarding)" /><Stack.Screen name="(tabs)" /></Stack></NotificationProvider></OnboardingProvider></AuthProvider>;
+  return <ConnectivityProvider><AuthProvider><OnboardingProvider><NotificationProvider><Stack screenOptions={{ headerShown: false }}><Stack.Screen name="(onboarding)" /><Stack.Screen name="(tabs)" /></Stack></NotificationProvider></OnboardingProvider></AuthProvider></ConnectivityProvider>;
 }
 
 export default withMonitoring(RootLayout);

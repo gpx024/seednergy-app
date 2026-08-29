@@ -11,7 +11,7 @@ export default function AuthCallbackScreen() {
   const { t } = useTranslation();
   const router = useRouter();
   const auth = useAuth();
-  const { code } = useLocalSearchParams<{ code?: string }>();
+  const { code, recovery } = useLocalSearchParams<{ code?: string; recovery?: string }>();
   const exchangeStarted = useRef(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -24,10 +24,10 @@ export default function AuthCallbackScreen() {
     }
     auth.completeSignIn(code)
       .then(() => {
-        router.replace("/(onboarding)/profile-basics");
+        router.replace(recovery === "true" ? "/auth/update-password" : "/(onboarding)/profile-basics");
       })
       .catch((reason: unknown) => setError(reason instanceof Error ? reason.message : t("onboarding.authError")));
-  }, [auth, code, router, t]);
+  }, [auth, code, recovery, router, t]);
 
   return <ScreenContainer contentStyle={styles.container}><View style={styles.content}>{error ? <Text accessibilityLiveRegion="polite" style={styles.error}>{error}</Text> : <><ActivityIndicator color={tokens.colors.olive} /><Text style={styles.message}>{t("onboarding.authCallbackBody")}</Text></>}</View></ScreenContainer>;
 }

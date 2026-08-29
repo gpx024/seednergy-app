@@ -4,6 +4,7 @@ import { AppState, Platform } from "react-native";
 
 import { authService } from "@/src/infrastructure/auth/SupabaseAuthService";
 import { analyticsService } from "@/src/infrastructure/analytics/SupabaseAnalyticsService";
+import { clearPrivateCache } from "@/src/infrastructure/cache/resourceCache";
 import { supabase } from "@/src/infrastructure/supabase/client";
 import type { AuthResult } from "@/src/ports/AuthService";
 
@@ -17,6 +18,7 @@ interface AuthContextValue {
   signInWithGoogle(): Promise<AuthResult>;
   completeSignIn(code: string): Promise<AuthResult>;
   sendPasswordReset(email: string): Promise<void>;
+  updatePassword(password: string): Promise<void>;
   signOut(): Promise<void>;
 }
 
@@ -39,6 +41,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     });
     const { data } = supabase.auth.onAuthStateChange((_event, nextSession) => {
       setSession(nextSession);
+      setError(null);
       setLoading(false);
     });
     return () => {
@@ -73,8 +76,11 @@ export function AuthProvider({ children }: PropsWithChildren) {
     signInWithGoogle: () => authService.signInWithGoogle(),
     completeSignIn: (code) => authService.completeSignIn(code),
     sendPasswordReset: (email) => authService.sendPasswordReset(email),
+    updatePassword: (password) => authService.updatePassword(password),
     async signOut() {
+      const userId = session?.user.id;
       await authService.signOut();
+      if (userId) await clearPrivateCache(userId);
     }
   }), [error, loading, session]);
 

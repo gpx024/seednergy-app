@@ -4,6 +4,8 @@ import { publishedSeedSchema, seedSummarySchema, type PublishedSeed, type SeedSu
 import type { ContentRepository } from "@/src/ports/ContentRepository";
 import { supabase } from "@/src/infrastructure/supabase/client";
 import type { SeedRow, SeedStageRow } from "@/src/infrastructure/supabase/database.types";
+import { createPublicCacheKey, readCached, writeCached } from "@/src/infrastructure/cache/resourceCache";
+import { isBackendUnavailable } from "@/src/ports/BackendAvailability";
 
 const seedColumns = "id,slug,name,botanical_name,description,expected_result,duration_days,duration_days_min,duration_days_max,difficulty_label,environment_summary,light_summary,access_type,images,materials,harvest_instructions,harvest_readiness,storage_guidance,taste_profile,content_review_status,active,content_version,harvest_mode";
 
@@ -17,9 +19,18 @@ export class ContentValidationError extends Error {
 
 export class SupabaseContentRepository implements ContentRepository {
   async getLibrary(): Promise<readonly SeedSummary[]> {
-    const { data, error } = await supabase.from("seeds").select(seedColumns).eq("active", true).order("name");
-    if (error) throw error;
-    return (data as unknown as SeedRow[]).map(mapSeed);
+    const key = createPublicCacheKey("seed-library");
+    try {
+      const { data, error } = await supabase.from("seeds").select(seedColumns).eq("active", true).order("name");
+      if (error) throw error;
+      const library = (data as unknown as SeedRow[]).map(mapSeed);
+      await writeCached(key, library);
+      return library;
+    } catch (reason) {
+      const cached = isBackendUnavailable(reason) ? await readCached(key, z.array(seedSummarySchema)) : null;
+      if (cached) return cached;
+      throw reason;
+    }
   }
 
   async getPublishedSeed(slug: string): Promise<PublishedSeed | null> {
@@ -28,23 +39,41 @@ export class SupabaseContentRepository implements ContentRepository {
 
   async getPublishedSeedById(id: string, contentVersion?: number): Promise<PublishedSeed | null> {
     if (contentVersion !== undefined) {
-      const publication = await supabase.from("seed_publications").select("seed_data,stages_data").eq("seed_id", id).eq("version", contentVersion).maybeSingle();
-      if (!publication.error && publication.data) {
-        return mapPublishedSeed(publication.data.seed_data as unknown as SeedRow, publication.data.stages_data as unknown as SeedStageRow[]);
+      const key = createPublicCacheKey(`seed-publication-${id}-${contentVersion}`);
+      try {
+        const publication = await supabase.from("seed_publications").select("seed_data,stages_data").eq("seed_id", id).eq("version", contentVersion).maybeSingle();
+        if (!publication.error && publication.data) {
+          const published = mapPublishedSeed(publication.data.seed_data as unknown as SeedRow, publication.data.stages_data as unknown as SeedStageRow[]);
+          await writeCached(key, published);
+          return published;
+        }
+        if (publication.error && publication.error.code !== "42P01") throw publication.error;
+      } catch (reason) {
+        const cached = isBackendUnavailable(reason) ? await readCached(key, publishedSeedSchema) : null;
+        if (cached) return cached;
+        throw reason;
       }
-      if (publication.error && publication.error.code !== "42P01") throw publication.error;
     }
     return this.getPublishedSeedWhere("id", id);
   }
 
   private async getPublishedSeedWhere(column: "id" | "slug", value: string): Promise<PublishedSeed | null> {
-    const seedResult = await supabase.from("seeds").select(seedColumns).eq(column, value).eq("active", true).maybeSingle();
-    if (seedResult.error) throw seedResult.error;
-    if (!seedResult.data) return null;
-    const seed = seedResult.data as unknown as SeedRow;
-    const stageResult = await supabase.from("seed_stages").select("*").eq("seed_id", seed.id).order("position");
-    if (stageResult.error) throw stageResult.error;
-    return mapPublishedSeed(seed, stageResult.data as SeedStageRow[]);
+    const key = createPublicCacheKey(`seed-${column}-${value}`);
+    try {
+      const seedResult = await supabase.from("seeds").select(seedColumns).eq(column, value).eq("active", true).maybeSingle();
+      if (seedResult.error) throw seedResult.error;
+      if (!seedResult.data) return null;
+      const seed = seedResult.data as unknown as SeedRow;
+      const stageResult = await supabase.from("seed_stages").select("*").eq("seed_id", seed.id).order("position");
+      if (stageResult.error) throw stageResult.error;
+      const published = mapPublishedSeed(seed, stageResult.data as SeedStageRow[]);
+      await writeCached(key, published);
+      return published;
+    } catch (reason) {
+      const cached = isBackendUnavailable(reason) ? await readCached(key, publishedSeedSchema) : null;
+      if (cached) return cached;
+      throw reason;
+    }
   }
 }
 

@@ -2,24 +2,65 @@ import type { CycleRepository, SaveCycleEventInput, StartCycleInput } from "@/sr
 import type { CycleState } from "@/src/domain";
 import { supabase } from "@/src/infrastructure/supabase/client";
 import type { CycleRow } from "@/src/infrastructure/supabase/database.types";
+import { z } from "zod";
+
+import { isBackendUnavailable } from "@/src/ports/BackendAvailability";
+import { createPrivateCacheKey, readCached, writeCached } from "@/src/infrastructure/cache/resourceCache";
+
+const cycleStateSchema = z.object({
+  id: z.string().uuid(), seedId: z.string().uuid(), seedContentVersion: z.number().int().positive(),
+  status: z.enum(["active", "harvest_ready", "harvested", "archived"]), startedAt: z.string(), timezone: z.string(),
+  currentStageId: z.string().nullable(), lastActionAt: z.string().nullable(), harvestCount: z.number().int().nonnegative(),
+  harvestedAt: z.string().nullable(), lastHarvestedAt: z.string().nullable()
+});
 
 export class SupabaseCycleRepository implements CycleRepository {
   async getAll(): Promise<readonly CycleState[]> {
-    const { data, error } = await supabase.from("cycles").select("*").order("started_at", { ascending: false });
-    if (error) throw error;
-    return data.map(mapCycle);
+    return this.getList("all", async () => supabase.from("cycles").select("*").order("started_at", { ascending: false }));
   }
 
   async getActive(): Promise<readonly CycleState[]> {
-    const { data, error } = await supabase.from("cycles").select("*").in("status", ["active", "harvest_ready"]).order("started_at", { ascending: false });
-    if (error) throw error;
-    return data.map(mapCycle);
+    return this.getList("active", async () => supabase.from("cycles").select("*").in("status", ["active", "harvest_ready"]).order("started_at", { ascending: false }));
   }
 
   async get(id: string): Promise<CycleState | null> {
-    const { data, error } = await supabase.from("cycles").select("*").eq("id", id).maybeSingle();
+    const userId = await this.getUserId();
+    const key = createPrivateCacheKey(userId, `cycle-${id}`);
+    try {
+      const { data, error } = await supabase.from("cycles").select("*").eq("id", id).maybeSingle();
+      if (error) throw error;
+      const cycle = data ? mapCycle(data) : null;
+      if (cycle) await writeCached(key, cycle);
+      return cycle;
+    } catch (reason) {
+      const cached = isBackendUnavailable(reason) ? await readCached(key, cycleStateSchema) : null;
+      if (cached) return cached;
+      throw reason;
+    }
+  }
+
+  private async getList(cacheName: string, loader: () => PromiseLike<{ data: CycleRow[] | null; error: unknown }>): Promise<readonly CycleState[]> {
+    const userId = await this.getUserId();
+    const key = createPrivateCacheKey(userId, `cycles-${cacheName}`);
+    try {
+      const { data, error } = await loader();
+      if (error) throw error;
+      const cycles = (data ?? []).map(mapCycle);
+      await writeCached(key, cycles);
+      await Promise.all(cycles.map((cycle) => writeCached(createPrivateCacheKey(userId, `cycle-${cycle.id}`), cycle)));
+      return cycles;
+    } catch (reason) {
+      const cached = isBackendUnavailable(reason) ? await readCached(key, z.array(cycleStateSchema)) : null;
+      if (cached) return cached;
+      throw reason;
+    }
+  }
+
+  private async getUserId(): Promise<string> {
+    const { data, error } = await supabase.auth.getSession();
     if (error) throw error;
-    return data ? mapCycle(data) : null;
+    if (!data.session?.user.id) throw new Error("An authenticated user is required to load cycles.");
+    return data.session.user.id;
   }
 
   async start(input: StartCycleInput): Promise<CycleState> {

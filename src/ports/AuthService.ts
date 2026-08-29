@@ -13,5 +13,6 @@ export interface AuthService {
   signInWithGoogle(): Promise<AuthResult>;
   completeSignIn(code: string): Promise<AuthResult>;
   sendPasswordReset(email: string): Promise<void>;
+  updatePassword(password: string): Promise<void>;
   signOut(): Promise<void>;
 }
