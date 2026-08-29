@@ -4,14 +4,16 @@ import { describe, expect, it } from "vitest";
 
 import { applyCycleCommand } from "@/src/domain/harvest";
 import { harvestRecordSchema, harvestSuggestionsSchema } from "@/src/domain/harvestRecord";
+import { isValidQuietTime, validateQuietHours } from "@/src/domain/notificationPreferences";
 import { calculateGardenCardWidth } from "@/src/presentation/harvest/galleryLayout";
 import { toNotificationPreferencesError } from "@/src/presentation/notifications/notificationErrors";
 
 const root = process.cwd();
-const migration = ["202608260011_stage9_harvest_notifications.sql", "202608260012_stage9_harvest_readiness_repair.sql", "202608260013_stage9_repair_dangling_harvest_photos.sql", "202608260014_stage9_attach_recovered_harvest_photo.sql"].map((name) => readFileSync(join(root, "supabase/migrations", name), "utf8")).join("\n");
+const migration = ["202608260011_stage9_harvest_notifications.sql", "202608260012_stage9_harvest_readiness_repair.sql", "202608260013_stage9_repair_dangling_harvest_photos.sql", "202608260014_stage9_attach_recovered_harvest_photo.sql", "202608290016_stage9_notification_delivery_reliability.sql"].map((name) => readFileSync(join(root, "supabase/migrations", name), "utf8")).join("\n");
 const edge = readFileSync(join(root, "supabase/functions/harvest-suggestions/index.ts"), "utf8");
 const notificationProvider = readFileSync(join(root, "src/presentation/notifications/NotificationProvider.tsx"), "utf8");
 const harvestResultScreen = readFileSync(join(root, "app/harvest/[id].tsx"), "utf8");
+const appConfig = readFileSync(join(root, "app.json"), "utf8");
 
 describe("Stage 9 notification platform safety", () => {
   it("does not call native notification-response APIs on web", () => {
@@ -78,9 +80,33 @@ describe("Stage 9 database boundaries", () => {
     expect(migration).toContain("'/cycle/' || owned_cycle.id::text");
     expect(migration).toContain("seednergy-dispatch-notifications");
   });
+
+  it("tracks Expo tickets and receipts per registered device", () => {
+    expect(migration).toContain("create table public.notification_deliveries");
+    expect(migration).toContain("/api/v2/push/getReceipts");
+    expect(migration).toContain("interval '15 minutes'");
+    expect(migration).toContain("DeviceNotRegistered");
+    expect(migration).toContain("attempt_count < 5");
+    expect(migration).toContain("notification_delivery_metrics");
+    expect(migration).toContain("provider_accepted");
+    expect(migration).not.toContain("set status = 'delivered'");
+  });
 });
 
 describe("Stage 9 presentation safeguards", () => {
+  it("validates editable quiet hours before saving", () => {
+    expect(isValidQuietTime("21:00")).toBe(true);
+    expect(isValidQuietTime("08:30")).toBe(true);
+    expect(isValidQuietTime("24:00")).toBe(false);
+    expect(isValidQuietTime("8:30")).toBe(false);
+    expect(() => validateQuietHours("21:00", "08:00")).not.toThrow();
+    expect(() => validateQuietHours("21:00", "21:00")).toThrow("different");
+  });
+
+  it("configures the Android cycle-actions notification channel", () => {
+    expect(appConfig).toContain('"defaultChannel": "cycle-actions"');
+  });
+
   it("keeps a two-column Garden grid within its measured container", () => {
     expect(calculateGardenCardWidth(320, 16)).toBe(152);
     expect(calculateGardenCardWidth(0, 16)).toBe(0);

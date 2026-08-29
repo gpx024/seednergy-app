@@ -15,8 +15,8 @@ describe("pre-commercial acceptance build", () => {
     expect(eas.build.preview.env.EXPO_PUBLIC_ENABLE_DEV_ROUTES).toBe("false");
   });
 
-  it("does not expose integrations that still require client-owned accounts", () => {
-    expect(eas.build.preview.env.EXPO_PUBLIC_ENABLE_EMAIL_AUTH).toBe("false");
+  it("enables approved email authentication while guarding unfinished integrations", () => {
+    expect(eas.build.preview.env.EXPO_PUBLIC_ENABLE_EMAIL_AUTH).toBe("true");
     expect(eas.build.preview.env.EXPO_PUBLIC_ENABLE_PAYMENTS).toBe("false");
     expect(eas.build.preview.env.EXPO_PUBLIC_ENABLE_PUSH_NOTIFICATIONS).toBe("false");
     expect(createAccount).toContain("featureFlags.emailAuthentication");

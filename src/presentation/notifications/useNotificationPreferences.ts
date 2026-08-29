@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { defaults, notificationService } from "@/src/infrastructure/notifications/ExpoNotificationService";
 import { analyticsService } from "@/src/infrastructure/analytics/SupabaseAnalyticsService";
+import { validateQuietHours } from "@/src/domain/notificationPreferences";
 import { toNotificationPreferencesError } from "@/src/presentation/notifications/notificationErrors";
 import type { NotificationPreferences } from "@/src/ports/NotificationService";
 
@@ -19,6 +20,7 @@ export function useNotificationPreferences() {
     setSaving(true); setError(null);
     const enabling = preferences.enabled;
     try {
+      validateQuietHours(preferences.quietStart, preferences.quietEnd);
       if (preferences.enabled) await notificationService.enable(preferences);
       else await notificationService.disable(preferences);
       await analyticsService.track("notification_preference_changed", { status: preferences.enabled ? "enabled" : "disabled" }).catch(() => undefined);

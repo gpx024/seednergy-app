@@ -112,6 +112,8 @@ export interface PushDeviceRow {
   expo_push_token: string;
   platform: "android" | "ios";
   enabled: boolean;
+  disabled_reason: string | null;
+  last_registered_at: string;
   updated_at: string;
 }
 
@@ -129,6 +131,28 @@ export interface NotificationRow {
   data: Json;
   client_event_id: string | null;
   provider_request_id: number | null;
+  last_error_code: string | null;
+  last_error_message: string | null;
+}
+
+export interface NotificationDeliveryRow {
+  id: string;
+  notification_id: string;
+  push_device_id: string;
+  platform: "android" | "ios";
+  status: "pending" | "sending" | "retry" | "ticketed" | "receipt_pending" | "provider_accepted" | "failed";
+  attempt_count: number;
+  receipt_attempt_count: number;
+  next_attempt_at: string;
+  ticket_request_id: number | null;
+  ticket_id: string | null;
+  receipt_request_id: number | null;
+  error_code: string | null;
+  error_message: string | null;
+  ticketed_at: string | null;
+  provider_accepted_at: string | null;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface SeedStageRow {
@@ -202,6 +226,7 @@ export interface Database {
       harvests: TableShape<HarvestRow>;
       push_devices: TableShape<PushDeviceRow>;
       notifications: TableShape<NotificationRow>;
+      notification_deliveries: TableShape<NotificationDeliveryRow>;
       analytics_events: TableShape<{ id: string; user_id: string; event_name: string; properties: Json; occurred_at: string }>;
       seeds: TableShape<SeedRow>;
       seed_stages: TableShape<SeedStageRow>;
