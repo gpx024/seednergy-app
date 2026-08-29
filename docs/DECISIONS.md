@@ -13,7 +13,7 @@
 - The deletion sequence is retry-safe. Storage removal is verified before database cleanup, database deletes are idempotent, and Auth deletion happens last.
 - The append-only `cycle_events` rule remains intact during normal use. A transaction-local flag permits deletion only inside the service-role account-deletion function.
 - Check-photo retention is configurable and disabled while the blueprint’s 90-day proposal remains legally unapproved. The deployed job logs `skipped_unconfigured` rather than silently choosing a policy.
-- Harvest photos remain until the user deletes the account. They are excluded from the automated check-photo retention job.
+- AI check images are retained for up to 90 days and removed by a daily job. The guidance record remains without its image. Harvest photos remain until the user removes the photo or deletes the account, and are excluded from automated check-photo retention.
 - Product analytics use a first-party Supabase table, an explicit event allowlist and a small non-PII property allowlist. Analytics failures never block the grow cycle.
 - The first AI photo notice is stored on the profile and enforced by both the mobile route and the server-side photo-check function.
 - Sentry uses the client-owned `seednergy/seednergy-app` project with default PII disabled and zero performance tracing. Logs, Session Replay and User Feedback are disabled.

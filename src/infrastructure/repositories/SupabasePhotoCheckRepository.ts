@@ -18,6 +18,17 @@ export class SupabasePhotoCheckRepository implements PhotoCheckRepository {
     return (data as unknown as PhotoCheckQueryRow[]).map(mapRecord);
   }
 
+  async delete(id: string): Promise<void> {
+    const existing = await this.get(id);
+    if (!existing) return;
+    if (existing.storagePath) {
+      const { error: storageError } = await supabase.storage.from("cycle-photos").remove([existing.storagePath]);
+      if (storageError) throw storageError;
+    }
+    const { error } = await supabase.rpc("delete_photo_check", { p_photo_check_id: id });
+    if (error) throw error;
+  }
+
   async save(input: SavePhotoCheckInput): Promise<PhotoCheckRecord> {
     const { data, error } = await supabase.rpc("save_photo_check", {
       p_cycle_id: input.cycleId,

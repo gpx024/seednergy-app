@@ -15,6 +15,8 @@ const appConfig = JSON.parse(readFileSync(join(root, "app.json"), "utf8"));
 const deletionAuditMigration = readFileSync(join(root, "supabase/migrations/202608290019_stage11_deletion_audits.sql"), "utf8");
 const monitoringVerificationScreen = readFileSync(join(root, "app/settings/monitoring-verification.tsx"), "utf8");
 const operationalFunctionNames = ["delete-account", "photo-check", "harvest-suggestions", "photo-retention"];
+const retentionPolicyMigration = readFileSync(join(root, "supabase/migrations/202608290020_stage11_retention_policy.sql"), "utf8");
+const photoErasureMigration = readFileSync(join(root, "supabase/migrations/202608290021_stage11_user_photo_erasure.sql"), "utf8");
 
 describe("Stage 11 account deletion", () => {
   it("removes and verifies every private storage object before deleting database and Auth records", () => {
@@ -58,13 +60,26 @@ describe("Stage 11 account deletion", () => {
 });
 
 describe("Stage 11 retention and AI notice", () => {
-  it("keeps retention disabled until the open legal decision is approved", () => {
+  it("fails safely when retention has not yet been configured", () => {
     expect(migration).toContain("values (true, null)");
     expect(retentionFunction).toContain("skipped_unconfigured");
     expect(retentionFunction).toContain('from("photo_checks")');
     expect(retentionFunction).not.toContain('from("harvests").delete');
     expect(retentionFunction).toContain('status: "dry_run"');
     expect(retentionFunction).toContain("deletedRecords: 0, deletedObjects: 0");
+  });
+
+  it("applies the approved 90-day image policy and schedules daily cleanup", () => {
+    expect(retentionPolicyMigration).toContain("check_photo_retention_days = 90");
+    expect(retentionPolicyMigration).toContain("seednergy-photo-retention-daily");
+    expect(retentionPolicyMigration).toContain("photo_retention_job_secret");
+    expect(retentionFunction).toContain("update({ storage_path: null })");
+  });
+
+  it("supports user-initiated deletion of checks and harvest photos", () => {
+    expect(photoErasureMigration).toContain("remove_harvest_photo");
+    expect(photoErasureMigration).toContain("delete_photo_check");
+    expect(photoErasureMigration).toContain("user_id = auth.uid()");
   });
 
   it("keeps Sentry privacy-safe and initialized only through the monitoring adapter", () => {

@@ -73,12 +73,13 @@ export function usePhotoCheck(id: string | undefined) {
     try {
       const record = await photoCheckRepository.get(id);
       setData(record);
-      setPhotoUrl(record ? await cyclePhotoStorage.createSignedUrl(record.storagePath) : null);
+      setPhotoUrl(record?.storagePath ? await cyclePhotoStorage.createSignedUrl(record.storagePath) : null);
     } catch (reason) { setError(toError(reason)); }
     finally { setLoading(false); }
   }, [id]);
   useEffect(() => { void reload(); }, [reload]);
-  return { data, photoUrl, loading, error, reload };
+  async function deleteCheck() { if (id) await photoCheckRepository.delete(id); }
+  return { data, photoUrl, loading, error, reload, deleteCheck };
 }
 
 export function usePhotoCheckHistory(cycleId: string | undefined) {

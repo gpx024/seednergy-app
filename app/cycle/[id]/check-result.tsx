@@ -1,6 +1,6 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 
 import { useCycle } from "@/src/presentation/cycles/useCycleData";
 import { usePhotoCheck } from "@/src/presentation/photoChecks/usePhotoChecks";
@@ -17,6 +17,7 @@ export default function PhotoCheckResultScreen() {
   if (!record || !cycle) return <ScreenContainer><FeedbackState kind="empty" title="Result not found" description="Return to this cycle and start another check." actionLabel="Back to cycle" onAction={() => router.replace(`/cycle/${id}`)} /></ScreenContainer>;
   const retry = record.status === "unclear" || record.status === "rejected" || record.status === "provider_error";
   const success = record.status === "on_track" || record.status === "harvest_likely";
+  function confirmDelete() { Alert.alert("Delete this check?", "The submitted photo and its saved AI guidance will be permanently deleted.", [{ text: "Cancel", style: "cancel" }, { text: "Delete check", style: "destructive", onPress: () => void resource.deleteCheck().then(() => router.replace(`/cycle/${id}/check-history`)) }]); }
   return <ScreenContainer scroll contentStyle={[styles.container, retry && styles.retryContainer]}>
     <View style={[styles.icon, retry ? styles.iconWarning : styles.iconSuccess]}><Ionicons color={retry ? tokens.colors.terracottaText : tokens.colors.sage} name={retry ? "camera-outline" : success ? "checkmark-circle-outline" : "leaf-outline"} size={48} /></View>
     <Text style={styles.eyebrow}>{retry ? "CHECK NEEDS ANOTHER PHOTO" : "ANALYSIS COMPLETE"}</Text>
@@ -28,6 +29,7 @@ export default function PhotoCheckResultScreen() {
     {retry ? <AppButton label="Retake photo" onPress={() => router.replace(`/cycle/${id}/check`)} /> : null}
     <AppButton label="Back to cycle" onPress={() => router.replace(`/cycle/${id}`)} variant={retry ? "ghost" : "primary"} />
     <AppButton label="View check history" onPress={() => router.push(`/cycle/${id}/check-history`)} variant="oliveText" />
+    <AppButton label="Delete this check" onPress={confirmDelete} variant="text" />
   </ScreenContainer>;
 }
 

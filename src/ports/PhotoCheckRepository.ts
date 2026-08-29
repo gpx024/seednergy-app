@@ -4,7 +4,7 @@ export interface PhotoCheckRecord {
   id: string;
   cycleId: string;
   checkType: PhotoCheckType;
-  storagePath: string;
+  storagePath: string | null;
   submittedAt: string;
   status: PhotoCheckStatus;
   confidence: PhotoCheckConfidence;
@@ -26,5 +26,6 @@ export interface SavePhotoCheckInput {
 export interface PhotoCheckRepository {
   get(id: string): Promise<PhotoCheckRecord | null>;
   getHistory(cycleId: string): Promise<readonly PhotoCheckRecord[]>;
+  delete(id: string): Promise<void>;
   save(input: SavePhotoCheckInput): Promise<PhotoCheckRecord>;
 }

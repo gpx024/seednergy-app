@@ -73,7 +73,12 @@ export function useHarvest(id: string | undefined) {
     finally { setLoading(false); }
   }, [id]);
   useEffect(() => { void reload(); }, [reload]);
-  return { data, loading, error, reload };
+  async function removePhoto() {
+    if (!id) return;
+    await harvestRepository.removePhoto(id);
+    await reload();
+  }
+  return { data, loading, error, reload, removePhoto };
 }
 
 export function useHarvestGallery() {

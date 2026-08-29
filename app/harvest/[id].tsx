@@ -1,6 +1,6 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, StyleSheet, Text, View } from "react-native";
 import { useHarvest } from "@/src/presentation/harvest/useHarvests";
 import { AppButton, AppCard, FeedbackState, ScreenContainer } from "@/src/ui/components";
 import { tokens } from "@/src/ui/tokens";
@@ -10,11 +10,13 @@ export default function HarvestResultScreen() {
   if (resource.error) return <ScreenContainer><FeedbackState kind="error" title="Your harvest could not be loaded" description={resource.error.message} actionLabel="Try again" onAction={() => void resource.reload()} /></ScreenContainer>;
   if (!harvest) return <ScreenContainer><FeedbackState kind="empty" title="Harvest not found" description="Your other harvests are available in the Private Garden." /></ScreenContainer>;
   const suggestions = harvest.record.suggestions;
+  function confirmRemovePhoto() { Alert.alert("Remove this private photo?", "The harvest record will remain, but the photo will be permanently deleted.", [{ text: "Cancel", style: "cancel" }, { text: "Remove photo", style: "destructive", onPress: () => void resource.removePhoto() }]); }
   return <ScreenContainer scroll contentStyle={styles.container}>
     <View style={styles.icon}><Ionicons color={tokens.colors.stone} name="leaf" size={42} /></View><View style={styles.intro}><Text style={styles.eyebrow}>HARVEST {harvest.record.harvestNumber}</Text><Text accessibilityRole="header" style={styles.title}>You grew this.</Text><Text style={styles.body}>Your {harvest.seed.commonName} harvest is now part of your growing history.</Text></View>
     {harvest.photoUrl
       ? <View style={styles.photoFrame}><Image accessibilityLabel={`${harvest.seed.commonName} harvest`} resizeMode="cover" source={{ uri: harvest.photoUrl }} style={styles.photo} /></View>
       : <AppCard variant="nested" style={styles.noPhoto}><Ionicons color={tokens.colors.coachLabel} name="image-outline" size={36} /><View style={styles.noPhotoCopy}><Text style={styles.noPhotoTitle}>No harvest photo added</Text><Text style={styles.noPhotoBody}>This harvest is saved in your Private Garden without a photo.</Text></View></AppCard>}
+    {harvest.photoUrl ? <AppButton label="Remove private photo" onPress={confirmRemovePhoto} variant="text" /> : null}
     <AppCard variant="nested" style={styles.celebration}><Text style={styles.celebrationTitle}>{suggestions?.headline ?? `Fresh ${harvest.seed.commonName}, ready to enjoy`}</Text><Text style={styles.celebrationBody}>Harvested {formatDate(harvest.record.harvestedAt)}. {harvest.seed.storageGuidance}</Text></AppCard>
     <View style={styles.section}><Text style={styles.sectionTitle}>A few ways to use it</Text>{(suggestions?.ideas ?? fallbackIdeas(harvest.seed.commonName, harvest.seed.tasteProfile)).map((idea) => <AppCard key={idea.title} style={styles.idea}><Text style={styles.ideaTitle}>{idea.title}</Text><Text style={styles.body}>{idea.description}</Text></AppCard>)}</View>
     <AppButton label="View Private Garden" onPress={() => router.replace("/harvest/gallery")} /><AppButton label="Grow another seed" onPress={() => router.replace("/(tabs)/explore")} variant="oliveText" />

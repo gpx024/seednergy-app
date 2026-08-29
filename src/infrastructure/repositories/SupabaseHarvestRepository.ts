@@ -27,6 +27,18 @@ export class SupabaseHarvestRepository implements HarvestRepository {
     return mapHarvest(data);
   }
 
+  async removePhoto(harvestId: string): Promise<HarvestRecord> {
+    const existing = await this.get(harvestId);
+    if (!existing) throw new Error("Harvest not found.");
+    if (existing.storagePath) {
+      const { error: storageError } = await supabase.storage.from("cycle-photos").remove([existing.storagePath]);
+      if (storageError) throw storageError;
+    }
+    const { data, error } = await supabase.rpc("remove_harvest_photo", { p_harvest_id: harvestId });
+    if (error) throw error;
+    return mapHarvest(data);
+  }
+
   async get(id: string): Promise<HarvestRecord | null> {
     const { data, error } = await supabase.from("harvests").select("*").eq("id", id).maybeSingle();
     if (error) throw error;

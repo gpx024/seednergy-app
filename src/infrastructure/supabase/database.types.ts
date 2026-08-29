@@ -54,7 +54,7 @@ export interface PhotoCheckRow {
   cycle_id: string;
   user_id: string;
   check_type: string | null;
-  storage_path: string;
+  storage_path: string | null;
   submitted_at: string;
   status: string;
   confidence: string | null;
@@ -278,6 +278,8 @@ export interface Database {
           Args: { p_harvest_id: string; p_storage_path: string };
           Returns: HarvestRow;
         };
+        remove_harvest_photo: { Args: { p_harvest_id: string }; Returns: HarvestRow };
+        delete_photo_check: { Args: { p_photo_check_id: string }; Returns: undefined };
       register_push_device: {
         Args: { p_expo_push_token: string; p_platform: "android" | "ios" };
         Returns: PushDeviceRow;

@@ -27,7 +27,7 @@ Deno.serve(async (request) => {
 
     const { error: prepareError } = await client.rpc("prepare_photo_retention", { p_retention_days: retentionDays });
     if (prepareError) throw new Error(`retention_prepare_failed:${prepareError.code}`);
-    const { data: expired, error: expiredError } = await client.from("photo_checks").select("id,storage_path").lte("retention_expires_at", new Date().toISOString()).limit(500);
+    const { data: expired, error: expiredError } = await client.from("photo_checks").select("id,storage_path").not("storage_path", "is", null).lte("retention_expires_at", new Date().toISOString()).limit(500);
     if (expiredError) throw new Error(`retention_query_failed:${expiredError.code}`);
     const paths = (expired ?? []).map((row) => row.storage_path);
     for (let index = 0; index < paths.length; index += 100) {
@@ -36,11 +36,11 @@ Deno.serve(async (request) => {
     }
     const ids = (expired ?? []).map((row) => row.id);
     if (ids.length > 0) {
-      const { error } = await client.from("photo_checks").delete().in("id", ids);
+      const { error } = await client.from("photo_checks").update({ storage_path: null }).in("id", ids);
       if (error) throw new Error(`retention_database_failed:${error.code}`);
     }
     await client.from("privacy_job_runs").update({ status: "completed", deleted_records: ids.length, deleted_objects: paths.length, finished_at: new Date().toISOString() }).eq("id", runId);
-    return json({ status: "completed", deletedRecords: ids.length, deletedObjects: paths.length });
+    return json({ status: "completed", redactedRecords: ids.length, deletedObjects: paths.length });
   } catch (error) {
     const errorCode = error instanceof Error ? error.message.split(":")[0] : "retention_failed";
     if (client && runId) await client.from("privacy_job_runs").update({ status: "failed", error_code: errorCode, finished_at: new Date().toISOString() }).eq("id", runId);
