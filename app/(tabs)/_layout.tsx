@@ -43,7 +43,7 @@ function TabButton({ accessibilityState, bottomInset, children, onLongPress, onP
   const active = accessibilityState?.selected;
   return (
     <Pressable accessibilityRole="button" accessibilityState={accessibilityState} onLongPress={onLongPress ?? undefined} onPress={onPress ?? undefined} style={({ pressed }) => [styles.item, { paddingBottom: bottomInset }, active && styles.itemActive, pressed && styles.itemPressed]}>
-      {active ? <View pointerEvents="none" style={styles.activeRelief}><View style={styles.activeTopHighlight} /><View style={styles.activeLeftHighlight} /><View style={styles.activeRightEdge} /><View style={styles.activeBottomEdge} /></View> : null}
+      {active ? <View pointerEvents="none" style={[styles.activeRelief, { bottom: bottomInset + tokens.spacing.xxs }]} /> : null}
       <View style={[styles.itemContent, active && styles.itemContentActive]}>{children}</View>
     </Pressable>
   );
@@ -54,11 +54,7 @@ const styles = StyleSheet.create({
   barBackground: { ...StyleSheet.absoluteFillObject, backgroundColor: tokens.colors.tabInactiveSurface, borderBottomLeftRadius: 30, borderBottomRightRadius: 30 },
   item: { alignItems: "stretch", backgroundColor: "transparent", flex: 1, justifyContent: "center", minHeight: 58, overflow: "visible", paddingTop: tokens.spacing.xs },
   itemActive: { zIndex: 10 },
-  activeRelief: { backgroundColor: tokens.colors.tabActiveSurface, borderLeftColor: "rgba(255,255,255,0.78)", borderLeftWidth: 1, borderRightColor: "rgba(126,116,92,0.34)", borderRightWidth: 1, borderTopColor: "rgba(255,255,255,0.96)", borderTopWidth: 1, bottom: 0, left: 0, position: "absolute", right: 0, top: 0, zIndex: 1, ...tokens.elevation.tabActive },
-  activeTopHighlight: { backgroundColor: "rgba(255,255,255,0.82)", height: 2, left: 1, position: "absolute", right: 1, top: 1 },
-  activeLeftHighlight: { backgroundColor: "rgba(255,255,255,0.48)", bottom: 0, left: 1, position: "absolute", top: 2, width: 2 },
-  activeRightEdge: { backgroundColor: "rgba(126,116,92,0.22)", bottom: 0, position: "absolute", right: 1, top: 2, width: 3 },
-  activeBottomEdge: { backgroundColor: "rgba(126,116,92,0.24)", bottom: 0, height: 3, left: 1, position: "absolute", right: 1 },
+  activeRelief: { backgroundColor: tokens.colors.tabActiveSurface, borderRadius: tokens.radii.card, left: tokens.spacing.xxs, position: "absolute", right: tokens.spacing.xxs, top: tokens.spacing.xxs, zIndex: 1, ...tokens.elevation.card },
   itemContent: { alignItems: "center", flex: 1, gap: tokens.spacing.xxs, justifyContent: "center", zIndex: 2 },
   itemContentActive: {},
   itemPressed: { opacity: 0.8 },

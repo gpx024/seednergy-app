@@ -82,8 +82,8 @@ describe("Seednergy design system contract", () => {
     const badge = readFileSync(resolve("src/ui/components/StageBadge.tsx"), "utf8");
     const tabs = readFileSync(resolve("app/(tabs)/_layout.tsx"), "utf8");
 
-    expect(header).toContain("wordmarkWidth = 156");
-    expect(header).toContain("fontSize: 24");
+    expect(header).toContain("wordmarkWidth = 125");
+    expect(header).toContain("fontSize: 14");
     expect(home).toContain("profileImageUri={profile.avatarUrl}");
     expect(sectionHeader).toContain("<BrandMark width={22}");
     expect(cycles).toContain("<SectionHeader");
@@ -92,18 +92,21 @@ describe("Seednergy design system contract", () => {
     expect(garden).not.toContain('t("garden.eyebrow")');
     expect(badge).toContain("dotAttention");
     expect(badge).toContain("dotActive");
-    expect(tabs).toContain("bottom: 0");
-    expect(tabs).toContain("top: 0");
+    expect(tabs).toContain("borderRadius: tokens.radii.card");
+    expect(tabs).toContain("...tokens.elevation.card");
   });
 
-  it("uses a persistent private avatar with a Seednergy mark fallback", () => {
+  it("uses a persistent private avatar with an editable photo placeholder", () => {
+    const header = readFileSync(resolve("src/ui/components/BrandHeader.tsx"), "utf8");
     const profile = readFileSync(resolve("app/(tabs)/profile.tsx"), "utf8");
     const avatar = readFileSync(resolve("src/ui/components/ProfileAvatar.tsx"), "utf8");
     const hook = readFileSync(resolve("src/presentation/profile/useProfile.ts"), "utf8");
     const migration = readFileSync(resolve("supabase/migrations/202608280018_profile_avatar.sql"), "utf8");
 
     expect(profile).toContain("profile.chooseAvatar()");
-    expect(avatar).toContain("<BrandMark");
+    expect(header).toContain("<ProfileAvatar showEditHint");
+    expect(avatar).toContain('name="person-outline"');
+    expect(avatar).toContain('name="camera-outline"');
     expect(hook).toContain("uploadProfile");
     expect(hook).toContain("createSignedUrl");
     expect(migration).toContain("avatar_path");
