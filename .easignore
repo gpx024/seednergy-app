@@ -1,10 +1,12 @@
 # Dependencies and local tooling
 node_modules/
+admin/
 .git/
 .expo/
 dist/
 dist-stage7*/
 dist-stage8/
+dist-stage14/
 dist-stage4-reliability/
 web-build/
 coverage/
