@@ -94,6 +94,9 @@ describe("Seednergy design system contract", () => {
     expect(badge).toContain("dotActive");
     expect(tabs).toContain("borderRadius: tokens.radii.card");
     expect(tabs).toContain("...tokens.elevation.card");
+    expect(tabs).toContain("borderTopColor:");
+    expect(tabs).toContain("borderBottomColor:");
+    expect(tabs).toContain("elevation: 9");
   });
 
   it("uses a persistent private avatar with an editable photo placeholder", () => {
