@@ -5,6 +5,7 @@ node_modules/
 dist/
 dist-stage7*/
 dist-stage8/
+dist-stage4-reliability/
 web-build/
 coverage/
 tmp/
