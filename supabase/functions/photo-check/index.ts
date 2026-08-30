@@ -88,7 +88,7 @@ Deno.serve(async (request) => {
     if (errorCode === "invalid_request") return json({ error: errorCode, message: "The photo-check request was invalid." }, 400);
     if (errorCode === "ai_photo_notice_required") return json({ error: errorCode, message: "Review the AI photo notice before your first check." }, 428);
     if (errorCode === "active_cycle_not_found" || errorCode === "storage_path_not_owned") return json({ error: errorCode, message: "This photo does not belong to the active cycle." }, 403);
-    return json({ result });
+    return json({ error: errorCode, message: result.explanation }, 503);
   }
 });
 

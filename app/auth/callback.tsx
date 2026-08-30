@@ -4,6 +4,7 @@ import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import { useAuth } from "@/src/presentation/auth/AuthProvider";
+import { resolveCurrentPostAuthenticationRoute } from "@/src/presentation/auth/currentPostAuthRoute";
 import { ScreenContainer } from "@/src/ui/components";
 import { tokens } from "@/src/ui/tokens";
 
@@ -23,8 +24,8 @@ export default function AuthCallbackScreen() {
       return;
     }
     auth.completeSignIn(code)
-      .then(() => {
-        router.replace(recovery === "true" ? "/auth/update-password" : "/(onboarding)/profile-basics");
+      .then(async () => {
+        router.replace(recovery === "true" ? "/auth/update-password" : await resolveCurrentPostAuthenticationRoute());
       })
       .catch((reason: unknown) => setError(reason instanceof Error ? reason.message : t("onboarding.authError")));
   }, [auth, code, recovery, router, t]);

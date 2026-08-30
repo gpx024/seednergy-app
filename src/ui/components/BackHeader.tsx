@@ -23,9 +23,9 @@ export function BackHeader({ backLabel = "Back", center, rightAccessory }: BackH
       <View style={styles.center}>{center}</View>
       <View style={styles.end}>
         {rightAccessory}
-        <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={styles.mark}>
+        <Pressable accessibilityLabel="Open profile" accessibilityRole="button" hitSlop={12} onPress={() => router.push("/(tabs)/profile")} style={({ pressed }) => [styles.mark, pressed && styles.pressed]}>
           <BrandMark width={22} />
-        </View>
+        </Pressable>
       </View>
     </View>
   );
@@ -36,5 +36,6 @@ const styles = StyleSheet.create({
   action: { alignItems: "center", height: tokens.layout.size.touchTarget, justifyContent: "center", width: tokens.layout.size.touchTarget },
   center: { alignItems: "center", flex: 1, justifyContent: "center", minWidth: 0 },
   end: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.xs, justifyContent: "flex-end", minHeight: tokens.layout.size.touchTarget, minWidth: tokens.layout.size.touchTarget },
-  mark: { alignItems: "center", height: tokens.layout.size.touchTarget, justifyContent: "center", width: 32 }
+  mark: { alignItems: "center", height: tokens.layout.size.touchTarget, justifyContent: "center", width: 32 },
+  pressed: { opacity: 0.72 }
 });

@@ -4,6 +4,8 @@ import { consumesPhotoCheckQuota, photoCheckResultSchema, type PhotoCheckContext
 import { FixturePhotoCheckProvider } from "@/src/infrastructure/ai/FixturePhotoCheckProvider";
 import { photoCheckFixtureIds, photoCheckFixtures } from "@/src/infrastructure/ai/photoCheckFixtures";
 import { runPhotoCheck } from "@/src/application/photoChecks/runPhotoCheck";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 
 const context: PhotoCheckContext = {
   cycleId: "10000000-0000-4000-8000-000000000001",
@@ -49,5 +51,13 @@ describe("Stage 7 deterministic photo checks", () => {
     expect(photoCheckFixtures["AI-002"].retakeGuidance).toBeTruthy();
     expect(photoCheckFixtures["AI-003"].explanation).toMatch(/looks consistent|most likely/i);
     expect(photoCheckFixtures["AI-006"].retakeGuidance).toBeTruthy();
+  });
+
+  it("does not emit an incomplete success envelope or an unhandled submit rejection", () => {
+    const edge = readFileSync(resolve("supabase/functions/photo-check/index.ts"), "utf8");
+    const screen = readFileSync(resolve("app/cycle/[id]/check.tsx"), "utf8");
+    expect(edge).not.toContain("return json({ result });");
+    expect(edge).toContain("return json({ error: errorCode, message: result.explanation }, 503)");
+    expect(screen).toContain("submit().catch(() => undefined)");
   });
 });

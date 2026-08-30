@@ -86,6 +86,7 @@ describe("Seednergy design system contract", () => {
     expect(header).toContain("fontSize: 14");
     expect(home).toContain("profileImageUri={profile.avatarUrl}");
     expect(sectionHeader).toContain("<BrandMark width={22}");
+    expect(sectionHeader).toContain('router.push("/(tabs)/profile")');
     expect(cycles).toContain("<SectionHeader");
     expect(explore).toContain("<SectionHeader");
     expect(garden).toContain("<SectionHeader");
@@ -114,5 +115,18 @@ describe("Seednergy design system contract", () => {
     expect(hook).toContain("createSignedUrl");
     expect(migration).toContain("avatar_path");
     expect(migration).toContain("/profile/%");
+  });
+
+  it("keeps space settings editable and harvests out of Profile", () => {
+    const profile = readFileSync(resolve("app/(tabs)/profile.tsx"), "utf8");
+    const space = readFileSync(resolve("app/settings/space.tsx"), "utf8");
+    const repository = readFileSync(resolve("src/infrastructure/repositories/SupabaseProfileRepository.ts"), "utf8");
+    const backHeader = readFileSync(resolve("src/ui/components/BackHeader.tsx"), "utf8");
+
+    expect(profile).toContain('router.push("/settings/space")');
+    expect(profile).not.toContain('label="Your harvests"');
+    expect(space).toContain("Save space conditions");
+    expect(repository).toContain("updateSpaceConditions");
+    expect(backHeader).toContain('router.push("/(tabs)/profile")');
   });
 });

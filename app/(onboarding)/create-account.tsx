@@ -10,6 +10,7 @@ import { tokens } from "@/src/ui/tokens";
 import { featureFlags } from "@/src/config/features";
 import { legalLinks } from "@/src/config/legal";
 import { useAuth } from "@/src/presentation/auth/AuthProvider";
+import { resolveCurrentPostAuthenticationRoute } from "@/src/presentation/auth/currentPostAuthRoute";
 
 export default function CreateAccountScreen() {
   const { t } = useTranslation();
@@ -26,7 +27,7 @@ export default function CreateAccountScreen() {
     try {
       const result = await action();
       if (result.needsEmailConfirmation) setMessage(t("onboarding.confirmEmail"));
-      else router.replace("/(onboarding)/profile-basics");
+      else router.replace(await resolveCurrentPostAuthenticationRoute());
     } catch (reason) {
       setMessage(reason instanceof Error ? reason.message : t("onboarding.authError"));
     } finally {

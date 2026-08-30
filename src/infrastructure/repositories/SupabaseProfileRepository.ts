@@ -1,4 +1,4 @@
-import type { CompleteOnboardingInput, GrowerProfile, ProfileRepository } from "@/src/ports/ProfileRepository";
+import type { CompleteOnboardingInput, GrowerProfile, ProfileRepository, SpaceEnvironment, SpaceLightCondition } from "@/src/ports/ProfileRepository";
 import { supabase } from "@/src/infrastructure/supabase/client";
 import type { ProfileRow } from "@/src/infrastructure/supabase/database.types";
 
@@ -34,6 +34,15 @@ export class SupabaseProfileRepository implements ProfileRepository {
     if (userError) throw userError;
     if (!userData.user) throw new Error("You need to be signed in to update your profile photo.");
     const { data, error } = await supabase.from("profiles").update({ avatar_path: path }).eq("id", userData.user.id).select("*").single();
+    if (error) throw error;
+    return mapProfile(data);
+  }
+
+  async updateSpaceConditions(environment: SpaceEnvironment, lightCondition: SpaceLightCondition): Promise<GrowerProfile> {
+    const { data: userData, error: userError } = await supabase.auth.getUser();
+    if (userError) throw userError;
+    if (!userData.user) throw new Error("You need to be signed in to update your growing space.");
+    const { data, error } = await supabase.from("profiles").update({ environment_slug: environment, light_condition_slug: lightCondition }).eq("id", userData.user.id).select("*").single();
     if (error) throw error;
     return mapProfile(data);
   }

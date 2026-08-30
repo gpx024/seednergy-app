@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { profileRepository } from "@/src/infrastructure/repositories/SupabaseProfileRepository";
 import { cyclePhotoStorage } from "@/src/infrastructure/storage/SupabaseCyclePhotoStorage";
-import type { GrowerProfile } from "@/src/ports/ProfileRepository";
+import type { GrowerProfile, SpaceEnvironment, SpaceLightCondition } from "@/src/ports/ProfileRepository";
 
 export function useProfile() {
   const [data, setData] = useState<GrowerProfile | null>(null);
@@ -11,6 +11,8 @@ export function useProfile() {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [avatarSaving, setAvatarSaving] = useState(false);
   const [avatarError, setAvatarError] = useState<Error | null>(null);
+  const [spaceSaving, setSpaceSaving] = useState(false);
+  const [spaceError, setSpaceError] = useState<Error | null>(null);
   const reload = useCallback(async () => {
     setLoading(true); setError(null);
     try {
@@ -47,5 +49,17 @@ export function useProfile() {
       setAvatarError(reason instanceof Error ? reason : new Error("Your profile photo could not be saved."));
     } finally { setAvatarSaving(false); }
   }, [data]);
-  return { data, loading, error, reload, avatarUrl, avatarSaving, avatarError, chooseAvatar };
+  const updateSpaceConditions = useCallback(async (environment: SpaceEnvironment, lightCondition: SpaceLightCondition) => {
+    setSpaceSaving(true); setSpaceError(null);
+    try {
+      const updated = await profileRepository.updateSpaceConditions(environment, lightCondition);
+      setData(updated);
+      return updated;
+    } catch (reason) {
+      const nextError = reason instanceof Error ? reason : new Error("Your space conditions could not be saved.");
+      setSpaceError(nextError);
+      throw nextError;
+    } finally { setSpaceSaving(false); }
+  }, []);
+  return { data, loading, error, reload, avatarUrl, avatarSaving, avatarError, chooseAvatar, spaceSaving, spaceError, updateSpaceConditions };
 }

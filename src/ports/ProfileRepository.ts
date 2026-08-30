@@ -1,6 +1,9 @@
 import type { OnboardingAnswers } from "@/src/application/onboarding/recommendation";
 import type { NotificationPreferences } from "@/src/ports/NotificationService";
 
+export type SpaceEnvironment = "indoor" | "balcony" | "outdoor";
+export type SpaceLightCondition = "low" | "medium" | "bright";
+
 export interface GrowerProfile {
   id: string;
   email: string;
@@ -26,4 +29,5 @@ export interface ProfileRepository {
   completeOnboarding(input: CompleteOnboardingInput): Promise<GrowerProfile>;
   acceptAiPhotoNotice(): Promise<GrowerProfile>;
   updateAvatarPath(path: string | null): Promise<GrowerProfile>;
+  updateSpaceConditions(environment: SpaceEnvironment, lightCondition: SpaceLightCondition): Promise<GrowerProfile>;
 }
