@@ -38,13 +38,13 @@ const styles = StyleSheet.create({
   pressed: { opacity: 0.82 },
   card: { flex: 1, padding: 0, overflow: "hidden", ...tokens.elevation.raisedRow },
   comingSoon: { opacity: 0.62 },
-  imageArea: { height: 158, backgroundColor: tokens.colors.sand, position: "relative" },
+  imageArea: { height: 148, backgroundColor: tokens.colors.sand, position: "relative" },
   image: { height: "100%", width: "100%" },
   lock: { alignItems: "center", justifyContent: "center", position: "absolute", right: tokens.spacing.sm, top: tokens.spacing.sm, height: 38, width: 38, borderRadius: tokens.radii.pill, backgroundColor: tokens.colors.card, ...tokens.elevation.raisedSm },
-  content: { gap: tokens.spacing.sm, padding: tokens.spacing.md },
-  name: { ...tokens.typography.name, color: tokens.colors.forest },
+  content: { gap: tokens.spacing.xs, padding: tokens.spacing.sm, paddingBottom: tokens.spacing.md },
+  name: { ...tokens.typography.name, color: tokens.colors.forest, fontFamily: "CrimsonText_700Bold" },
   access: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textTransform: "uppercase" },
-  meta: { flexDirection: "row", gap: tokens.spacing.md },
+  meta: { flexDirection: "row", gap: tokens.spacing.md, justifyContent: "space-between" },
   metaText: { fontFamily: "Inter_600SemiBold", fontSize: 12, lineHeight: 16, color: tokens.colors.ink82 },
   accessRow: { alignItems: "flex-start", minHeight: 28 }
 });

@@ -14,7 +14,7 @@ export function SectionHeader({ title }: SectionHeaderProps) {
 }
 
 const styles = StyleSheet.create({
-  header: { alignItems: "center", flexDirection: "row", justifyContent: "space-between", minHeight: 42, paddingHorizontal: tokens.spacing.md },
+  header: { alignItems: "center", flexDirection: "row", justifyContent: "space-between", minHeight: 48, paddingHorizontal: tokens.spacing.xxs },
   title: { ...tokens.typography.title, color: tokens.colors.brand },
   mark: { alignItems: "center", height: tokens.layout.size.touchTarget, justifyContent: "center", width: tokens.layout.size.touchTarget },
   pressed: { opacity: 0.72 }

@@ -1,15 +1,15 @@
-/* Seednergy mobile design tokens, August 2026 home refresh.
+/* Seednergy mobile design tokens, September 2026 final visual pass.
    Source of truth for all app UI. Derive extra shades from these approved values. */
 
 :root {
   /* ---- Colour ---- */
   --sd-canvas:      #EEECE7;  /* main screen ground */
   --sd-card:        #F3F1EC;  /* every raised surface */
-  --sd-sand:        #DCDAD5;  /* photo mats and inactive tab ground */
+  --sd-sand:        #DCDAD5;  /* photo mats and selected tab ground */
   --sd-photo-a:     #DCDAD5;  /* photo placeholder gradient, dark stop */
   --sd-photo-b:     #E5E3DE;  /* photo placeholder gradient, light stop */
   --sd-gauge-track: rgba(80,75,36,.16); /* cycle-gauge unfilled ring */
-  --sd-input:       #F3F1EC;  /* text-entry fill */
+  --sd-input:       #FFFDF9;  /* text-entry fill */
   --sd-terracotta:  #A66C6F;  /* accent and growth-stage label */
   --sd-terracotta-text:  #472C2A; /* brand wordmark and dark display text */
   --sd-terracotta-panel: #70484A; /* coach and next-action panel */
@@ -29,7 +29,7 @@
 
   --sd-olive-pressed: #5E692F;
 
-  /* ---- Relief · everything is RAISED except text inputs (--sd-inset) ---- */
+  /* ---- Relief · text inputs and selected navigation use --sd-inset ---- */
   /* Light source: top-left. Offset ≈ blur (tight, crisp — never a soft fade). */
   --sd-raise-xs: 2px 2px 3px rgba(150,140,118,.55), -1px -1px 2px rgba(252,249,243,.85);
   --sd-raise-sm: 3px 3px 5px rgba(150,140,118,.55), -2px -2px 4px rgba(252,249,243,.88);
@@ -53,7 +53,7 @@
                      inset 1.5px 1.5px 1px rgba(255,255,255,.40),
                      inset -1.5px -1.5px 1px rgba(108,48,20,.45);
 
-  /* Text inputs — the single inset surface in the system */
+  /* Text inputs and the selected navigation cell use this inset treatment */
   --sd-inset: inset 3px 3px 5px rgba(150,140,118,.50), inset -1.5px -1.5px 2px rgba(255,255,255,.90);
 
   /* Photo mat: the image itself sits slightly proud of its frame */
@@ -67,14 +67,13 @@
   --sd-pill-olive:  2px 2px 4px rgba(94,98,52,.44), -2px -2px 4px rgba(252,249,243,.90),
                     inset 1.5px 1.5px 1px rgba(255,255,255,.36), inset -1.5px -1.5px 1px rgba(52,56,24,.45);
 
-  /* Tab bar — its own warm-stone ground; the active CELL is the raised element */
-  --sd-tabbar-ground: #DCDAD5;
-  --sd-tabbar-on-bg:  #E5E3DE;
-  --sd-tabbar-on-sh:  4px 4px 8px rgba(126,116,92,.42), -4px -4px 8px rgba(246,242,232,.85),
-                      inset 1.5px 1.5px 1px rgba(255,255,255,.75), inset -1.5px -1.5px 1px rgba(126,116,92,.32);
+  /* Tab bar — one raised light block; the active CELL is inset and darker */
+  --sd-tabbar-ground: #E5E3DE;
+  --sd-tabbar-on-bg:  #DCDAD5;
+  --sd-tabbar-on-sh:  inset 3px 3px 5px rgba(150,140,118,.50), inset -1.5px -1.5px 2px rgba(255,255,255,.90);
 
   /* ---- Inverted ground · moment screens only (see DESIGN-SYSTEM.md §6) ---- */
-  --sd-inv-ground:  #472C2A;              /* special dark screens carry no tab bar */
+  --sd-inv-ground:  #504B24;              /* harvest completion ground */
   --sd-inv-surface: #F3F1EC;
   --sd-inv-text:    #EEECE7;
   --sd-inv-text-82: rgba(238,236,231,.82);
@@ -207,26 +206,26 @@
 .sd-row__name      { font: 600 18px/1.15 var(--sd-font-display); color: var(--sd-forest); }
 .sd-row__meta      { font: 400 11.5px/1.5 var(--sd-font-ui); color: rgba(47,61,40,.75); }
 
-/* TAB BAR — no divider line. The bar has its own warm-stone ground; the active CELL is
-   the raised element, filling its whole cell and running flush to the screen's bottom edge
-   (no radius, no bar padding). Inverted screens carry NO tab bar at all. */
+/* TAB BAR — no divider line. The bar is one raised block; the active cell is inset,
+   darker and uses the card radius. Inverted screens carry NO tab bar at all. */
 .sd-tabbar         { display: flex; padding: 0; background: var(--sd-tabbar-ground); }
 .sd-tabbar__item      { flex: 1; display: flex; flex-direction: column; align-items: center;
                         gap: 7px; padding: 15px 0 18px; color: var(--sd-ink);
                         font: 500 10.5px/1 var(--sd-font-ui); }
 .sd-tabbar__item--on  { color: var(--sd-tab-active-content); font-weight: 600;
+                        border-radius: 20px;
                         background: var(--sd-tabbar-on-bg);
                         box-shadow: var(--sd-tabbar-on-sh); }
 
 /* ---- Type scale ---- */
-.sd-display-lg { font: 600 30px/34px var(--sd-font-display); color: var(--sd-terracotta); }
-.sd-display-md { font: 600 25px/29px var(--sd-font-display); color: var(--sd-terracotta); }
-.sd-name       { font: 600 22px/1.15 var(--sd-font-display); color: var(--sd-forest); }
-.sd-inv-title  { font: 600 38px/1.15 var(--sd-font-display); color: var(--sd-inv-text); }
+.sd-display-lg { font: 600 32px/44.8px var(--sd-font-display); color: var(--sd-terracotta); }
+.sd-display-md { font: 600 24px/33.6px var(--sd-font-display); color: var(--sd-terracotta); }
+.sd-name       { font: 600 20px/28px var(--sd-font-display); color: var(--sd-forest); }
+.sd-inv-title  { font: 600 36px/50.4px var(--sd-font-display); color: var(--sd-inv-text); }
 .sd-inv-kicker { font: 700 10.5px/1 var(--sd-font-ui); letter-spacing: .14em;
                  text-transform: uppercase; color: var(--sd-inv-kicker); }
-.sd-title      { font: 600 19.5px/24px var(--sd-font-display); color: var(--sd-ink); }
-.sd-panel-head { font: 600 16.5px/1.3 var(--sd-font-display); color: var(--sd-ink); }
+.sd-title      { font: 600 24px/33.6px var(--sd-font-display); color: var(--sd-ink); }
+.sd-panel-head { font: 600 18px/25.2px var(--sd-font-display); color: var(--sd-ink); }
 .sd-body       { font: 400 14px/20px var(--sd-font-ui); color: var(--sd-ink-82); text-wrap: pretty; }
 .sd-caption    { font: 400 12px/16px var(--sd-font-ui); color: var(--sd-ink-64); }
 .sd-label      { font: 700 11px/1 var(--sd-font-ui); letter-spacing: .12em;

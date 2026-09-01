@@ -8,8 +8,8 @@ const palette = {
   progressText: "#6A6960",
   highlight: "#70484A",
   coachLabel: "#DCDAD5",
-  tabActiveSurface: "#E5E3DE",
-  tabInactiveSurface: "#DCDAD5",
+  tabActiveSurface: "#DCDAD5",
+  tabInactiveSurface: "#E5E3DE",
   tabActiveContent: "#846967",
   alert: "#A64032"
 } as const;
@@ -24,6 +24,9 @@ export const colors = {
   textFaint: "rgba(71,44,42,0.32)",
   border: "rgba(71,44,42,0.10)",
   borderSoft: "rgba(71,44,42,0.06)",
+  field: "#FFFDF9",
+  harvestBackground: palette.seed,
+  harvestPanel: "#34340F",
 
   // Compatibility names remain while older screens move to the semantic names
   // above. Every value comes from the approved 2026 palette.
@@ -35,7 +38,7 @@ export const colors = {
   tabActiveA: palette.tabActiveSurface,
   tabActiveB: palette.tabActiveSurface,
   gaugeTrack: "rgba(80,75,36,0.16)",
-  input: palette.raised,
+  input: "#FFFDF9",
   terracotta: palette.accent,
   terracottaText: palette.brand,
   terracottaPanel: palette.highlight,

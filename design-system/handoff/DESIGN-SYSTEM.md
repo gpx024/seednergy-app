@@ -1,4 +1,4 @@
-# Seednergy Mobile Design System, August 2026 refresh
+# Seednergy Mobile Design System, September 2026 final visual pass
 Binding visual spec for the Seednergy app. Companion files: `tokens.css` (literal values), `SCREEN-MAP.md` (what to build).
 
 **Fonts:** Crimson Text (600, 400 italic) + Inter (400/500/600). Google Fonts.
@@ -12,7 +12,7 @@ The app is one material at two tones. The screen **ground** is `#EEECE7`; every 
 
 Two consequences to hold onto:
 
-**Everything is raised — with one exception.** Stage selectors, coach panels, pills: all raised. The single exception is **text inputs**, which sit inset on a near-white fill (`--sd-input`), because a field has to look like it receives. Nothing else in the app is inset.
+**Everything is raised, with two purposeful exceptions.** Text inputs sit inset on a near-white fill (`--sd-input`), because a field has to look like it receives. The selected bottom-navigation cell is also inset, because it represents the current pressed location. All other cards, filters, pills and the navigation bar itself are raised.
 
 **Two layers.** Canvas is the ground and raised volume is the card. The **second layer, a panel nested inside a card, uses highlight `#70484A` with raised-surface type `#F3F1EC`**. Keep panel body copy at 13px+ and headlines in Crimson at 16px+. It is the strongest block on the screen, so it is reserved for the coach's voice and next action, with at most one per card.
 
@@ -24,7 +24,7 @@ Two consequences to hold onto:
 box-shadow: var(--sd-raise-md), var(--sd-bevel);
 ```
 
-Pressed feedback: soften the outer shadow one step down the scale and keep the bevel. Never invert it, never move the element.
+Pressed feedback: soften the outer shadow one step down the scale and keep the bevel. The selected navigation cell is the sole persistent inset state.
 
 **Minimum 14px between raised elements** — below that the shadows collide and the relief turns to mud.
 
@@ -44,8 +44,8 @@ Uppercase section labels and sub-navigation use **olive `#6D7A38`**. Idle progre
 | accent | `#A66C6F` | growth-stage subtitle and supporting accent text |
 | progress text | `#6A6960` | idle stage labels such as Set up and Harvest |
 | highlight | `#70484A` | coach and next-action panel |
-| coach label / inactive tab | `#DCDAD5` | Your coach text and inactive tab ground |
-| active tab surface | `#E5E3DE` | raised current tab cell |
+| coach label / active tab | `#DCDAD5` | Your coach text and inset current tab ground |
+| inactive tab surface | `#E5E3DE` | raised navigation bar ground |
 | active tab content | `#846967` | current tab icon and label |
 | alert | `#A64032` | needs-check alerts only |
 
@@ -59,14 +59,14 @@ Crimson Text carries all **named and actionable** text: screen titles, card name
 
 | Role | Font | Size |
 |---|---|---|
-| display/lg | Crimson 600 | 30/34, brand or accent according to hierarchy |
-| display/md | Crimson 600 | 25/29, brand or accent according to hierarchy |
-| card name | Crimson 600 | 22/1.15, **seed** |
-| list row name | Crimson 600 | 18/1.15, **seed** |
-| inverted headline | Crimson 600 | 38/1.15, cream — the achievement, not the status |
-| title | Crimson 600 | 19.5/24, ink |
-| panel headline | Crimson 600 | 16.5/1.3, ink |
-| button | Crimson **700** | 18/1 |
+| display/lg | Crimson 600 | 32/44.8, brand or accent according to hierarchy |
+| display/md | Crimson 600 | 24/33.6, brand or accent according to hierarchy |
+| card name | Crimson 600 | 20/28, **seed** |
+| list row name | Crimson 600 | 18/25.2, **seed** |
+| inverted headline | Crimson 600 | 36/50.4, cream, the achievement rather than the status |
+| title | Crimson 600 | 24/33.6, ink |
+| panel headline | Crimson 600 | 18/25.2, ink |
+| button | Crimson **700** | 18/25.2 |
 | body | Inter 400 | 14/20, ink 82% |
 | caption | Inter 400 | 12/16, ink 64% |
 | label | Inter **700** | 10.5–11, .12em, caps, **olive** (raised colour on a highlight panel) |
@@ -82,9 +82,7 @@ Radius: chip 12 · field 16 · card 20 · media 26 · screen 40 · pill 999.
 
 Icons: 21px, **stroke 2.15**, round caps and joins, no fills, `currentColor`. 24px for standalone actions (back, close, more), 16px inline with text. Sole exception: the 28–32px confirmation check is a display glyph at stroke 2.3.
 
-Canonical tab set at launch: **house · cycle (clock-arrow) · magnifier · person** — four items. The sprout mark is brand-only and never an interface icon.
-
-**The bar grows to five post-MVP.** The Garden (community) section is not in the MVP; when it ships it inserts a fifth tab between magnifier and person. Render the bar from an array rather than hardcoding cells, and give Garden a non-sprout glyph (outlined plot/grid, or people) at the same 21px / stroke 2.15. At 390px a five-item bar gives 78px cells — still well above the 44px minimum, so no layout change is needed.
+Canonical pre-commercial tab set: **house · cycle (clock-arrow) · magnifier · leaf**. The fourth item is Garden, where Private Garden is operational and Public Garden is explicitly coming soon. Profile is reached through the top-right avatar or brand-mark action, so it is not duplicated in the tab bar.
 
 ## 4b. The cycle gauge and the cycle row
 
@@ -108,7 +106,7 @@ Why it matters: the brand concept is The Living Cycle, and this puts it in the c
 
 ## 4c. The tab bar
 
-No divider line. The bar uses inactive ground `#DCDAD5`. The **active cell** is the raised element: it fills the whole cell, full height and half the gap to each neighbour, and runs **flush to the screen's bottom edge** with no radius and no bar padding. Active surface is `#E5E3DE` with icon and label `#846967`; inactive icon and label use brand `#472C2A`.
+No divider line. The whole bar is one raised block on `#E5E3DE`. The **active cell** is inset and slightly darker on `#DCDAD5`, with the same 20px bevel radius as a card. It fills the cell while retaining a 4px reveal of the raised bar. Active icon and label use `#846967`; inactive icon and label use brand `#472C2A`.
 
 **Inverted screens carry no tab bar at all.** See §6.
 
@@ -129,7 +127,7 @@ Marketing photography (warm, editorial, hands-in-soil, window light) belongs to 
 
 ## 6. The inverted ground — moment screens
 
-To break the monotony of a single-colour app, **moment screens invert to brand** `#472C2A`: raised cards stay `#F3F1EC`, type uses `#EEECE7`, and relief is recast for the dark ground (`--sd-inv-*`).
+To break the monotony of a single-colour app, **moment screens invert to a palette dark**. Harvest completion uses seed `#504B24`; commercial and account moments may use brand `#472C2A`. Raised cards stay `#F3F1EC`, type uses `#EEECE7`, and relief is recast for the dark ground (`--sd-inv-*`).
 
 Three rules for an inverted screen:
 
@@ -139,14 +137,14 @@ Three rules for an inverted screen:
 
 **The achievement leads, the status labels.** On cycle complete, "You grew this." is the 38px Crimson headline and "Cycle complete" is a small accent kicker above it. Not the other way round.
 
-On the completion screen the photo takes **the logo's seed silhouette** — a 200×306 stone frame at 100px radius — with an olive check badge. It matches the gauge and closes the loop the gauge opens.
+On the completion screen the harvest photo takes **the logo's seed silhouette**, framed in raised stone. Four supplied three-dimensional growth-stage artworks orbit the photo at seed, germination, seedling and grown positions. This closes the visual loop opened by the cycle gauge without implying a user photo when none was saved.
 
 Use it for, and only for: cycle complete · purchase success · the three paywalls · premium confirmation. Roughly one screen in ten. Ordinary screens never invert — it stops meaning anything if it's common.
 
 ## 7. Non-negotiables
 
 1. Use `#EEECE7` for the ground, `#F3F1EC` for every raised surface, and `#70484A` for the nested coach panel. No borders or unapproved surface fills, except dividers inside a settings group.
-2. Every element raised and bevelled — except text inputs, which are inset. OS chrome gets neither.
+2. Every element is raised and bevelled, except text inputs and the selected navigation cell, which are inset. OS chrome gets neither.
 3. Offset ≈ blur. No wide soft shadows.
 4. One primary (olive) button per screen. SSO and alternate actions may carry olive *labels*, never olive fills.
 5. Accent `#A66C6F` supports hierarchy. The active tab uses `#846967`; the active filter and primary button use olive `#6D7A38`; the coach panel uses highlight `#70484A`.

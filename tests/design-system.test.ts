@@ -8,8 +8,8 @@ import { spacing } from "@/src/ui/tokens/spacing";
 import { typography } from "@/src/ui/tokens/typography";
 
 describe("Seednergy design system contract", () => {
-  it("uses the approved August 2026 palette and type families", () => {
-    expect(semanticTokens.tokenStatus).toBe("home-refresh-2026-08-27");
+  it("uses the approved September 2026 final visual palette and type families", () => {
+    expect(semanticTokens.tokenStatus).toBe("final-visual-system-2026-09-01");
     expect(colors.background).toBe("#EEECE7");
     expect(colors.raised).toBe("#F3F1EC");
     expect(colors.brand).toBe("#472C2A");
@@ -19,15 +19,15 @@ describe("Seednergy design system contract", () => {
     expect(colors.progressText).toBe("#6A6960");
     expect(colors.highlight).toBe("#70484A");
     expect(colors.coachLabel).toBe("#DCDAD5");
-    expect(colors.tabActiveSurface).toBe("#E5E3DE");
-    expect(colors.tabInactiveSurface).toBe("#DCDAD5");
+    expect(colors.tabActiveSurface).toBe("#DCDAD5");
+    expect(colors.tabInactiveSurface).toBe("#E5E3DE");
     expect(colors.tabActiveContent).toBe("#846967");
     expect(typography.display.fontFamily).toBe("CrimsonText_600SemiBold");
     expect(typography.body.fontFamily).toBe("Inter_400Regular");
     expect(typography.button.fontFamily).toBe("CrimsonText_700Bold");
     expect(typography.button).not.toHaveProperty("fontWeight");
-    expect(typography.button.fontSize).toBe(20);
-    expect(typography.displayLarge.lineHeight).toBeCloseTo(typography.displayLarge.fontSize * 1.2, 5);
+    expect(typography.button.fontSize).toBe(18);
+    expect(typography.displayLarge.lineHeight).toBeCloseTo(typography.displayLarge.fontSize * 1.4, 5);
     expect(typography.label.letterSpacing).toBe(0.66);
     expect(typography.tab.fontFamily).toBe("Inter_600SemiBold");
     expect(typography.display).not.toHaveProperty("fontWeight");
@@ -44,7 +44,7 @@ describe("Seednergy design system contract", () => {
 
     expect(handoffTokens).toContain("--sd-canvas:      #EEECE7");
     expect(handoffTokens).toContain("--sd-card:        #F3F1EC");
-    expect(handoffTokens).toContain("--sd-inv-ground:  #472C2A");
+    expect(handoffTokens).toContain("--sd-inv-ground:  #504B24");
     expect(handoffTokens).not.toMatch(/#(?:E8E2D4|EFEADF|71763B|5C7F3F|2F3D28|9E3521)/i);
   });
 
@@ -72,7 +72,7 @@ describe("Seednergy design system contract", () => {
     expect(garden).not.toContain("publicGardenRepository");
   });
 
-  it("applies Review 06 headers, status dots and raised active navigation", () => {
+  it("applies final headers, status dots and inset active navigation", () => {
     const home = readFileSync(resolve("app/(tabs)/home.tsx"), "utf8");
     const cycles = readFileSync(resolve("app/(tabs)/cycles.tsx"), "utf8");
     const explore = readFileSync(resolve("app/(tabs)/explore.tsx"), "utf8");
@@ -82,7 +82,7 @@ describe("Seednergy design system contract", () => {
     const badge = readFileSync(resolve("src/ui/components/StageBadge.tsx"), "utf8");
     const tabs = readFileSync(resolve("app/(tabs)/_layout.tsx"), "utf8");
 
-    expect(header).toContain("wordmarkWidth = 125");
+    expect(header).toContain("wordmarkWidth = 116");
     expect(header).toContain("fontSize: 14");
     expect(home).toContain("profileImageUri={profile.avatarUrl}");
     expect(sectionHeader).toContain("<BrandMark width={22}");
@@ -94,10 +94,10 @@ describe("Seednergy design system contract", () => {
     expect(badge).toContain("dotAttention");
     expect(badge).toContain("dotActive");
     expect(tabs).toContain("borderRadius: tokens.radii.card");
-    expect(tabs).toContain("...tokens.elevation.card");
+    expect(tabs).toContain("...tokens.elevation.inset");
     expect(tabs).toContain("borderTopColor:");
     expect(tabs).toContain("borderBottomColor:");
-    expect(tabs).toContain("elevation: 9");
+    expect(tabs).toContain("backgroundColor: tokens.colors.tabActiveSurface");
   });
 
   it("uses a persistent private avatar with an editable photo placeholder", () => {

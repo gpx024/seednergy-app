@@ -26,7 +26,8 @@ describe("Stage 9 harvest records", () => {
   it("shows an honest bounded state when a harvest has no photo", () => {
     expect(harvestResultScreen).toContain("No harvest photo added");
     expect(harvestResultScreen).not.toContain("resolveSeedImage");
-    expect(harvestResultScreen).toContain("height: 240");
+    expect(harvestResultScreen).toContain('<ProcessIcon size={88} stage="grown"');
+    expect(harvestResultScreen).toContain("minHeight: 260");
   });
 
   it("accepts only 3 to 5 concise post-harvest ideas", () => {

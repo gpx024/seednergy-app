@@ -2,7 +2,7 @@
 
 ## Scope
 
-This release-candidate gate covers the completed pre-commercial code without changing the pending visual design. It verifies the deterministic grow loop, photo-check boundary, private harvest-history contract, CMS build, automated application tests, Expo project health and Android production-export size.
+This release-candidate gate covers the completed pre-commercial code and the September 2026 final visual system. It verifies the deterministic grow loop, photo-check boundary, private harvest-history contract, CMS build, automated application tests, Expo project health and Android production-export size.
 
 It does not claim physical-device startup, rendering, memory, battery or network performance. Those measurements require the consolidated native APK on the target Pixel and remain part of physical acceptance.
 

@@ -26,11 +26,11 @@ export function CycleRow({ name, meta, status, statusTone = "active", progress, 
 }
 
 const styles = StyleSheet.create({
-  row: { height: 116, alignItems: "stretch", flexDirection: "row", borderRadius: tokens.radii.card, backgroundColor: tokens.colors.card, overflow: "hidden", ...tokens.elevation.raisedRow },
+  row: { minHeight: 104, alignItems: "stretch", flexDirection: "row", borderRadius: tokens.radii.card, backgroundColor: tokens.colors.card, overflow: "hidden", ...tokens.elevation.raisedRow },
   pressed: { opacity: 0.82 },
-  photo: { height: 116, width: 98 },
+  photo: { minHeight: 104, width: 88 },
   body: { flex: 1, minWidth: 0, justifyContent: "center", paddingHorizontal: tokens.spacing.sm, paddingVertical: tokens.spacing.xs },
-  name: { ...tokens.typography.cardTitle, color: tokens.colors.forest, marginBottom: 5 },
-  meta: { fontFamily: "Inter_500Medium", fontSize: 13, lineHeight: 17, color: tokens.colors.ink82, marginBottom: 14 },
+  name: { ...tokens.typography.cardTitle, color: tokens.colors.forest, marginBottom: 2 },
+  meta: { fontFamily: "Inter_500Medium", fontSize: 12, lineHeight: 16.8, color: tokens.colors.ink82, marginBottom: tokens.spacing.xs },
   gauge: { alignItems: "center", justifyContent: "center", paddingRight: tokens.spacing.md }
 });

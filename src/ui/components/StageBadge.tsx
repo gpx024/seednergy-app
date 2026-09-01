@@ -26,7 +26,7 @@ const toneStyles = StyleSheet.create({
   active: { backgroundColor: tokens.colors.raised, ...tokens.elevation.raisedSm },
   success: { backgroundColor: tokens.colors.olive, ...tokens.elevation.pillOlive },
   attention: { backgroundColor: tokens.colors.card, ...tokens.elevation.raisedSm },
-  premium: { backgroundColor: tokens.colors.accent, ...tokens.elevation.pillTerracotta },
+  premium: { backgroundColor: tokens.colors.highlight, ...tokens.elevation.pillTerracotta },
   neutral: { backgroundColor: tokens.colors.card, ...tokens.elevation.raisedSm }
 });
 

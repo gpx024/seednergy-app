@@ -24,7 +24,7 @@ export default function SettingsScreen() {
 
   return <ScreenContainer scroll contentStyle={styles.container}>
     <BackHeader center={<Text accessibilityRole="header" style={styles.title}>Notifications</Text>} />
-    {!featureFlags.pushNotifications ? <><FeedbackState kind="empty" title={t("release.remindersTitle")} description={t("release.remindersBody")} /><AppButton label={t("release.backToProfile")} onPress={() => router.back()} /></> : null}
+    {!featureFlags.pushNotifications ? <><FeedbackState kind="empty" title={t("release.remindersTitle")} description={t("release.remindersBody")} titleTone="olive" /><AppButton label={t("release.backToProfile")} onPress={() => router.back()} /></> : null}
     {featureFlags.pushNotifications ? <>
     {loading ? <FeedbackState kind="loading" title="Loading preferences" description="Reading your current reminder settings." /> : null}
     {error ? <FeedbackState kind="error" title="Could not save preferences" description={error.message} /> : null}

@@ -1,4 +1,4 @@
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 import { AppCard, BackHeader, ScreenContainer } from "@/src/ui/components";
 import { tokens } from "@/src/ui/tokens";
@@ -12,7 +12,7 @@ const questions = [
 ] as const;
 
 export default function HelpScreen() {
-  return <ScreenContainer scroll contentStyle={styles.container}><BackHeader center={<Text accessibilityRole="header" style={styles.title}>Help and FAQs</Text>} />{questions.map(([question, answer]) => <AppCard key={question} style={styles.card}><Text style={styles.question}>{question}</Text><Text style={styles.answer}>{answer}</Text></AppCard>)}</ScreenContainer>;
+  return <ScreenContainer scroll contentStyle={styles.container}><BackHeader center={<Text accessibilityRole="header" style={styles.title}>Help and FAQs</Text>} /><AppCard style={styles.card}>{questions.map(([question, answer], index) => <View key={question} style={[styles.answerBlock, index > 0 && styles.answerBorder]}><Text style={styles.question}>{question}</Text><Text style={styles.answer}>{answer}</Text></View>)}</AppCard></ScreenContainer>;
 }
 
-const styles = StyleSheet.create({ container: { gap: tokens.spacing.cardGap, paddingBottom: tokens.spacing.xl }, title: { ...tokens.typography.displayMedium, color: tokens.colors.terracottaText }, card: { gap: tokens.spacing.sm }, question: { ...tokens.typography.cardTitle, color: tokens.colors.forest }, answer: { ...tokens.typography.body, color: tokens.colors.ink82 } });
+const styles = StyleSheet.create({ container: { gap: tokens.spacing.lg, paddingBottom: tokens.spacing.xl }, title: { ...tokens.typography.displayMedium, color: tokens.colors.terracottaText }, card: { padding: 0, overflow: "hidden" }, answerBlock: { gap: tokens.spacing.xs, padding: tokens.spacing.md }, answerBorder: { borderTopColor: tokens.colors.border, borderTopWidth: 1 }, question: { ...tokens.typography.cardTitle, color: tokens.colors.forest }, answer: { ...tokens.typography.body, color: tokens.colors.ink82 } });

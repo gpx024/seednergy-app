@@ -38,7 +38,6 @@ export default function GardenScreen() {
       </View>
 
       {view === "private" ? <>
-        <View style={styles.sectionHeading}><Ionicons color={tokens.colors.olive} name="lock-closed-outline" size={tokens.layout.icon.sm} /><View style={styles.sectionCopy}><Text style={styles.sectionTitle}>{t("garden.privateTitle")}</Text><Text style={styles.sectionBody}>{t("garden.privateBody")}</Text></View></View>
         {resource.loading ? <FeedbackState kind="loading" title={t("garden.loading")} description={t("garden.loadingBody")} /> : null}
         {resource.error ? <FeedbackState actionLabel={t("content.tryAgain")} description={resource.error.message} kind="error" onAction={() => void resource.reload()} title={t("garden.error")} /> : null}
         {!resource.loading && !resource.error && resource.data.length === 0 ? <FeedbackState description={t("garden.emptyBody")} kind="empty" title={t("garden.empty")} /> : null}
@@ -58,23 +57,19 @@ function formatDate(value: string) {
 }
 
 const styles = StyleSheet.create({
-  container: { gap: tokens.spacing.sectionGap, paddingBottom: tokens.spacing.xs },
-  body: { ...tokens.typography.body, color: tokens.colors.textSecondary, marginHorizontal: tokens.spacing.md },
+  container: { gap: tokens.spacing.md, paddingBottom: tokens.spacing.xs },
+  body: { ...tokens.typography.body, color: tokens.colors.textStrong, marginHorizontal: tokens.spacing.xxs },
   filters: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.md },
   filterSurface: { alignItems: "center", flex: 1, flexDirection: "row", gap: tokens.spacing.xs, justifyContent: "center", minHeight: tokens.layout.size.touchTarget },
   filterActiveSurface: { backgroundColor: tokens.colors.olive, borderRadius: tokens.radii.pill, ...tokens.elevation.pillOlive },
   filterText: { fontFamily: "Inter_600SemiBold", fontSize: 13, lineHeight: 17, color: tokens.colors.olive },
   filterActiveText: { color: tokens.colors.raised },
-  sectionHeading: { alignItems: "flex-start", flexDirection: "row", gap: tokens.spacing.sm, marginHorizontal: tokens.spacing.md },
-  sectionCopy: { flex: 1, gap: tokens.spacing.xxs },
-  sectionTitle: { ...tokens.typography.cardTitle, color: tokens.colors.seed },
-  sectionBody: { ...tokens.typography.body, color: tokens.colors.textSecondary },
   grid: { alignItems: "flex-start", flexDirection: "row", flexWrap: "wrap", gap: tokens.spacing.cardGap },
   card: { alignSelf: "flex-start", backgroundColor: tokens.colors.card, borderRadius: tokens.radii.card, flexGrow: 0, overflow: "hidden", ...tokens.elevation.raisedMd },
   cardFallback: { width: "48%" },
   media: { aspectRatio: 1, overflow: "hidden", position: "relative", width: "100%" },
   image: { ...StyleSheet.absoluteFillObject, height: undefined, width: undefined },
-  cardCopy: { gap: tokens.spacing.xxs, padding: tokens.spacing.sm },
+  cardCopy: { gap: tokens.spacing.xxs, minHeight: 82, padding: tokens.spacing.sm, paddingBottom: tokens.spacing.md },
   name: { ...tokens.typography.cardTitle, color: tokens.colors.seed },
   meta: { ...tokens.typography.caption, color: tokens.colors.textSecondary },
   authored: { ...tokens.typography.caption, color: tokens.colors.olive, textTransform: "uppercase" },

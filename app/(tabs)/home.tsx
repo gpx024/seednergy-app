@@ -35,13 +35,13 @@ export default function HomeScreen() {
 function phaseIndex(phase: "setup" | "growth" | "harvest") { return phase === "setup" ? 0 : phase === "growth" ? 1 : 2; }
 function statusLabel(priority: string) { return priority === "harvest_ready" ? "Harvest ready" : priority === "needs_check" || priority === "action_due" ? "Needs check" : priority === "harvest_soon" ? "Harvest soon" : "On track"; }
 const styles = StyleSheet.create({
-  container: { gap: tokens.spacing.lg, paddingBottom: tokens.spacing.xs },
-  intro: { marginHorizontal: tokens.spacing.lg },
+  container: { gap: tokens.spacing.md, paddingBottom: tokens.spacing.xs },
+  intro: { marginHorizontal: tokens.spacing.xxs },
   hero: { gap: tokens.spacing.cardGap },
   cycleSummary: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.sm },
   cycleIdentity: { flex: 1, gap: 0 },
   status: { alignSelf: "center" },
-  seedName: { fontFamily: "CrimsonText_600SemiBold", fontSize: 30, lineHeight: 34, color: tokens.colors.seed },
+  seedName: { fontFamily: "CrimsonText_600SemiBold", fontSize: 27, lineHeight: 37.8, color: tokens.colors.seed },
   stageLabel: { ...tokens.typography.label, color: tokens.colors.accent, textTransform: "uppercase" },
   photo: { height: 190, width: "100%" },
   coach: { gap: tokens.spacing.xs },

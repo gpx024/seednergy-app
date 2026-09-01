@@ -42,9 +42,9 @@ export default function ExploreScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { gap: tokens.spacing.sectionGap, paddingBottom: tokens.spacing.xs },
+  container: { gap: tokens.spacing.md, paddingBottom: tokens.spacing.xs },
   label: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textTransform: "uppercase" },
-  body: { ...tokens.typography.body, color: tokens.colors.ink82, marginHorizontal: tokens.spacing.md },
+  body: { ...tokens.typography.body, color: tokens.colors.textStrong, marginHorizontal: tokens.spacing.xxs, marginBottom: tokens.spacing.xxs },
   grid: { flexDirection: "row", flexWrap: "wrap", gap: tokens.spacing.cardGap },
   note: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.xs },
   noteText: { ...tokens.typography.caption, color: tokens.colors.ink64, flex: 1 }

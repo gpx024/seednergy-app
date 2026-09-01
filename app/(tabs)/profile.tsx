@@ -19,13 +19,12 @@ export default function ProfileScreen() {
   const light = profile.data?.lightCondition ? labelValue(profile.data.lightCondition) : t("main.notConnected");
   return (
     <ScreenContainer includeBottomSafeArea={false} scroll contentStyle={styles.container}>
-      <Text accessibilityRole="header" style={styles.title}>{t("main.profile")}</Text>
       {profile.loading ? <FeedbackState kind="loading" title={t("profile.loading")} description={t("profile.loadingBody")} /> : null}
       {profile.error ? <FeedbackState actionLabel={t("content.tryAgain")} description={profile.error.message} kind="error" onAction={() => void profile.reload()} title={t("profile.error")} /> : null}
       <AppCard variant="hero" style={styles.identity}><Pressable accessibilityLabel={t("profile.choosePhoto")} accessibilityRole="button" disabled={profile.avatarSaving} onPress={() => void profile.chooseAvatar()} style={({ pressed }) => [styles.avatarButton, pressed && styles.avatarPressed]}><ProfileAvatar size={92} uri={profile.avatarUrl} /><View style={styles.photoAction}><Ionicons color={tokens.colors.raised} name="camera-outline" size={16} /></View></Pressable><View style={styles.identityCopy}><Text style={styles.name}>{displayName}</Text><Text style={styles.identityMeta}>{user?.email ?? t("main.albaMeta")}</Text><Pressable accessibilityRole="button" disabled={profile.avatarSaving} onPress={() => void profile.chooseAvatar()}><Text style={styles.choosePhoto}>{profile.avatarSaving ? t("profile.savingPhoto") : t("profile.choosePhoto")}</Text></Pressable>{profile.avatarError ? <Text accessibilityLiveRegion="polite" style={styles.avatarError}>{profile.avatarError.message}</Text> : null}</View></AppCard>
       <SettingsGroup label={t("main.yourSpace")} items={[{ icon: "location-outline", title: t("main.growingSpace"), value: environment, onPress: () => router.push("/settings/space") }, { icon: "sunny-outline", title: t("profile.light"), value: light, onPress: () => router.push("/settings/space") }]} />
       <SettingsGroup label={t("main.account")} items={[{ icon: "person-outline", title: t("main.accountDetails"), value: user?.email ?? t("main.albaEmail") }, { icon: "notifications-outline", title: "Notifications", value: featureFlags.pushNotifications ? profile.data?.notificationPreferences.enabled ? "Enabled" : "Off" : t("release.availableBeforeLaunch"), onPress: () => router.push("/settings") }, { icon: "shield-checkmark-outline", title: "Account and privacy", value: "Data, legal and help", onPress: () => router.push("/settings/privacy") }]} />
-      <AppButton label={t("onboarding.signOut")} onPress={() => void signOut()} variant="secondary" />
+      <AppButton label={t("onboarding.signOut")} onPress={() => void signOut()} />
     </ScreenContainer>
   );
 }
@@ -38,7 +37,6 @@ function SettingsGroup({ label, items }: { label: string; items: { icon: keyof t
 
 const styles = StyleSheet.create({
   container: { gap: tokens.spacing.sectionGap, paddingBottom: tokens.spacing.xs },
-  title: { ...tokens.typography.displayLarge, color: tokens.colors.terracottaText, marginHorizontal: tokens.spacing.md },
   identity: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.md },
   avatarButton: { borderRadius: tokens.radii.pill, position: "relative", ...tokens.elevation.photo },
   avatarPressed: { opacity: 0.82 },

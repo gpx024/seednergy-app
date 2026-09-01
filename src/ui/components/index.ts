@@ -12,6 +12,8 @@ export { FeedbackState } from "@/src/ui/components/FeedbackState";
 export { OptionRow } from "@/src/ui/components/OptionRow";
 export { PhotoFrame } from "@/src/ui/components/PhotoFrame";
 export { ProfileAvatar } from "@/src/ui/components/ProfileAvatar";
+export { ProcessIcon } from "@/src/ui/components/ProcessIcon";
+export type { ProcessStage } from "@/src/ui/components/ProcessIcon";
 export { ScreenContainer } from "@/src/ui/components/ScreenContainer";
 export { SectionHeader } from "@/src/ui/components/SectionHeader";
 export { SeedCard } from "@/src/ui/components/SeedCard";

@@ -123,13 +123,8 @@ Rank badge, **progress bar** to next tier — the one place a bar is still corre
 | Seed detail — locked (Basil) | P6 |
 | Seed detail — coming soon (Cherry Tomatoes) | P6 |
 
-### Garden — 12 · **POST-MVP, do not build at launch**
-*The Garden is the community section: users share their profile, harvest photos and progress with other growers. It is **not part of the MVP** — that is why there is no Garden tab in the shipped bar. When it ships it becomes the **fifth tab**, and the bar goes house · cycle · magnifier · **garden** · person. Two consequences for how you build now:*
-
-*1. Build the tab bar as a **list rendered from an array**, not five hardcoded cells, so adding the fifth item later is a data change. Cells are `flex: 1`, so a five-item bar reflows on its own (78px cells instead of 98px at 390px wide — still above the 44px hit-target minimum).*
-*2. When the Garden tab arrives it needs an icon that is **not the sprout** — the sprout mark is brand-only and never an interface icon (DESIGN-SYSTEM.md §4). Use an outlined plot/grid or a people glyph at the same 21px / stroke 2.15.*
-
-*The twelve screens below are specified and pattern-mapped so they are ready to build, but none of them ship at launch.*
+### Garden — Private operational, Public post-launch
+*Garden is the fourth tab. Private Garden stores each user's harvest history and photos. Public Garden remains a clearly bounded coming-soon state until community moderation, safety and commercialisation are ready. Profile remains accessible through the top-right avatar or brand mark.*
 
 | Screen | Pattern |
 |---|---|
@@ -179,6 +174,6 @@ Rank badge, **progress bar** to next tier — the one place a bar is still corre
 
 ### MVP scope
 **Ship at launch — 63 screens:** onboarding & auth, home, cycles, harvest record, explore, payment, profile, permissions & errors.
-**Post-MVP — 12 screens:** the entire Garden section, and with it patterns **P10 (feed)** and **P11 (composer)**, and the leaderboard half of **P14**. P14's rank and progress screens stay in the MVP under Profile.
+**Operational before client demonstration:** Private Garden and the coming-soon Public Garden boundary. **Post-launch:** the Public Garden feed, composer and community leaderboard behaviours.
 
 So the launch build is **12 patterns, not 14**. P10 and P11 have reference screens in section 06 of the design system so the visual language is settled when you come to them — but nothing in the MVP routes to them.
