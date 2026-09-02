@@ -60,11 +60,13 @@ Crimson Text carries all **named and actionable** text: screen titles, card name
 | Role | Font | Size |
 |---|---|---|
 | display/lg | Crimson 600 | 32/44.8, brand or accent according to hierarchy |
+| screen title | Crimson 600 | 28/36, brand |
 | display/md | Crimson 600 | 24/33.6, brand or accent according to hierarchy |
 | card name | Crimson 600 | 20/28, **seed** |
 | list row name | Crimson 600 | 18/25.2, **seed** |
 | inverted headline | Crimson 600 | 36/50.4, cream, the achievement rather than the status |
 | title | Crimson 600 | 24/33.6, ink |
+| compact data value | Crimson 600 | 16/22.4, seed |
 | panel headline | Crimson 600 | 18/25.2, ink |
 | button | Crimson **700** | 18/25.2 |
 | body | Inter 400 | 14/20, ink 82% |
@@ -77,6 +79,8 @@ Crimson runs ~2px larger than the Inter it replaces, to match x-height. Never Cr
 ## 4. Space, radius, icons
 
 4pt base. Screen gutter 20 · card padding 16 · gap between raised cards **14 minimum** · section gap 24.
+
+Sub-navigation keeps a 48px accessible touch target, but its painted selected pill is only 32px high with 12px horizontal padding. Never paint the full touch target as the highlight.
 
 Radius: chip 12 · field 16 · card 20 · media 26 · screen 40 · pill 999.
 

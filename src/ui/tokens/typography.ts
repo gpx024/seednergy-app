@@ -8,6 +8,8 @@ export const typography = {
   name: { fontFamily: "CrimsonText_600SemiBold", fontSize: 22, lineHeight: 30.8, letterSpacing: headingTracking },
   rowName: { fontFamily: "CrimsonText_600SemiBold", fontSize: 18, lineHeight: 25.2, letterSpacing: headingTracking },
   title: { fontFamily: "CrimsonText_600SemiBold", fontSize: 24, lineHeight: 33.6, letterSpacing: headingTracking },
+  screenTitle: { fontFamily: "CrimsonText_600SemiBold", fontSize: 28, lineHeight: 36, letterSpacing: headingTracking },
+  dataValue: { fontFamily: "CrimsonText_600SemiBold", fontSize: 16, lineHeight: 22.4, letterSpacing: headingTracking },
   cardTitle: { fontFamily: "CrimsonText_600SemiBold", fontSize: 20, lineHeight: 28, letterSpacing: headingTracking },
   panelHeadline: { fontFamily: "CrimsonText_600SemiBold", fontSize: 18, lineHeight: 25.2, letterSpacing: headingTracking },
   button: { fontFamily: "CrimsonText_700Bold", fontSize: 18, lineHeight: 25.2, letterSpacing: headingTracking },

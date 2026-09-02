@@ -2,6 +2,7 @@ import { environment } from "@/src/config/env";
 
 export interface FeatureFlags {
   developmentRoutes: boolean;
+  prelaunchHarvestDemo: boolean;
   appleAuthentication: boolean;
   emailAuthentication: boolean;
   fixturePhotoChecks: boolean;
@@ -12,6 +13,7 @@ export interface FeatureFlags {
 
 export const featureFlags: FeatureFlags = Object.freeze({
   developmentRoutes: environment.EXPO_PUBLIC_APP_ENV !== "production" && environment.EXPO_PUBLIC_ENABLE_DEV_ROUTES,
+  prelaunchHarvestDemo: environment.EXPO_PUBLIC_APP_ENV === "preview",
   appleAuthentication: environment.EXPO_PUBLIC_ENABLE_APPLE_AUTH,
   emailAuthentication: environment.EXPO_PUBLIC_ENABLE_EMAIL_AUTH,
   fixturePhotoChecks: environment.EXPO_PUBLIC_PHOTO_CHECK_PROVIDER === "fixture",

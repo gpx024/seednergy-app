@@ -16,7 +16,7 @@
     },
     "android": {
       "package": "com.seednergy.app",
-      "versionCode": 5,
+      "versionCode": 6,
       "adaptiveIcon": {
         "foregroundImage": "./assets/app/adaptive-icon.png",
         "monochromeImage": "./assets/app/adaptive-icon.png",

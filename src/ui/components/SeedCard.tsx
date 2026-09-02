@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   image: { height: "100%", width: "100%" },
   lock: { alignItems: "center", justifyContent: "center", position: "absolute", right: tokens.spacing.sm, top: tokens.spacing.sm, height: 38, width: 38, borderRadius: tokens.radii.pill, backgroundColor: tokens.colors.card, ...tokens.elevation.raisedSm },
   content: { gap: tokens.spacing.xs, padding: tokens.spacing.sm, paddingBottom: tokens.spacing.md },
-  name: { ...tokens.typography.name, color: tokens.colors.forest, fontFamily: "CrimsonText_700Bold" },
+  name: { ...tokens.typography.name, color: tokens.colors.forest, fontFamily: "CrimsonText_700Bold", lineHeight: 24 },
   access: { ...tokens.typography.label, color: tokens.colors.oliveLabel, textTransform: "uppercase" },
   meta: { flexDirection: "row", gap: tokens.spacing.md, justifyContent: "space-between" },
   metaText: { fontFamily: "Inter_600SemiBold", fontSize: 12, lineHeight: 16, color: tokens.colors.ink82 },

@@ -19,16 +19,16 @@ export function CycleRow({ name, meta, status, statusTone = "active", progress, 
   return (
     <Pressable accessibilityLabel={`${name}, ${status}`} accessibilityRole="button" onPress={onPress} style={({ pressed }) => [styles.row, pressed && styles.pressed]}>
       <Image accessibilityLabel="" resizeMode="cover" source={imageSource} style={styles.photo} />
-      <View style={styles.body}><Text maxFontSizeMultiplier={1.8} style={styles.name}>{name}</Text><Text maxFontSizeMultiplier={1.8} style={styles.meta}>{meta}</Text><StageBadge label={status} tone={statusTone} /></View>
+      <View style={styles.body}><Text maxFontSizeMultiplier={1.4} numberOfLines={1} style={styles.name}>{name}</Text><Text maxFontSizeMultiplier={1.4} numberOfLines={2} style={styles.meta}>{meta}</Text><StageBadge label={status} tone={statusTone} /></View>
       <View style={styles.gauge}><CycleGauge accessibilityLabel={`${day} days into cycle`} compact day={day} progress={progress} /></View>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  row: { minHeight: 104, alignItems: "stretch", flexDirection: "row", borderRadius: tokens.radii.card, backgroundColor: tokens.colors.card, overflow: "hidden", ...tokens.elevation.raisedRow },
+  row: { height: 104, maxHeight: 104, minHeight: 104, alignItems: "center", flexDirection: "row", borderRadius: tokens.radii.card, backgroundColor: tokens.colors.card, overflow: "hidden", ...tokens.elevation.raisedRow },
   pressed: { opacity: 0.82 },
-  photo: { minHeight: 104, width: 88 },
+  photo: { height: 104, width: 88 },
   body: { flex: 1, minWidth: 0, justifyContent: "center", paddingHorizontal: tokens.spacing.sm, paddingVertical: tokens.spacing.xs },
   name: { ...tokens.typography.cardTitle, color: tokens.colors.forest, marginBottom: 2 },
   meta: { fontFamily: "Inter_500Medium", fontSize: 12, lineHeight: 16.8, color: tokens.colors.ink82, marginBottom: tokens.spacing.xs },

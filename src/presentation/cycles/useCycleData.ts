@@ -2,6 +2,8 @@ import * as Crypto from "expo-crypto";
 import { useCallback, useEffect, useState } from "react";
 
 import { buildCycleView, prioritizeCycleViews, type CycleView } from "@/src/application/cycles/cycleView";
+import { startedAtForSimulatedCycleDay } from "@/src/application/cycles/developmentSimulation";
+import { featureFlags } from "@/src/config/features";
 import { contentRepository } from "@/src/infrastructure/repositories/SupabaseContentRepository";
 import { cycleRepository } from "@/src/infrastructure/repositories/SupabaseCycleRepository";
 import { notificationService } from "@/src/infrastructure/notifications/ExpoNotificationService";
@@ -14,13 +16,55 @@ interface Resource<T> {
   reload(): Promise<void>;
 }
 
-async function hydrateCycles(activeOnly: boolean): Promise<readonly CycleView[]> {
-  const cycles = activeOnly ? await cycleRepository.getActive() : await cycleRepository.getAll();
-  const views = await Promise.all(cycles.map(async (cycle) => {
+let prelaunchHarvestDemoPromise: Promise<boolean> | null = null;
+
+async function hydrateCycleViews(cycles: Awaited<ReturnType<typeof cycleRepository.getAll>>): Promise<readonly CycleView[]> {
+  return Promise.all(cycles.map(async (cycle) => {
     const seed = await contentRepository.getPublishedSeedById(cycle.seedId, cycle.seedContentVersion);
     if (!seed) throw new Error("The authored seed content for this cycle is unavailable.");
     return buildCycleView(cycle, seed);
   }));
+}
+
+async function ensurePrelaunchHarvestDemo(views: readonly CycleView[]): Promise<boolean> {
+  if (!featureFlags.prelaunchHarvestDemo || views.some((view) => view.priority === "harvest_ready")) return false;
+  if (!prelaunchHarvestDemoPromise) {
+    prelaunchHarvestDemoPromise = (async () => {
+      const latestViews = await hydrateCycleViews(await cycleRepository.getActive());
+      if (latestViews.some((view) => view.priority === "harvest_ready")) return false;
+      const source = latestViews.find((view) => view.seed.stages.some((stage) => stage.harvestReady));
+      const seed = source?.seed ?? await contentRepository.getPublishedSeed("cress");
+      const harvestStage = seed?.stages.find((stage) => stage.harvestReady);
+      if (!seed || !harvestStage) return false;
+      const now = new Date();
+      const simulated = await cycleRepository.start({
+        seedId: seed.id,
+        seedContentVersion: seed.contentVersion,
+        startedAt: startedAtForSimulatedCycleDay(harvestStage.startDay, now),
+        timezone: source?.cycle.timezone ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
+        clientEventId: Crypto.randomUUID()
+      });
+      await cycleRepository.saveEvent({
+        cycleId: simulated.id,
+        eventType: "prelaunch_harvest_demo_created",
+        payload: { simulatedDay: harvestStage.startDay, purpose: "private_acceptance_testing" },
+        occurredAt: now.toISOString(),
+        clientEventId: Crypto.randomUUID()
+      }).catch(() => undefined);
+      return true;
+    })();
+  }
+  try { return await prelaunchHarvestDemoPromise; }
+  finally { prelaunchHarvestDemoPromise = null; }
+}
+
+async function hydrateCycles(activeOnly: boolean): Promise<readonly CycleView[]> {
+  let cycles = activeOnly ? await cycleRepository.getActive() : await cycleRepository.getAll();
+  let views = await hydrateCycleViews(cycles);
+  if (await ensurePrelaunchHarvestDemo(views)) {
+    cycles = activeOnly ? await cycleRepository.getActive() : await cycleRepository.getAll();
+    views = await hydrateCycleViews(cycles);
+  }
   return activeOnly ? prioritizeCycleViews(views) : views;
 }
 

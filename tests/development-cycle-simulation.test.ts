@@ -22,4 +22,12 @@ describe("development cycle simulation", () => {
     expect(source).toContain('environment.EXPO_PUBLIC_APP_ENV !== "production"');
     expect(source).toContain("environment.EXPO_PUBLIC_ENABLE_DEV_ROUTES");
   });
+
+  it("keeps one harvest-ready acceptance cycle available in preview builds only", () => {
+    const features = readFileSync(join(process.cwd(), "src/config/features.ts"), "utf8");
+    const resource = readFileSync(join(process.cwd(), "src/presentation/cycles/useCycleData.ts"), "utf8");
+    expect(features).toContain('prelaunchHarvestDemo: environment.EXPO_PUBLIC_APP_ENV === "preview"');
+    expect(resource).toContain('view.priority === "harvest_ready"');
+    expect(resource).toContain('eventType: "prelaunch_harvest_demo_created"');
+  });
 });

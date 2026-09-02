@@ -19,3 +19,4 @@ export { SectionHeader } from "@/src/ui/components/SectionHeader";
 export { SeedCard } from "@/src/ui/components/SeedCard";
 export { StageBadge } from "@/src/ui/components/StageBadge";
 export type { StageBadgeTone } from "@/src/ui/components/StageBadge";
+export { SubmenuTab } from "@/src/ui/components/SubmenuTab";

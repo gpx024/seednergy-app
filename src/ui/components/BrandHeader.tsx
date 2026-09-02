@@ -11,7 +11,7 @@ interface BrandHeaderProps {
   onProfilePress: () => void;
 }
 
-export function BrandHeader({ wordmarkWidth = 116, locationLabel, profileImageUri, onProfilePress }: BrandHeaderProps) {
+export function BrandHeader({ wordmarkWidth = 136, locationLabel, profileImageUri, onProfilePress }: BrandHeaderProps) {
   return <View accessibilityRole="header" style={styles.header}><View style={styles.copy}><BrandWordmark color={tokens.colors.brand} width={wordmarkWidth} />{locationLabel ? <Text style={styles.location}>{locationLabel}</Text> : null}</View><Pressable accessibilityLabel="Open profile" accessibilityRole="button" onPress={onProfilePress} style={({ pressed }) => [styles.avatarButton, pressed && styles.avatarPressed]}><ProfileAvatar showEditHint uri={profileImageUri} /></Pressable></View>;
 }
 

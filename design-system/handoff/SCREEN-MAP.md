@@ -22,7 +22,7 @@ Step ticks top-right, Crimson question, 3–6 stacked option rows (icon + name +
 Greeting (Inter caption + Crimson name) with avatar, one hero cycle card (`.sd-card--hero`) carrying status pill / photo / stage segment / coach panel / primary action, tab bar. Six content states, one layout.
 
 ### P5 · Grouped list
-Uppercase group label + rows of `.sd-row` — photo **flush to the card edge** as a 98px full-height column, then Crimson name / caption meta / filled status pill, and the oval **cycle gauge** at the right. Optional filter pills above (active = forest). Grid variant for galleries.
+Uppercase group label + fixed 104px rows of `.sd-row` — photo **flush to the card edge** as an 88px full-height column, then Crimson name / caption meta / filled status pill, and the oval **cycle gauge** at the right. Sub-navigation retains a 48px touch target around a compact 32px painted pill. Grid variant for galleries.
 
 ### P6 · Detail — hero media + panels
 Back / centred title+subtitle / more header, optional stage progress ticks, hero photo frame with overlay chip, one or more panels (label + Crimson headline + body + optional italic observation), primary CTA, text link beneath.

@@ -4,6 +4,8 @@ This is the final private demonstration stage before client-owned commercial ser
 
 The acceptance APK is self-contained. It does not need Metro, PowerShell or the development client after installation.
 
+Preview builds automatically maintain one separate harvest-ready Cress cycle when no other active cycle is ready. This private acceptance-only fixture is disabled in production and remains available until the prelaunch visual and harvest testing period ends.
+
 ## Acceptance path
 
 Use a fresh account or sign out before beginning.

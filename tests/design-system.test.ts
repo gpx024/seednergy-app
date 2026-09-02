@@ -82,7 +82,7 @@ describe("Seednergy design system contract", () => {
     const badge = readFileSync(resolve("src/ui/components/StageBadge.tsx"), "utf8");
     const tabs = readFileSync(resolve("app/(tabs)/_layout.tsx"), "utf8");
 
-    expect(header).toContain("wordmarkWidth = 116");
+    expect(header).toContain("wordmarkWidth = 136");
     expect(header).toContain("fontSize: 14");
     expect(home).toContain("profileImageUri={profile.avatarUrl}");
     expect(sectionHeader).toContain("<BrandMark width={22}");
@@ -98,6 +98,18 @@ describe("Seednergy design system contract", () => {
     expect(tabs).toContain("borderTopColor:");
     expect(tabs).toContain("borderBottomColor:");
     expect(tabs).toContain("backgroundColor: tokens.colors.tabActiveSurface");
+  });
+
+  it("separates compact submenu paint from accessible touch targets and fixes cycle row height", () => {
+    const submenu = readFileSync(resolve("src/ui/components/SubmenuTab.tsx"), "utf8");
+    const cycleRow = readFileSync(resolve("src/ui/components/CycleRow.tsx"), "utf8");
+    const seedDetail = readFileSync(resolve("app/seeds/[slug].tsx"), "utf8");
+    expect(submenu).toContain("minHeight: tokens.layout.size.touchTarget");
+    expect(submenu).toContain("minHeight: 32");
+    expect(cycleRow).toContain("height: 104");
+    expect(cycleRow).toContain("maxHeight: 104");
+    expect(seedDetail).toContain('headerTitle: { alignItems: "flex-start"');
+    expect(seedDetail).toContain("tokens.typography.dataValue");
   });
 
   it("uses a persistent private avatar with an editable photo placeholder", () => {

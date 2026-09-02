@@ -8,7 +8,7 @@ import { useAnalyticsEvent } from "@/src/presentation/analytics/useAnalyticsEven
 import { resolveSeedImage } from "@/src/presentation/content/seedImages";
 import { calculateGardenCardWidth } from "@/src/presentation/harvest/galleryLayout";
 import { useHarvestGallery } from "@/src/presentation/harvest/useHarvests";
-import { AppCard, FeedbackState, ScreenContainer, SectionHeader } from "@/src/ui/components";
+import { AppCard, FeedbackState, ScreenContainer, SectionHeader, SubmenuTab } from "@/src/ui/components";
 import { tokens } from "@/src/ui/tokens";
 
 type GardenView = "private" | "public";
@@ -33,7 +33,7 @@ export default function GardenScreen() {
       <View accessibilityRole="tablist" style={styles.filters}>
         {(["private", "public"] as const).map((item) => {
           const active = view === item;
-          return <Pressable accessibilityRole="tab" accessibilityState={{ selected: active }} key={item} onPress={() => setView(item)} style={[styles.filterSurface, active && styles.filterActiveSurface]}><Ionicons color={active ? tokens.colors.raised : tokens.colors.olive} name={item === "private" ? "lock-closed-outline" : "people-outline"} size={18} /><Text style={[styles.filterText, active && styles.filterActiveText]}>{t(`garden.${item}`)}</Text></Pressable>;
+          return <SubmenuTab icon={item === "private" ? "lock-closed-outline" : "people-outline"} key={item} label={t(`garden.${item}`)} onPress={() => setView(item)} selected={active} />;
         })}
       </View>
 
@@ -59,11 +59,7 @@ function formatDate(value: string) {
 const styles = StyleSheet.create({
   container: { gap: tokens.spacing.md, paddingBottom: tokens.spacing.xs },
   body: { ...tokens.typography.body, color: tokens.colors.textStrong, marginHorizontal: tokens.spacing.xxs },
-  filters: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.md },
-  filterSurface: { alignItems: "center", flex: 1, flexDirection: "row", gap: tokens.spacing.xs, justifyContent: "center", minHeight: tokens.layout.size.touchTarget },
-  filterActiveSurface: { backgroundColor: tokens.colors.olive, borderRadius: tokens.radii.pill, ...tokens.elevation.pillOlive },
-  filterText: { fontFamily: "Inter_600SemiBold", fontSize: 13, lineHeight: 17, color: tokens.colors.olive },
-  filterActiveText: { color: tokens.colors.raised },
+  filters: { alignItems: "center", flexDirection: "row", gap: tokens.spacing.xs },
   grid: { alignItems: "flex-start", flexDirection: "row", flexWrap: "wrap", gap: tokens.spacing.cardGap },
   card: { alignSelf: "flex-start", backgroundColor: tokens.colors.card, borderRadius: tokens.radii.card, flexGrow: 0, overflow: "hidden", ...tokens.elevation.raisedMd },
   cardFallback: { width: "48%" },
